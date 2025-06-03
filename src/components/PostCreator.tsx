@@ -76,7 +76,7 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
             value={caption}
             onChange={(e) => setCaption(e.target.value)}
             placeholder="What's on your mind?"
-            className="w-full p-4 mt-2 bg-white/20 backdrop-blur-sm border border-white/10 rounded-lg resize-none focus:ring-2 focus:ring-white/50 focus:border-white/50 outline-none transition-shadow duration-200 text-white placeholder-white/70"
+            className="w-full p-4 mt-2 bg-white border border-gray-200 rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow duration-200 text-gray-800 placeholder-gray-500"
             rows={4}
           />
         </div>
@@ -85,7 +85,7 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
           <label className="text-lg font-medium text-white">
             Upload media
           </label>
-          <div className="mt-2">
+          <div className="mt-2 bg-white rounded-lg border border-gray-200">
             <FileUploader 
               value={media} 
               onChange={setMedia} 
@@ -105,7 +105,7 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
         <button
           type="submit"
           disabled={isPostDisabled}
-          className="flex items-center px-6 py-3 bg-white/20 backdrop-blur-sm text-white font-medium rounded-lg hover:bg-white/30 transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="flex items-center px-6 py-3 bg-white text-blue-600 font-medium rounded-lg hover:bg-white/90 transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <Send className="h-5 w-5 mr-2" />
           Post across platforms
