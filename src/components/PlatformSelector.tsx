@@ -35,7 +35,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
 
   return (
     <div>
-      <h3 className="text-lg font-medium mb-3">Post to platforms</h3>
+      <h3 className="text-lg font-medium text-white mb-3">Post to platforms</h3>
       <div className="flex flex-wrap gap-3">
         {platforms.map(platform => (
           <button
@@ -45,35 +45,35 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
               "relative flex flex-col items-center justify-center w-20 h-20 p-2 rounded-lg transition-all duration-200",
               platform.connected 
                 ? selectedPlatforms.includes(platform.id)
-                  ? "bg-blue-100 border-2 border-blue-500"
-                  : "bg-gray-100 border border-gray-300 hover:border-blue-300"
-                : "bg-gray-100 border border-gray-300 opacity-80 hover:opacity-100"
+                  ? "bg-white/30 backdrop-blur-sm border-2 border-white"
+                  : "bg-white/20 backdrop-blur-sm border border-white/30 hover:border-white"
+                : "bg-white/20 backdrop-blur-sm border border-white/30 opacity-80 hover:opacity-100"
             )}
           >
             <div className="relative">
-              <PlatformIcon name={platform.icon} className="h-8 w-8 text-gray-700" />
+              <PlatformIcon name={platform.icon} className="h-8 w-8 text-white" />
               {!platform.connected && (
-                <div className="absolute -bottom-1 -right-1 bg-gray-300 rounded-full p-0.5">
+                <div className="absolute -bottom-1 -right-1 bg-white/30 backdrop-blur-sm rounded-full p-0.5">
                   <Link className="h-3 w-3 text-white" />
                 </div>
               )}
               {platform.connected && selectedPlatforms.includes(platform.id) && (
-                <div className="absolute -top-1 -right-1 bg-blue-500 rounded-full p-0.5">
-                  <Check className="h-3 w-3 text-white" />
+                <div className="absolute -top-1 -right-1 bg-white rounded-full p-0.5">
+                  <Check className="h-3 w-3 text-blue-500" />
                 </div>
               )}
             </div>
-            <span className="text-xs mt-1 text-center text-gray-700 line-clamp-1">
+            <span className="text-xs mt-1 text-center text-white line-clamp-1">
               {platform.name}
             </span>
           </button>
         ))}
         
-        <button className="flex flex-col items-center justify-center w-20 h-20 p-2 rounded-lg bg-gray-50 border border-gray-200 hover:border-blue-300 transition-all duration-200">
-          <div className="bg-gray-200 rounded-full p-2">
-            <Plus className="h-4 w-4 text-gray-600" />
+        <button className="flex flex-col items-center justify-center w-20 h-20 p-2 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 hover:border-white transition-all duration-200">
+          <div className="bg-white/30 backdrop-blur-sm rounded-full p-2">
+            <Plus className="h-4 w-4 text-white" />
           </div>
-          <span className="text-xs mt-1 text-gray-600">Add More</span>
+          <span className="text-xs mt-1 text-white">Add More</span>
         </button>
       </div>
 
@@ -84,28 +84,28 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
         >
           <div className="p-4">
             <div className="flex items-center justify-center py-6">
-              <div className="bg-gray-100 rounded-full p-4">
+              <div className="bg-white/20 backdrop-blur-sm rounded-full p-4">
                 <PlatformIcon 
                   name={currentPlatform.icon} 
-                  className="h-10 w-10 text-gray-800" 
+                  className="h-10 w-10 text-white" 
                 />
               </div>
             </div>
             
-            <p className="text-center text-gray-600 mb-6">
+            <p className="text-center text-white mb-6">
               You'll be redirected to {currentPlatform.name} to authorize access to your account.
             </p>
             
             <div className="flex gap-3">
               <button
                 onClick={() => setShowConnectModal(false)}
-                className="flex-1 py-2 px-4 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                className="flex-1 py-2 px-4 border border-white/30 text-white rounded-lg hover:bg-white/10 transition-colors duration-200"
               >
                 Cancel
               </button>
               <button
                 onClick={handleConnect}
-                className="flex-1 py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                className="flex-1 py-2 px-4 bg-white text-blue-600 rounded-lg hover:bg-white/90 transition-colors duration-200"
               >
                 Connect
               </button>

@@ -43,7 +43,7 @@ const AppContent: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600">
       <Header />
       <div className="container mx-auto py-8 px-4">
-        <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-sm p-6 mb-8">
+        <div className="mb-8">
           <PostCreator 
             platforms={platforms} 
             onPost={handlePost} 
@@ -51,12 +51,12 @@ const AppContent: React.FC = () => {
         </div>
         
         {posts.length > 0 && (
-          <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-sm p-6">
-            <h2 className="text-xl font-semibold mb-6">Recent posts</h2>
+          <div className="bg-white/20 backdrop-blur-sm rounded-xl shadow-sm p-6">
+            <h2 className="text-xl font-semibold text-white mb-6">Recent posts</h2>
             <div className="space-y-6">
               {posts.map((post, index) => (
-                <div key={index} className="border-b border-gray-200 pb-6 last:border-0">
-                  <p className="text-gray-800 mb-3">{post.caption}</p>
+                <div key={index} className="border-b border-white/10 pb-6 last:border-0">
+                  <p className="text-white mb-3">{post.caption}</p>
                   {post.media && (
                     <div className="mb-3">
                       {post.media.type === 'image' ? (
@@ -80,7 +80,7 @@ const AppContent: React.FC = () => {
                       return platform ? (
                         <span 
                           key={platformId}
-                          className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"
+                          className="text-xs bg-white/20 backdrop-blur-sm text-white px-2 py-1 rounded"
                         >
                           {platform.name}
                         </span>
