@@ -9,7 +9,7 @@ const Header: React.FC = () => {
   const [showProfileModal, setShowProfileModal] = useState(false);
 
   return (
-    <header className="bg-white border-b border-gray-200 py-4 px-6 flex items-center justify-between">
+    <header className="bg-white/90 backdrop-blur-sm border-b border-white/20 py-4 px-6 flex items-center justify-between sticky top-0 z-50">
       <Logo />
       
       <div>

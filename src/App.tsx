@@ -29,8 +29,8 @@ const AppContent: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="animate-spin h-10 w-10 border-4 border-blue-500 rounded-full border-t-transparent"></div>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600">
+        <div className="animate-spin h-10 w-10 border-4 border-white rounded-full border-t-transparent"></div>
       </div>
     );
   }
@@ -40,10 +40,10 @@ const AppContent: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600">
       <Header />
       <div className="container mx-auto py-8 px-4">
-        <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
+        <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-sm p-6 mb-8">
           <PostCreator 
             platforms={platforms} 
             onPost={handlePost} 
@@ -51,7 +51,7 @@ const AppContent: React.FC = () => {
         </div>
         
         {posts.length > 0 && (
-          <div className="bg-white rounded-xl shadow-sm p-6">
+          <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-sm p-6">
             <h2 className="text-xl font-semibold mb-6">Recent posts</h2>
             <div className="space-y-6">
               {posts.map((post, index) => (
