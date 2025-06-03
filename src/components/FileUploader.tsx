@@ -61,7 +61,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onChange, value }) => {
   return (
     <div className="w-full">
       {value ? (
-        <div className="relative border border-gray-300 rounded-lg overflow-hidden">
+        <div className="relative border border-gray-200 rounded-lg overflow-hidden">
           {value.type === 'image' ? (
             <img 
               src={value.preview} 
@@ -109,3 +109,5 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onChange, value }) => {
 };
 
 export default FileUploader;
+
+export default FileUploader
