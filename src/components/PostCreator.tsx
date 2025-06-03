@@ -68,7 +68,7 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-4">
         <div>
-          <label htmlFor="caption" className="text-lg font-medium">
+          <label htmlFor="caption" className="text-lg font-medium text-white">
             Write your caption
           </label>
           <textarea
@@ -76,13 +76,13 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
             value={caption}
             onChange={(e) => setCaption(e.target.value)}
             placeholder="What's on your mind?"
-            className="w-full p-4 mt-2 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow duration-200"
+            className="w-full p-4 mt-2 bg-white/20 backdrop-blur-sm border border-white/10 rounded-lg resize-none focus:ring-2 focus:ring-white/50 focus:border-white/50 outline-none transition-shadow duration-200 text-white placeholder-white/70"
             rows={4}
           />
         </div>
         
         <div>
-          <label className="text-lg font-medium">
+          <label className="text-lg font-medium text-white">
             Upload media
           </label>
           <div className="mt-2">
@@ -105,7 +105,7 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
         <button
           type="submit"
           disabled={isPostDisabled}
-          className="flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="flex items-center px-6 py-3 bg-white/20 backdrop-blur-sm text-white font-medium rounded-lg hover:bg-white/30 transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <Send className="h-5 w-5 mr-2" />
           Post across platforms
