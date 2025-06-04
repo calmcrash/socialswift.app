@@ -68,7 +68,7 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-4">
         <div>
-          <label htmlFor="caption" className="text-lg font-medium text-gray-800">
+          <label htmlFor="caption" className="text-lg font-medium text-white">
             Write your caption
           </label>
           <textarea
@@ -85,7 +85,7 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
         </div>
         
         <div>
-          <label className="text-lg font-medium text-gray-800">
+          <label className="text-lg font-medium text-white">
             Upload media
           </label>
           <div className="mt-2 bg-white rounded-lg border border-gray-200">
