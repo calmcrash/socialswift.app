@@ -109,5 +109,3 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onChange, value }) => {
 };
 
 export default FileUploader;
-
-export default FileUploader
