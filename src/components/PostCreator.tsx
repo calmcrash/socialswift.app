@@ -96,12 +96,15 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
           </div>
         </div>
         
-        <PlatformSelector
-          platforms={platforms}
-          selectedPlatforms={selectedPlatforms}
-          onTogglePlatform={handleTogglePlatform}
-          onConnectPlatform={handleConnectPlatform}
-        />
+        <div>
+          <h3 className="text-lg font-medium text-white mb-3">Post to platforms</h3>
+          <PlatformSelector
+            platforms={platforms}
+            selectedPlatforms={selectedPlatforms}
+            onTogglePlatform={handleTogglePlatform}
+            onConnectPlatform={handleConnectPlatform}
+          />
+        </div>
       </div>
       
       <div className="flex justify-end">
