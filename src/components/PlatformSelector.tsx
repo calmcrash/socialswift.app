@@ -35,7 +35,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
 
   return (
     <div>
-      <h3 className="text-lg font-medium text-gray-800 mb-3">Post to platforms</h3>
+      <h3 className="text-lg font-medium text-white mb-3">Post to platforms</h3>
       <div className="flex flex-wrap gap-3">
         {platforms.map(platform => (
           <button
