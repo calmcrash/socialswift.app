@@ -108,7 +108,7 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
         <button
           type="submit"
           disabled={isPostDisabled}
-          className="flex items-center px-6 py-3 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="flex items-center px-6 py-3 bg-blue-400 text-white font-medium rounded-lg hover:bg-blue-500 transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <Send className="h-5 w-5 mr-2" />
           Post across platforms
