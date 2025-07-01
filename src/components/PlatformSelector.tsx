@@ -36,47 +36,45 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
   return (
     <div>
       <h3 className="text-lg font-medium text-white mb-3">Post to platforms</h3>
-      <div className="flex justify-center">
-        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-3">
-          {platforms.map(platform => (
-            <button
-              key={platform.id}
-              onClick={() => platform.connected ? onTogglePlatform(platform.id) : handleConnectClick(platform)}
-              className={cn(
-                "relative flex flex-col items-center justify-center w-20 h-20 p-2 rounded-lg transition-all duration-200",
-                platform.connected 
-                  ? selectedPlatforms.includes(platform.id)
-                    ? "bg-white border-2 border-blue-500"
-                    : "bg-white border border-gray-200 hover:border-blue-500"
-                  : "bg-white border border-gray-200 opacity-80 hover:opacity-100"
+      <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3">
+        {platforms.map(platform => (
+          <button
+            key={platform.id}
+            onClick={() => platform.connected ? onTogglePlatform(platform.id) : handleConnectClick(platform)}
+            className={cn(
+              "relative flex flex-col items-center justify-center w-20 h-20 p-2 rounded-lg transition-all duration-200",
+              platform.connected 
+                ? selectedPlatforms.includes(platform.id)
+                  ? "bg-white border-2 border-blue-500"
+                  : "bg-white border border-gray-200 hover:border-blue-500"
+                : "bg-white border border-gray-200 opacity-80 hover:opacity-100"
+            )}
+          >
+            <div className="relative">
+              <PlatformIcon name={platform.icon} className="h-8 w-8 text-gray-700" />
+              {!platform.connected && (
+                <div className="absolute -bottom-1 -right-1 bg-gray-100 rounded-full p-0.5">
+                  <Link className="h-3 w-3 text-gray-600" />
+                </div>
               )}
-            >
-              <div className="relative">
-                <PlatformIcon name={platform.icon} className="h-8 w-8 text-gray-700" />
-                {!platform.connected && (
-                  <div className="absolute -bottom-1 -right-1 bg-gray-100 rounded-full p-0.5">
-                    <Link className="h-3 w-3 text-gray-600" />
-                  </div>
-                )}
-                {platform.connected && selectedPlatforms.includes(platform.id) && (
-                  <div className="absolute -top-1 -right-1 bg-blue-500 rounded-full p-0.5">
-                    <Check className="h-3 w-3 text-white" />
-                  </div>
-                )}
-              </div>
-              <span className="text-xs mt-1 text-center text-gray-800 line-clamp-1">
-                {platform.name}
-              </span>
-            </button>
-          ))}
-          
-          <button className="flex flex-col items-center justify-center w-20 h-20 p-2 rounded-lg bg-white border border-gray-200 hover:border-blue-500 transition-all duration-200">
-            <div className="bg-gray-100 rounded-full p-2">
-              <Plus className="h-4 w-4 text-gray-600" />
+              {platform.connected && selectedPlatforms.includes(platform.id) && (
+                <div className="absolute -top-1 -right-1 bg-blue-500 rounded-full p-0.5">
+                  <Check className="h-3 w-3 text-white" />
+                </div>
+              )}
             </div>
-            <span className="text-xs mt-1 text-gray-800">Add More</span>
+            <span className="text-xs mt-1 text-center text-gray-800 line-clamp-1">
+              {platform.name}
+            </span>
           </button>
-        </div>
+        ))}
+        
+        <button className="flex flex-col items-center justify-center w-20 h-20 p-2 rounded-lg bg-white border border-gray-200 hover:border-blue-500 transition-all duration-200">
+          <div className="bg-gray-100 rounded-full p-2">
+            <Plus className="h-4 w-4 text-gray-600" />
+          </div>
+          <span className="text-xs mt-1 text-gray-800">Add More</span>
+        </button>
       </div>
 
       {showConnectModal && currentPlatform && (
