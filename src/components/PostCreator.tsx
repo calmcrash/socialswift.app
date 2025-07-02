@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Send } from 'lucide-react';
 import FileUploader from './FileUploader';
 import PlatformSelector from './PlatformSelector';
+import SEOOptimizer from './SEOOptimizer';
 import { Platform, PostMedia, Post } from '../types';
 
 type PostCreatorProps = {
@@ -66,7 +67,7 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="space-y-4">
+      <div className="space-y-6">
         <div>
           <label htmlFor="caption" className="text-lg font-medium text-white">
             Write your caption
@@ -95,6 +96,9 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
             />
           </div>
         </div>
+
+        {/* SEO Optimizer Panel */}
+        <SEOOptimizer caption={caption} />
         
         <PlatformSelector
           platforms={platforms}
