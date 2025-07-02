@@ -36,7 +36,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
   return (
     <div>
       <h3 className="text-lg font-medium text-white mb-3">Post to platforms</h3>
-      <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3">
+      <div className="grid grid-cols-6 gap-4 justify-items-center">
         {platforms.map(platform => (
           <button
             key={platform.id}
