@@ -108,18 +108,7 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
         <button
           type="submit"
           disabled={isPostDisabled}
-          className="flex items-center px-6 py-3 font-medium rounded-lg text-white transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
-          style={{ backgroundColor: '#2596be' }}
-          onMouseEnter={(e) => {
-            if (!isPostDisabled) {
-              e.currentTarget.style.backgroundColor = '#1e7a9a';
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (!isPostDisabled) {
-              e.currentTarget.style.backgroundColor = '#2596be';
-            }
-          }}
+          className="flex items-center px-6 py-3 font-medium rounded-lg bg-white text-blue-500 transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed hover:bg-gray-50"
         >
           <Send className="h-5 w-5 mr-2" />
           Post across platforms
