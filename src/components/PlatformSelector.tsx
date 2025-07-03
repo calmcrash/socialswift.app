@@ -23,17 +23,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
   const [isExpanded, setIsExpanded] = useState(false);
 
   // Calculate how many platforms to show in the first row
-  // Using responsive breakpoints: 4 on mobile, 6 on sm, 8 on md, 10 on lg, 12 on xl
-  const getFirstRowCount = () => {
-    // For simplicity, we'll use a base count that works well across devices
-    // This will be 8 platforms in the first row (works well on most screen sizes)
-    return 8;
-  };
-
-  const firstRowCount = getFirstRowCount();
-  const firstRowPlatforms = platforms.slice(0, firstRowCount);
-  const remainingPlatforms = platforms.slice(firstRowCount);
-  const hasMorePlatforms = remainingPlatforms.length > 0;
+  const firstRowCount = 8;
 
   const handleConnectClick = (platform: Platform) => {
     setCurrentPlatform(platform);
@@ -84,11 +74,20 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
       <h3 className="text-lg font-medium text-white mb-3">Post to platforms</h3>
       
       <div className="space-y-4">
-        {/* First row of platforms */}
+        {/* Main grid container for all platforms */}
         <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3 justify-items-center px-3">
-          {firstRowPlatforms.map(renderPlatformButton)}
+          {/* First row platforms */}
+          {platforms.slice(0, firstRowCount).map(renderPlatformButton)}
           
-          {/* Add More button - always visible in first row */}
+          {/* Remaining platforms - collapsible */}
+          <div className={cn(
+            "contents transition-all duration-300 ease-in-out",
+            isExpanded ? "opacity-100" : "opacity-0 pointer-events-none"
+          )}>
+            {platforms.slice(firstRowCount).map(renderPlatformButton)}
+          </div>
+          
+          {/* Add More button - always last */}
           <button className="flex flex-col items-center justify-center w-20 h-20 p-2 rounded-lg bg-white border border-gray-200 hover:border-blue-500 transition-all duration-200">
             <div className="bg-gray-100 rounded-full p-2">
               <Plus className="h-4 w-4 text-gray-600" />
@@ -98,7 +97,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
         </div>
 
         {/* Expand/Collapse button */}
-        {hasMorePlatforms && (
+        {platforms.length > firstRowCount && (
           <div className="flex justify-center">
             <button
               onClick={() => setIsExpanded(!isExpanded)}
@@ -112,16 +111,6 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
             </button>
           </div>
         )}
-
-        {/* Remaining platforms - collapsible */}
-        <div className={cn(
-          "overflow-hidden transition-all duration-300 ease-in-out",
-          isExpanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-        )}>
-          <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3 justify-items-center px-3">
-            {remainingPlatforms.map(renderPlatformButton)}
-          </div>
-        </div>
       </div>
 
       {showConnectModal && currentPlatform && (
