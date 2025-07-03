@@ -128,7 +128,6 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
         onClick={() => setIsExpanded(!isExpanded)}
         className="w-full flex items-center justify-center gap-3 py-4 px-6 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 hover:bg-white/15 transition-all duration-200 group"
       >
-        <Target className="h-5 w-5 text-white/80 group-hover:text-white transition-colors duration-200" />
         <span className="text-lg font-medium text-white">Optimize Post</span>
         {isExpanded ? (
           <ChevronUp className="h-5 w-5 text-white/80 group-hover:text-white transition-all duration-200" />
