@@ -84,6 +84,9 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
             autoCorrect="on"
           />
         </div>
+
+        {/* SEO Optimizer Panel - moved here */}
+        <SEOOptimizer caption={caption} />
         
         <div>
           <label className="text-lg font-medium text-white">
@@ -96,9 +99,6 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
             />
           </div>
         </div>
-
-        {/* SEO Optimizer Panel */}
-        <SEOOptimizer caption={caption} />
         
         <PlatformSelector
           platforms={platforms}
