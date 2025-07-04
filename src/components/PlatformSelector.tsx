@@ -86,6 +86,18 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
     </button>
   );
 
+  const renderAddMoreButton = () => (
+    <button className="flex flex-col items-center justify-center w-20 h-20 p-2 rounded-lg bg-white border border-gray-200 hover:border-blue-500 transition-all duration-200">
+      <div className="bg-gray-100 rounded-full p-2">
+        <Plus className="h-4 w-4 text-gray-600" />
+      </div>
+      <span className="text-xs mt-1 text-gray-800">Add More</span>
+    </button>
+  );
+
+  // Chevron should appear after 6 icons (beneath Snapchat and Telegram)
+  const chevronPosition = 6;
+
   return (
     <div>
       <h3 className="text-lg font-medium text-white mb-3">Post to platforms</h3>
@@ -94,17 +106,10 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
         {/* First row of platforms */}
         <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3 justify-items-center px-3">
           {platforms.slice(0, firstRowCount).map(renderPlatformButton)}
-          
-          <button className="flex flex-col items-center justify-center w-20 h-20 p-2 rounded-lg bg-white border border-gray-200 hover:border-blue-500 transition-all duration-200">
-            <div className="bg-gray-100 rounded-full p-2">
-              <Plus className="h-4 w-4 text-gray-600" />
-            </div>
-            <span className="text-xs mt-1 text-gray-800">Add More</span>
-          </button>
         </div>
 
-        {/* Chevron below first row - only show if there are more platforms */}
-        {platforms.length > firstRowCount && !isExpanded && (
+        {/* Chevron below first 6 icons (beneath Snapchat and Telegram) - only show if there are more platforms */}
+        {platforms.length > chevronPosition && !isExpanded && (
           <div className="flex justify-center">
             <button
               onClick={() => setIsExpanded(true)}
@@ -119,6 +124,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
         {isExpanded && (
           <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3 justify-items-center px-3">
             {platforms.slice(firstRowCount).map(renderPlatformButton)}
+            {renderAddMoreButton()}
           </div>
         )}
 
