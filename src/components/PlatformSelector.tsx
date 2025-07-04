@@ -22,15 +22,8 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
   const [currentPlatform, setCurrentPlatform] = useState<Platform | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Calculate how many platforms to show in the first row based on screen size
-  // Desktop: 12 apps, Mobile: 4 apps
-  const getFirstRowCount = () => {
-    // This will be handled by CSS grid, but we'll use 12 as the base for desktop
-    // and let CSS grid handle the responsive behavior
-    return 12;
-  };
-
-  const firstRowCount = getFirstRowCount();
+  // Calculate how many platforms to show in the first row
+  const firstRowCount = 8;
 
   const handleConnectClick = (platform: Platform) => {
     setCurrentPlatform(platform);
@@ -81,12 +74,29 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
       <h3 className="text-lg font-medium text-white mb-3">Post to platforms</h3>
       
       <div className="space-y-4">
-        {/* First row of platforms - responsive grid */}
-        <div className="grid grid-cols-4 md:grid-cols-12 gap-3 justify-items-center px-3">
+        {/* Main grid container for all platforms */}
+        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3 justify-items-center px-3">
+          {/* First row platforms */}
           {platforms.slice(0, firstRowCount).map(renderPlatformButton)}
+          
+          {/* Remaining platforms - collapsible */}
+          <div className={cn(
+            "contents transition-all duration-300 ease-in-out",
+            isExpanded ? "opacity-100" : "opacity-0 pointer-events-none"
+          )}>
+            {platforms.slice(firstRowCount).map(renderPlatformButton)}
+          </div>
+          
+          {/* Add More button - always last */}
+          <button className="flex flex-col items-center justify-center w-20 h-20 p-2 rounded-lg bg-white border border-gray-200 hover:border-blue-500 transition-all duration-200">
+            <div className="bg-gray-100 rounded-full p-2">
+              <Plus className="h-4 w-4 text-gray-600" />
+            </div>
+            <span className="text-xs mt-1 text-gray-800">Add More</span>
+          </button>
         </div>
 
-        {/* Expand/Collapse chevron button - positioned below first row */}
+        {/* Expand/Collapse button */}
         {platforms.length > firstRowCount && (
           <div className="flex justify-center">
             <button
@@ -98,21 +108,6 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
               ) : (
                 <ChevronDown className="h-5 w-5" />
               )}
-            </button>
-          </div>
-        )}
-
-        {/* Remaining platforms - collapsible */}
-        {isExpanded && (
-          <div className="grid grid-cols-4 md:grid-cols-12 gap-3 justify-items-center px-3 animate-fadeIn">
-            {platforms.slice(firstRowCount).map(renderPlatformButton)}
-            
-            {/* Add More button - always last */}
-            <button className="flex flex-col items-center justify-center w-20 h-20 p-2 rounded-lg bg-white border border-gray-200 hover:border-blue-500 transition-all duration-200">
-              <div className="bg-gray-100 rounded-full p-2">
-                <Plus className="h-4 w-4 text-gray-600" />
-              </div>
-              <span className="text-xs mt-1 text-gray-800">Add More</span>
             </button>
           </div>
         )}
