@@ -105,7 +105,7 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
           onConnectPlatform={handleConnectPlatform}
         />
       
-      <div className="flex justify-end">
+      <div className="flex justify-end pt-2">
         <button
           type="submit"
           disabled={isPostDisabled}
