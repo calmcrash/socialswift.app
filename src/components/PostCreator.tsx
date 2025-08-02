@@ -67,7 +67,6 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="space-y-6">
         <div>
           <label htmlFor="caption" className="text-lg font-medium text-white">
             Write your caption
@@ -85,7 +84,6 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
           />
         </div>
 
-        {/* SEO Optimizer Panel - moved here */}
         <SEOOptimizer caption={caption} />
         
         <div>
@@ -106,7 +104,6 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
           onTogglePlatform={handleTogglePlatform}
           onConnectPlatform={handleConnectPlatform}
         />
-      </div>
       
       <div className="flex justify-end">
         <button
