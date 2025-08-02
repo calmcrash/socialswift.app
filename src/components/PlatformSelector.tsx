@@ -104,7 +104,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
       
       <div className="space-y-4">
         {/* First row of platforms */}
-        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3 justify-items-center px-4">
+        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3 justify-items-center px-3">
           {platforms.slice(0, firstRowCount).map(renderPlatformButton)}
         </div>
 
@@ -122,7 +122,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
 
         {/* Remaining platforms - shown when expanded */}
         {isExpanded && (
-          <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3 justify-items-center px-4">
+          <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3 justify-items-center px-3">
             {platforms.slice(firstRowCount).map(renderPlatformButton)}
             {renderAddMoreButton()}
           </div>
