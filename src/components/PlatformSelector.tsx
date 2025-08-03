@@ -110,7 +110,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
 
         {/* Chevron below first 6 icons (beneath Snapchat and Telegram) - only show if there are more platforms */}
         {platforms.length > chevronPosition && !isExpanded && (
-          <div className="flex justify-center mt-4">
+          <div className="flex justify-center mt-8">
             <button
               onClick={() => setIsExpanded(true)}
               className="flex items-center justify-center w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 hover:bg-white/15 transition-all duration-200 group"
@@ -130,7 +130,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
 
         {/* Chevron below all platforms when expanded - pointing up to collapse */}
         {isExpanded && (
-          <div className="flex justify-center mt-4">
+          <div className="flex justify-center mt-8">
             <button
               onClick={() => setIsExpanded(false)}
               className="flex items-center justify-center w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 hover:bg-white/15 transition-all duration-200 group"
