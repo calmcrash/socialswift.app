@@ -100,7 +100,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
 
   return (
     <div>
-      <h3 className="text-lg font-medium text-white mb-3">Post to platforms</h3>
+      <h3 className="text-lg font-medium text-white mb-3">Connect to platforms</h3>
       
       <div className="space-y-4">
         {/* First row of platforms */}
