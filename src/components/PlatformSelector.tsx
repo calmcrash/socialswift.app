@@ -110,12 +110,12 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
 
         {/* Chevron below first 6 icons (beneath Snapchat and Telegram) - only show if there are more platforms */}
         {platforms.length > chevronPosition && !isExpanded && (
-          <div className="flex justify-center">
+          <div className="flex justify-center mt-4">
             <button
               onClick={() => setIsExpanded(true)}
-              className="text-white/80 hover:text-white transition-colors duration-200 p-2"
+              className="flex items-center justify-center w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 hover:bg-white/15 transition-all duration-200 group"
             >
-              <ChevronDown className="h-5 w-5" />
+              <ChevronDown className="h-5 w-5 text-white/80 group-hover:text-white transition-all duration-200" />
             </button>
           </div>
         )}
@@ -130,12 +130,12 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
 
         {/* Chevron below all platforms when expanded - pointing up to collapse */}
         {isExpanded && (
-          <div className="flex justify-center">
+          <div className="flex justify-center mt-4">
             <button
               onClick={() => setIsExpanded(false)}
-              className="text-white/80 hover:text-white transition-colors duration-200 p-2"
+              className="flex items-center justify-center w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 hover:bg-white/15 transition-all duration-200 group"
             >
-              <ChevronUp className="h-5 w-5" />
+              <ChevronUp className="h-5 w-5 text-white/80 group-hover:text-white transition-all duration-200" />
             </button>
           </div>
         )}
