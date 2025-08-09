@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, ChevronUp, Target, Hash, MessageCircle, Search } from 'lucide-react';
+import { ChevronDown, ChevronUp, Target, Hash, MessageCircle, Search, BookOpen } from 'lucide-react';
 import { cn } from '../utils/cn';
 
 interface SEOMetric {
@@ -25,6 +25,42 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
       const hashtags = (caption.match(/#\w+/g) || []).length;
       const hasCallToAction = /\b(click|visit|check|follow|subscribe|like|share|comment|swipe|tap|download|buy|shop|learn|discover|explore|join|sign up|register|book|order|get|try|start|watch|read|see|view)\b/i.test(caption);
       const keywords = caption.toLowerCase().match(/\b\w{4,}\b/g)?.length || 0;
+
+      // Helper function to count syllables in a word
+      const countSyllables = (word: string): number => {
+        word = word.toLowerCase();
+        if (word.length <= 3) return 1;
+        word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');
+        word = word.replace(/^y/, '');
+        const matches = word.match(/[aeiouy]{1,2}/g);
+        return matches ? matches.length : 1;
+      };
+
+      // Calculate readability score
+      const sentences = caption.split(/[.!?]+/).filter(s => s.trim().length > 0);
+      const words = caption.split(/\s+/).filter(w => w.length > 0);
+      const totalSyllables = words.reduce((sum, word) => sum + countSyllables(word), 0);
+      
+      let readabilityScore = 0;
+      let readabilityAdvice = "Add more content to calculate readability.";
+      
+      if (sentences.length > 0 && words.length > 0) {
+        const avgWordsPerSentence = words.length / sentences.length;
+        const avgSyllablesPerWord = totalSyllables / words.length;
+        
+        // Simplified readability calculation (higher score = more readable)
+        // Optimal range: 60-70
+        const fleschScore = 206.835 - (1.015 * avgWordsPerSentence) - (84.6 * avgSyllablesPerWord);
+        readabilityScore = Math.max(0, Math.min(100, Math.round(fleschScore)));
+        
+        if (readabilityScore >= 60 && readabilityScore <= 70) {
+          readabilityAdvice = "Good readability for your audience!";
+        } else if (readabilityScore < 60) {
+          readabilityAdvice = "Use shorter sentences for better engagement.";
+        } else {
+          readabilityAdvice = "Content is very easy to read - consider adding complexity if needed.";
+        }
+      }
 
       // Text Length Score (0-100)
       let textLengthScore = 0;
@@ -101,6 +137,12 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
           score: keywordScore,
           advice: keywordAdvice,
           icon: <Search className="h-4 w-4" />
+        },
+        {
+          name: "Readability Score",
+          score: readabilityScore,
+          advice: readabilityAdvice,
+          icon: <BookOpen className="h-4 w-4" />
         }
       ];
 
