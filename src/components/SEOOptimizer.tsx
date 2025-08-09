@@ -21,26 +21,23 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
   // Calculate SEO metrics based on caption content
   useEffect(() => {
     const calculateMetrics = () => {
-      const textLength = caption.length;
+      const wordCount = caption.trim().split(/\s+/).filter(word => word.length > 0).length;
       const hashtags = (caption.match(/#\w+/g) || []).length;
       const hasCallToAction = /\b(click|visit|check|follow|subscribe|like|share|comment|swipe|tap|download|buy|shop|learn|discover|explore|join|sign up|register|book|order|get|try|start|watch|read|see|view)\b/i.test(caption);
       const keywords = caption.toLowerCase().match(/\b\w{4,}\b/g)?.length || 0;
 
-      // Text Length Score (0-100)
+      // Text Length Score (0-100) - based on word count
       let textLengthScore = 0;
-      let textAdvice = "Add more content to improve engagement.";
-      if (textLength >= 150) {
-        textLengthScore = 100;
-        textAdvice = "Perfect length for maximum engagement!";
-      } else if (textLength >= 100) {
-        textLengthScore = 80;
-        textAdvice = "Good length, consider adding a bit more detail.";
-      } else if (textLength >= 50) {
-        textLengthScore = 60;
+      let textAdvice = "";
+      if (wordCount < 150) {
+        textLengthScore = 50;
         textAdvice = "Add more content to improve engagement.";
-      } else if (textLength > 0) {
-        textLengthScore = 30;
-        textAdvice = "Your post is too short. Add more engaging content.";
+      } else if (wordCount >= 150 && wordCount <= 300) {
+        textLengthScore = 100;
+        textAdvice = "Good length for selected platforms.";
+      } else {
+        textLengthScore = 75;
+        textAdvice = "Consider condensing or expanding based on platforms.";
       }
 
       // Hashtag Score (0-100)
