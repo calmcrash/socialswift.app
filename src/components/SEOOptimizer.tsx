@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, ChevronUp, Target, Hash, MessageCircle, Search, BookOpen } from 'lucide-react';
+import { ChevronDown, ChevronUp, Target, Hash, MessageCircle, Search } from 'lucide-react';
 import { cn } from '../utils/cn';
 
 interface SEOMetric {
@@ -21,62 +21,26 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
   // Calculate SEO metrics based on caption content
   useEffect(() => {
     const calculateMetrics = () => {
-      const wordCount = caption.trim().split(/\s+/).filter(word => word.length > 0).length;
+      const textLength = caption.length;
       const hashtags = (caption.match(/#\w+/g) || []).length;
       const hasCallToAction = /\b(click|visit|check|follow|subscribe|like|share|comment|swipe|tap|download|buy|shop|learn|discover|explore|join|sign up|register|book|order|get|try|start|watch|read|see|view)\b/i.test(caption);
       const keywords = caption.toLowerCase().match(/\b\w{4,}\b/g)?.length || 0;
 
-      // Helper function to count syllables in a word
-      const countSyllables = (word: string): number => {
-        word = word.toLowerCase();
-        if (word.length <= 3) return 1;
-        word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');
-        word = word.replace(/^y/, '');
-        const matches = word.match(/[aeiouy]{1,2}/g);
-        return matches ? matches.length : 1;
-      };
-
-      // Text Length Score (0-100) - based on word count
+      // Text Length Score (0-100)
       let textLengthScore = 0;
       let textAdvice = "Add more content to improve engagement.";
-      if (wordCount >= 150 && wordCount <= 300) {
+      if (textLength >= 150) {
         textLengthScore = 100;
-        textAdvice = "Good length for selected platforms.";
-      } else if (wordCount > 300) {
-        textLengthScore = 75;
-        textAdvice = "Consider condensing or expanding based on platforms.";
-      } else if (wordCount > 0) {
-        textLengthScore = 50;
+        textAdvice = "Perfect length for maximum engagement!";
+      } else if (textLength >= 100) {
+        textLengthScore = 80;
+        textAdvice = "Good length, consider adding a bit more detail.";
+      } else if (textLength >= 50) {
+        textLengthScore = 60;
         textAdvice = "Add more content to improve engagement.";
-      }
-
-      // Readability Score (Flesch-Kincaid style)
-      let readabilityScore = 0;
-      let readabilityAdvice = "Add content to calculate readability.";
-      
-      if (caption.trim().length > 0) {
-        const sentences = caption.split(/[.!?]+/).filter(s => s.trim().length > 0).length || 1;
-        const words = wordCount || 1;
-        const syllables = caption.split(/\s+/).reduce((total, word) => {
-          return total + countSyllables(word.replace(/[^\w]/g, ''));
-        }, 0) || 1;
-        
-        // Flesch Reading Ease formula: 206.835 - (1.015 × ASL) - (84.6 × ASW)
-        // ASL = Average Sentence Length, ASW = Average Syllables per Word
-        const avgSentenceLength = words / sentences;
-        const avgSyllablesPerWord = syllables / words;
-        const fleschScore = 206.835 - (1.015 * avgSentenceLength) - (84.6 * avgSyllablesPerWord);
-        
-        // Convert to 0-100 scale where higher is better
-        readabilityScore = Math.max(0, Math.min(100, fleschScore));
-        
-        if (readabilityScore >= 60 && readabilityScore <= 70) {
-          readabilityAdvice = "Good readability for wide audience.";
-        } else if (readabilityScore < 60) {
-          readabilityAdvice = "Use shorter sentences for better engagement.";
-        } else {
-          readabilityAdvice = "Consider simplifying language.";
-        }
+      } else if (textLength > 0) {
+        textLengthScore = 30;
+        textAdvice = "Your post is too short. Add more engaging content.";
       }
 
       // Hashtag Score (0-100)
@@ -119,12 +83,6 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
           score: textLengthScore,
           advice: textAdvice,
           icon: <MessageCircle className="h-4 w-4" />
-        },
-        {
-          name: "Readability",
-          score: Math.round(readabilityScore),
-          advice: readabilityAdvice,
-          icon: <BookOpen className="h-4 w-4" />
         },
         {
           name: "Hashtag Usage",
