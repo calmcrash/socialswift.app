@@ -233,6 +233,16 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
               </div>
             ))}
           </div>
+
+          {/* Collapse Button */}
+          <div className="flex justify-center pt-2">
+            <button
+              onClick={() => setIsExpanded(false)}
+              className="flex items-center justify-center w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 hover:bg-white/15 transition-all duration-200 group"
+            >
+              <ChevronUp className="h-5 w-5 text-white/80 group-hover:text-white transition-all duration-200" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
