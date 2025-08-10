@@ -180,7 +180,7 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
 
       <div className={cn(
         "overflow-hidden transition-all duration-300 ease-in-out",
-        isExpanded ? "max-h-[600px] opacity-100 mt-4" : "max-h-0 opacity-0"
+        isExpanded ? "max-h-[700px] opacity-100 mt-4" : "max-h-0 opacity-0"
       )}>
         <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 p-6 space-y-6">
           {/* Overall SEO Score */}
