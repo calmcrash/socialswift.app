@@ -24,7 +24,6 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
       const textLength = caption.length;
       const hashtags = (caption.match(/#\w+/g) || []).length;
       const hasCallToAction = /\b(click|visit|check|follow|subscribe|like|share|comment|swipe|tap|download|buy|shop|learn|discover|explore|join|sign up|register|book|order|get|try|start|watch|read|see|view)\b/i.test(caption);
-      const keywords = caption.toLowerCase().match(/\b\w{4,}\b/g)?.length || 0;
 
       // Helper function to count syllables in a word
       const countSyllables = (word: string): number => {
@@ -99,20 +98,6 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
         ? "Great! Your post includes a clear call to action."
         : "Add a clear call to action to drive engagement.";
 
-      // Keywords Score (0-100)
-      let keywordScore = 0;
-      let keywordAdvice = "Include industry-related keywords for better reach.";
-      if (keywords >= 8) {
-        keywordScore = 100;
-        keywordAdvice = "Excellent keyword density for discoverability!";
-      } else if (keywords >= 5) {
-        keywordScore = 80;
-        keywordAdvice = "Good keyword usage, consider adding a few more.";
-      } else if (keywords >= 3) {
-        keywordScore = 60;
-        keywordAdvice = "Include more relevant keywords for better reach.";
-      }
-
       const newMetrics: SEOMetric[] = [
         {
           name: "Text Length",
@@ -131,12 +116,6 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
           score: ctaScore,
           advice: ctaAdvice,
           icon: <Target className="h-4 w-4" />
-        },
-        {
-          name: "Keywords",
-          score: keywordScore,
-          advice: keywordAdvice,
-          icon: <Search className="h-4 w-4" />
         },
         {
           name: "Readability Score",
