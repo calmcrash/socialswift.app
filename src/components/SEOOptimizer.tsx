@@ -233,16 +233,6 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
               </div>
             ))}
           </div>
-
-          {/* Close button for convenience */}
-          <div className="flex justify-center pt-2">
-            <button
-              onClick={() => setIsExpanded(false)}
-              className="text-white/60 hover:text-white/80 text-sm transition-colors duration-200"
-            >
-              Collapse
-            </button>
-          </div>
         </div>
       </div>
     </div>
