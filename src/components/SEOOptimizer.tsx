@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, ChevronUp, Target, Hash, MessageCircle, Search, BookOpen } from 'lucide-react';
+import { ChevronDown, ChevronUp, Target, Hash, MessageCircle, Search, BookOpen, Users } from 'lucide-react';
 import { cn } from '../utils/cn';
 
 interface SEOMetric {
@@ -25,6 +25,28 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
       const hashtags = (caption.match(/#\w+/g) || []).length;
       const hasCallToAction = /\b(click|visit|check|follow|subscribe|like|share|comment|swipe|tap|download|buy|shop|learn|discover|explore|join|sign up|register|book|order|get|try|start|watch|read|see|view)\b/i.test(caption);
       const keywords = caption.toLowerCase().match(/\b\w{4,}\b/g)?.length || 0;
+
+      // Calculate engagement triggers
+      const questions = (caption.match(/\?/g) || []).length;
+      const engagementWords = (caption.toLowerCase().match(/\b(ask|share|think|tell|comment|reply|thoughts|opinion|agree|disagree|experience|story|advice|help|tips|ideas|suggest|recommend|vote|poll|choose|prefer|favorite|best|worst|love|hate|feel|believe|know|remember|imagine|guess|wonder)\b/g) || []).length;
+      const emojis = (caption.match(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu) || []).length;
+      
+      const totalEngagementTriggers = questions + engagementWords + emojis;
+      
+      // Engagement Triggers Score (0-100)
+      let engagementScore = 0;
+      let engagementAdvice = "Include questions or interactive elements to boost engagement.";
+      
+      if (totalEngagementTriggers >= 5) {
+        engagementScore = 100;
+        engagementAdvice = "Excellent engagement triggers! Your post encourages interaction.";
+      } else if (totalEngagementTriggers >= 3) {
+        engagementScore = 80;
+        engagementAdvice = "Good engagement triggers detected. Consider adding more interactive elements.";
+      } else if (totalEngagementTriggers >= 1) {
+        engagementScore = 60;
+        engagementAdvice = "Some engagement triggers found. Add more questions or interactive elements.";
+      }
 
       // Helper function to count syllables in a word
       const countSyllables = (word: string): number => {
@@ -143,6 +165,12 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
           score: readabilityScore,
           advice: readabilityAdvice,
           icon: <BookOpen className="h-4 w-4" />
+        },
+        {
+          name: "Engagement Triggers",
+          score: engagementScore,
+          advice: engagementAdvice,
+          icon: <Users className="h-4 w-4" />
         }
       ];
 
