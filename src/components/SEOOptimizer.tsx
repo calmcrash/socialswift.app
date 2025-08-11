@@ -143,22 +143,10 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
           icon: <MessageCircle className="h-4 w-4" />
         },
         {
-          name: "Hashtag Usage",
-          score: hashtagScore,
-          advice: hashtagAdvice,
-          icon: <Hash className="h-4 w-4" />
-        },
-        {
           name: "Call to Action",
           score: ctaScore,
           advice: ctaAdvice,
           icon: <Target className="h-4 w-4" />
-        },
-        {
-          name: "Keywords",
-          score: keywordScore,
-          advice: keywordAdvice,
-          icon: <Search className="h-4 w-4" />
         },
         {
           name: "Readability Score",
@@ -167,10 +155,16 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
           icon: <BookOpen className="h-4 w-4" />
         },
         {
-          name: "Engagement Triggers",
-          score: engagementScore,
-          advice: engagementAdvice,
-          icon: <Users className="h-4 w-4" />
+          name: "Keywords",
+          score: keywordScore,
+          advice: keywordAdvice,
+          icon: <Search className="h-4 w-4" />
+        },
+        {
+          name: "Hashtag Usage",
+          score: hashtagScore,
+          advice: hashtagAdvice,
+          icon: <Hash className="h-4 w-4" />
         }
       ];
 
@@ -213,8 +207,6 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
         <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 p-6 space-y-6">
           {/* Overall SEO Score */}
           <div className="space-y-3">
-            <h3 className="text-xl font-semibold text-white">SEO Suggestions</h3>
-            
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-white font-medium">Overall SEO Score</span>
