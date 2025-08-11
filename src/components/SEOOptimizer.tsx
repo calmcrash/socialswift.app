@@ -265,7 +265,6 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
    </button>
  </div>
 )}
-</div>
 );
 };
 
