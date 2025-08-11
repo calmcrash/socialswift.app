@@ -255,14 +255,15 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
           </div>
 
           {/* Collapse Button */}
-          <div className="flex justify-center pt-1">
-            <button
-              onClick={() => setIsExpanded(false)}
-              className="text-white/60 hover:text-white transition-colors duration-200"
-            >
-              <ChevronUp className="h-5 w-5" />
-            </button>
-          </div>
+<div className="relative">
+  <button
+    onClick={() => setIsExpanded(false)}
+    className="absolute left-1/2 transform -translate-x-1/2 -top-8
+               text-white/60 hover:text-white transition-colors duration-200"
+  >
+    <ChevronUp className="h-5 w-5" />
+  </button>
+</div>
         </div>
       </div>
     </div>
