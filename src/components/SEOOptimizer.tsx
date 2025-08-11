@@ -253,7 +253,7 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
               </div>
             ))}
           </div>
-
+}
           {/* Expand Button - Shows when collapsed */}
 {!isExpanded && (
  <div className="flex justify-center">
