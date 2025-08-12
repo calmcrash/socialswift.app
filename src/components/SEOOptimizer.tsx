@@ -33,21 +33,6 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
       
       const totalEngagementTriggers = questions + engagementWords + emojis;
       
-      // Engagement Triggers Score (0-100)
-      let engagementScore = 0;
-      let engagementAdvice = "Include questions or interactive elements to boost engagement.";
-      
-      if (totalEngagementTriggers >= 5) {
-        engagementScore = 100;
-        engagementAdvice = "Excellent engagement triggers! Your post encourages interaction.";
-      } else if (totalEngagementTriggers >= 3) {
-        engagementScore = 80;
-        engagementAdvice = "Good engagement triggers detected. Consider adding more interactive elements.";
-      } else if (totalEngagementTriggers >= 1) {
-        engagementScore = 60;
-        engagementAdvice = "Some engagement triggers found. Add more questions or interactive elements.";
-      }
-
       // Helper function to count syllables in a word
       const countSyllables = (word: string): number => {
         word = word.toLowerCase();
@@ -127,6 +112,21 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
         ? "Great! Your post includes a clear call to action."
         : "Add a clear call to action to drive engagement.";
 
+      // Engagement Triggers Score (0-100)
+      let engagementScore = 0;
+      let engagementAdvice = "Include questions or interactive elements to boost engagement.";
+      
+      if (totalEngagementTriggers >= 5) {
+        engagementScore = 100;
+        engagementAdvice = "Excellent engagement triggers! Your post encourages interaction.";
+      } else if (totalEngagementTriggers >= 3) {
+        engagementScore = 80;
+        engagementAdvice = "Good engagement triggers detected. Consider adding more interactive elements.";
+      } else if (totalEngagementTriggers >= 1) {
+        engagementScore = 60;
+        engagementAdvice = "Some engagement triggers found. Add more questions or interactive elements.";
+      }
+
       // Keywords Score (0-100)
       let keywordScore = 0;
       let keywordAdvice = "Include industry-related keywords for better reach.";
@@ -174,6 +174,12 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
           score: hashtagScore,
           advice: hashtagAdvice,
           icon: <Hash className="h-4 w-4" />
+        },
+        {
+          name: "Engagement Triggers",
+          score: engagementScore,
+          advice: engagementAdvice,
+          icon: <Users className="h-4 w-4" />
         }
       ];
 
