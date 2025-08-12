@@ -99,7 +99,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onChange, value }) => {
           <p className="text-gray-700 font-medium">
             {isDragActive ? 'Drop your file here' : 'Drag & drop your image or video'}
           </p>
-          <p className="text-gray-500 text-sm mt-1">or click to browse (Max: 2GB)</p>
+          <p className="text-gray-500 text-sm mt-1 text-center">or click to browse</p>
           
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
         </div>
