@@ -66,7 +66,7 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
       let readabilityScore = 0;
       let readabilityAdvice = "Add more content to calculate readability.";
       
-      if (sentences.length > 0 && words.length > 0) {
+      if (sentences.length > 0 && words.length >= 20) {
         const avgWordsPerSentence = words.length / sentences.length;
         const avgSyllablesPerWord = totalSyllables / words.length;
         
@@ -82,6 +82,9 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
         } else {
           readabilityAdvice = "Content is very easy to read - consider adding complexity if needed.";
         }
+      } else if (words.length > 0 && words.length < 20) {
+        readabilityScore = 0;
+        readabilityAdvice = "Add more content to calculate readability.";
       }
 
       // Text Length Score (0-100)
@@ -91,13 +94,16 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
         textLengthScore = 100;
         textAdvice = "Perfect length for maximum engagement!";
       } else if (textLength >= 100) {
-        textLengthScore = 80;
+        textLengthScore = Math.round(60 + ((textLength - 100) / 50) * 20);
         textAdvice = "Good length, consider adding a bit more detail.";
       } else if (textLength >= 50) {
-        textLengthScore = 60;
+        textLengthScore = Math.round(30 + ((textLength - 50) / 50) * 30);
         textAdvice = "Add more content to improve engagement.";
+      } else if (textLength >= 30) {
+        textLengthScore = Math.round(10 + ((textLength - 30) / 20) * 20);
+        textAdvice = "Your post is too short. Add more engaging content.";
       } else if (textLength > 0) {
-        textLengthScore = 30;
+        textLengthScore = Math.round((textLength / 30) * 10);
         textAdvice = "Your post is too short. Add more engaging content.";
       }
 
@@ -125,13 +131,16 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
       let keywordScore = 0;
       let keywordAdvice = "Include industry-related keywords for better reach.";
       if (keywords >= 8) {
-        keywordScore = 100;
+        keywordScore = Math.min(100, 70 + ((keywords - 8) * 5));
         keywordAdvice = "Excellent keyword density for discoverability!";
       } else if (keywords >= 5) {
-        keywordScore = 80;
+        keywordScore = Math.round(40 + ((keywords - 5) / 3) * 30);
         keywordAdvice = "Good keyword usage, consider adding a few more.";
       } else if (keywords >= 3) {
-        keywordScore = 60;
+        keywordScore = Math.round(20 + ((keywords - 3) / 2) * 20);
+        keywordAdvice = "Include more relevant keywords for better reach.";
+      } else if (keywords > 0) {
+        keywordScore = Math.round((keywords / 3) * 20);
         keywordAdvice = "Include more relevant keywords for better reach.";
       }
 
