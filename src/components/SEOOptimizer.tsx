@@ -170,16 +170,16 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
           icon: <Search className="h-4 w-4" />
         },
         {
-          name: "Hashtag Usage",
-          score: hashtagScore,
-          advice: hashtagAdvice,
-          icon: <Hash className="h-4 w-4" />
-        },
-        {
           name: "Engagement Triggers",
           score: engagementScore,
           advice: engagementAdvice,
           icon: <Users className="h-4 w-4" />
+        },
+        {
+          name: "Hashtag Usage",
+          score: hashtagScore,
+          advice: hashtagAdvice,
+          icon: <Hash className="h-4 w-4" />
         }
       ];
 
