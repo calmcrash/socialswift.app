@@ -214,7 +214,7 @@ const SocialMediaPreviewModal: React.FC<SocialMediaPreviewModalProps> = ({
           />
         </div>
 
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-6 px-2
           <div className="text-[14px] text-[#606060]">
             120K views • 3 days ago
           </div>
