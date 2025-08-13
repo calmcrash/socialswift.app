@@ -243,7 +243,7 @@ const SocialMediaPreviewModal: React.FC<SocialMediaPreviewModalProps> = ({
             <span className="text-white font-medium">Preview Post</span>
           </div>
           
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-3 absolute right-2 top-0">
             {/* Toggle arrows - only show for images */}
             {media.type === 'image' && (
               <>
@@ -284,7 +284,7 @@ const SocialMediaPreviewModal: React.FC<SocialMediaPreviewModalProps> = ({
         </div>
 
         {/* Preview Content */}
-        <div className="flex justify-center w-full">
+        <div className="flex justify-start w-full">
           {media.type === 'video' ? (
             renderYouTubePreview()
           ) : previewMode === 'facebook' ? (
