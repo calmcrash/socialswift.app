@@ -254,9 +254,7 @@ const SocialMediaPreviewModal: React.FC<SocialMediaPreviewModalProps> = ({
                   }`}
                 >
                   <ChevronUp 
-                    className={`w-5 h-5 ${
-                      previewMode === 'facebook' ? 'text-[#2979FF]' : 'text-white/60'
-                    }`} 
+                    className="w-5 h-5 text-white"
                   />
                 </button>
                 <button
@@ -266,9 +264,7 @@ const SocialMediaPreviewModal: React.FC<SocialMediaPreviewModalProps> = ({
                   }`}
                 >
                   <ChevronDown 
-                    className={`w-5 h-5 ${
-                      previewMode === 'instagram' ? 'text-[#9B27B0]' : 'text-white/60'
-                    }`} 
+                    className="w-5 h-5 text-white"
                   />
                 </button>
               </>
