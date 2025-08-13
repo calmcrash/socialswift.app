@@ -277,8 +277,3 @@ const SocialMediaPreviewModal: React.FC<SocialMediaPreviewModalProps> = ({
 };
 
 export default SocialMediaPreviewModal;
-    </div>
-  );
-};
-
-export default SocialMediaPreviewModal;
