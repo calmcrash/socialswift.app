@@ -240,7 +240,6 @@ const SocialMediaPreviewModal: React.FC<SocialMediaPreviewModalProps> = ({
         {/* Top Bar */}
         <div className="flex items-center justify-between mb-4 px-2">
           <div className="flex items-center">
-            <div className="w-10 h-10 bg-gray-400 rounded-full mr-3"></div>
             <span className="text-white font-medium">Preview Post</span>
           </div>
           
