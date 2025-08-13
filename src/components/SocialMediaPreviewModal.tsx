@@ -98,24 +98,6 @@ const SocialMediaPreviewModal: React.FC<SocialMediaPreviewModalProps> = ({
         )}
       </div>
 
-      {/* Facebook Engagement Bar */}
-      <div className="px-4 py-2 border-b border-gray-200">
-        <div className="flex items-center justify-between text-[13px] text-[#65676b]">
-          <div className="flex items-center">
-            <div className="flex -space-x-1 mr-2">
-              <div className="w-4 h-4 bg-[#1877f2] rounded-full flex items-center justify-center">
-                <span className="text-white text-[10px]">👍</span>
-              </div>
-            </div>
-            <span>103</span>
-          </div>
-          <div className="flex space-x-4">
-            <span>7 comments</span>
-            <span>5 shares</span>
-          </div>
-        </div>
-      </div>
-
       {/* Facebook Action Buttons */}
       <div className="px-4 py-2">
         <div className="flex justify-around">
@@ -290,6 +272,11 @@ const SocialMediaPreviewModal: React.FC<SocialMediaPreviewModalProps> = ({
           )}
         </div>
       </div>
+    </div>
+  );
+};
+
+export default SocialMediaPreviewModal;
     </div>
   );
 };
