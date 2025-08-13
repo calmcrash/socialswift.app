@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { FileUp, X } from 'lucide-react';
 import { PostMedia } from '../types';
@@ -21,6 +21,19 @@ const FileUploader: React.FC<FileUploaderProps> = ({
   const [showPreviewModal, setShowPreviewModal] = useState(false);
 
   const MAX_SIZE = 2 * 1024 * 1024 * 1024; // 2GB
+
+  // Restore preview modal state when component mounts
+  useEffect(() => {
+    const savedPreviewState = sessionStorage.getItem('previewModalOpen');
+    if (savedPreviewState === 'true' && value) {
+      setShowPreviewModal(true);
+    }
+  }, [value]);
+
+  // Save preview modal state when it changes
+  useEffect(() => {
+    sessionStorage.setItem('previewModalOpen', showPreviewModal.toString());
+  }, [showPreviewModal]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setError(null);
@@ -46,11 +59,16 @@ const FileUploader: React.FC<FileUploaderProps> = ({
     // Create preview URL
     const preview = URL.createObjectURL(file);
     
-    onChange({
+    const newMedia = {
       file,
       preview,
       type: isImage ? 'image' : 'video'
-    });
+    } as PostMedia;
+
+    onChange(newMedia);
+
+    // Auto-show preview modal immediately after upload
+    setShowPreviewModal(true);
   }, [onChange]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ 
@@ -64,6 +82,9 @@ const FileUploader: React.FC<FileUploaderProps> = ({
   });
 
   const removeMedia = () => {
+    // Clear preview modal state when removing media
+    setShowPreviewModal(false);
+    sessionStorage.removeItem('previewModalOpen');
     onChange(undefined);
   };
 
@@ -72,6 +93,11 @@ const FileUploader: React.FC<FileUploaderProps> = ({
       setShowPreviewModal(true);
     }
   };
+
+  const handleClosePreview = () => {
+    setShowPreviewModal(false);
+  };
+
   return (
     <div className="w-full">
       {value ? (
@@ -89,7 +115,6 @@ const FileUploader: React.FC<FileUploaderProps> = ({
             />
           )}
           <button
-            onClick={removeMedia}
             onClick={(e) => {
               e.stopPropagation();
               removeMedia();
@@ -126,7 +151,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
         <SocialMediaPreviewModal
           media={value}
           caption={caption}
-          onClose={() => setShowPreviewModal(false)}
+          onClose={handleClosePreview}
           onCaptionChange={onCaptionChange || (() => {})}
         />
       )}
