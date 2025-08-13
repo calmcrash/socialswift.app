@@ -94,6 +94,8 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
             <FileUploader 
               value={media} 
               onChange={setMedia} 
+              caption={caption}
+              onCaptionChange={setCaption}
             />
           </div>
         </div>

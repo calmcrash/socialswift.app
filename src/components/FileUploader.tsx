@@ -2,14 +2,23 @@ import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { FileUp, X } from 'lucide-react';
 import { PostMedia } from '../types';
+import SocialMediaPreviewModal from './SocialMediaPreviewModal';
 
 type FileUploaderProps = {
   onChange: (media: PostMedia | undefined) => void;
   value?: PostMedia;
+  caption?: string;
+  onCaptionChange?: (caption: string) => void;
 };
 
-const FileUploader: React.FC<FileUploaderProps> = ({ onChange, value }) => {
+const FileUploader: React.FC<FileUploaderProps> = ({ 
+  onChange, 
+  value, 
+  caption = '', 
+  onCaptionChange 
+}) => {
   const [error, setError] = useState<string | null>(null);
+  const [showPreviewModal, setShowPreviewModal] = useState(false);
 
   const MAX_SIZE = 2 * 1024 * 1024 * 1024; // 2GB
 
@@ -58,10 +67,15 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onChange, value }) => {
     onChange(undefined);
   };
 
+  const handleThumbnailClick = () => {
+    if (value) {
+      setShowPreviewModal(true);
+    }
+  };
   return (
     <div className="w-full">
       {value ? (
-        <div className="relative border border-gray-200 rounded-lg overflow-hidden">
+        <div className="relative border border-gray-200 rounded-lg overflow-hidden cursor-pointer" onClick={handleThumbnailClick}>
           {value.type === 'image' ? (
             <img 
               src={value.preview} 
@@ -71,12 +85,15 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onChange, value }) => {
           ) : (
             <video 
               src={value.preview} 
-              controls 
               className="w-full h-64 object-contain bg-gray-50"
             />
           )}
           <button
             onClick={removeMedia}
+            onClick={(e) => {
+              e.stopPropagation();
+              removeMedia();
+            }}
             className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md hover:bg-gray-100 transition-colors duration-200"
           >
             <X className="h-5 w-5 text-gray-700" />
@@ -103,6 +120,15 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onChange, value }) => {
           
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
         </div>
+      )}
+
+      {showPreviewModal && value && (
+        <SocialMediaPreviewModal
+          media={value}
+          caption={caption}
+          onClose={() => setShowPreviewModal(false)}
+          onCaptionChange={onCaptionChange || (() => {})}
+        />
       )}
     </div>
   );
