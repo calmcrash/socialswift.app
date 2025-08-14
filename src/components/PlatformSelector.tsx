@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Platform } from '../types';
 import { Plus, Link, Check, ChevronDown, ChevronUp } from 'lucide-react';
 import { cn } from '../utils/cn';
@@ -22,6 +22,11 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
   const [currentPlatform, setCurrentPlatform] = useState<Platform | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
+  // Sort platforms alphabetically by name
+  const sortedPlatforms = [...platforms].sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+
   // 4 icons on mobile, 12 on desktop
   const getFirstRowCount = () => {
     if (typeof window !== 'undefined') {
@@ -33,11 +38,10 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
   const [firstRowCount, setFirstRowCount] = useState(getFirstRowCount());
 
   // Update row count on window resize
-  React.useEffect(() => {
+  useEffect(() => {
     const handleResize = () => {
       setFirstRowCount(getFirstRowCount());
     };
-
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -57,10 +61,14 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
   const renderPlatformButton = (platform: Platform) => (
     <button
       key={platform.id}
-      onClick={() => platform.connected ? onTogglePlatform(platform.id) : handleConnectClick(platform)}
+      onClick={() =>
+        platform.connected
+          ? onTogglePlatform(platform.id)
+          : handleConnectClick(platform)
+      }
       className={cn(
         "relative flex flex-col items-center justify-center w-20 h-20 p-2 rounded-lg transition-all duration-200",
-        platform.connected 
+        platform.connected
           ? selectedPlatforms.includes(platform.id)
             ? "bg-white border-2 border-blue-500"
             : "bg-white border border-gray-200 hover:border-blue-500"
@@ -95,21 +103,23 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
     </button>
   );
 
-  // Chevron should appear after 6 icons (beneath Snapchat and Telegram)
+  // Chevron should appear after 6 icons
   const chevronPosition = 6;
 
   return (
     <div>
-      <h3 className="text-lg font-medium text-white mb-3">Connect to platforms</h3>
-      
+      <h3 className="text-lg font-medium text-white mb-3">
+        Connect to platforms
+      </h3>
+
       <div className="space-y-4">
-        {/* First row of platforms */}
-        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3 justify-items-center px-4">
-          {platforms.slice(0, firstRowCount).map(renderPlatformButton)}
+        {/* First row of platforms with improved spacing */}
+        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-5 md:gap-4 justify-items-center px-3 md:px-6">
+          {sortedPlatforms.slice(0, firstRowCount).map(renderPlatformButton)}
         </div>
 
-        {/* Chevron below first 6 icons (beneath Snapchat and Telegram) - only show if there are more platforms */}
-        {platforms.length > chevronPosition && !isExpanded && (
+        {/* Chevron below first 6 icons */}
+        {sortedPlatforms.length > chevronPosition && !isExpanded && (
           <div className="flex justify-center mt-8">
             <button
               onClick={() => setIsExpanded(true)}
@@ -120,15 +130,15 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
           </div>
         )}
 
-        {/* Remaining platforms - shown when expanded */}
+        {/* Remaining platforms when expanded */}
         {isExpanded && (
-          <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3 justify-items-center px-4">
-            {platforms.slice(firstRowCount).map(renderPlatformButton)}
+          <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-5 md:gap-4 justify-items-center px-3 md:px-6">
+            {sortedPlatforms.slice(firstRowCount).map(renderPlatformButton)}
             {renderAddMoreButton()}
           </div>
         )}
 
-        {/* Chevron below all platforms when expanded - pointing up to collapse */}
+        {/* Chevron to collapse when expanded */}
         {isExpanded && (
           <div className="flex justify-center mt-8">
             <button
@@ -142,24 +152,25 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
       </div>
 
       {showConnectModal && currentPlatform && (
-        <Modal 
+        <Modal
           title={`Connect to ${currentPlatform.name}`}
           onClose={() => setShowConnectModal(false)}
         >
           <div className="p-4">
             <div className="flex items-center justify-center py-6">
               <div className="bg-gray-100 rounded-full p-4">
-                <PlatformIcon 
-                  name={currentPlatform.icon} 
-                  className="h-10 w-10 text-gray-700" 
+                <PlatformIcon
+                  name={currentPlatform.icon}
+                  className="h-10 w-10 text-gray-700"
                 />
               </div>
             </div>
-            
+
             <p className="text-center text-gray-700 mb-6">
-              You'll be redirected to {currentPlatform.name} to authorize access to your account.
+              You'll be redirected to {currentPlatform.name} to authorize access
+              to your account.
             </p>
-            
+
             <div className="flex gap-3">
               <button
                 onClick={() => setShowConnectModal(false)}
