@@ -35,28 +35,31 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
     return 12; // Default to desktop
   };
 
-  // FINAL FIX: Get the exact container width needed
-  const getContainerWidth = () => {
+  // FINAL FIX: Get button size and gap for proper alignment
+  const getButtonSize = () => {
     if (typeof window !== 'undefined') {
-      if (window.innerWidth < 768) {
-        // Mobile: 4 × 80px + 3 × 16px gaps = 368px
-        return '368px';
-      } else {
-        // Desktop: 12 × 80px + 11 × 16px gaps = 1136px
-        return '1136px';
-      }
+      return window.innerWidth < 768 ? 70 : 80; // Smaller on mobile
     }
-    return '1136px'; // Default to desktop
+    return 80;
+  };
+
+  const getGridGap = () => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768 ? 12 : 16; // Smaller gap on mobile
+    }
+    return 16;
   };
 
   const [firstRowCount, setFirstRowCount] = useState(getFirstRowCount());
-  const [containerWidth, setContainerWidth] = useState(getContainerWidth());
+  const [buttonSize, setButtonSize] = useState(getButtonSize());
+  const [gridGap, setGridGap] = useState(getGridGap());
 
-  // Update row count AND container width on window resize
+  // Update all responsive values on window resize
   useEffect(() => {
     const handleResize = () => {
       setFirstRowCount(getFirstRowCount());
-      setContainerWidth(getContainerWidth());
+      setButtonSize(getButtonSize());
+      setGridGap(getGridGap());
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -92,12 +95,12 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
           : "bg-white border border-gray-200 opacity-80 hover:opacity-100"
       )}
       style={{
-        width: '80px',
-        height: '80px',
-        minWidth: '80px',
-        minHeight: '80px',
-        maxWidth: '80px',
-        maxHeight: '80px'
+        width: `${buttonSize}px`,
+        height: `${buttonSize}px`,
+        minWidth: `${buttonSize}px`,
+        minHeight: `${buttonSize}px`,
+        maxWidth: `${buttonSize}px`,
+        maxHeight: `${buttonSize}px`
       }}
     >
       <div className="relative">
@@ -123,12 +126,12 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
     <button 
       className="relative flex flex-col items-center justify-center p-2 rounded-lg bg-white border border-gray-200 hover:border-blue-500 transition-all duration-200 flex-shrink-0 flex-grow-0"
       style={{
-        width: '80px',
-        height: '80px',
-        minWidth: '80px',
-        minHeight: '80px',
-        maxWidth: '80px',
-        maxHeight: '80px'
+        width: `${buttonSize}px`,
+        height: `${buttonSize}px`,
+        minWidth: `${buttonSize}px`,
+        minHeight: `${buttonSize}px`,
+        maxWidth: `${buttonSize}px`,
+        maxHeight: `${buttonSize}px`
       }}
     >
       <div className="bg-gray-100 rounded-full p-2">
