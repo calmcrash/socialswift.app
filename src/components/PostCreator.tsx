@@ -117,7 +117,7 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
             id="caption"
             value={caption}
             onChange={(e) => setCaption(e.target.value)}
-            placeholder="Type your video title... (Press Enter to add description)"
+            placeholder="What's on your mind? or Type in video title & press enter for description"
             className="w-full p-4 border-none outline-none resize-none min-h-[60px] text-gray-800 placeholder-gray-500 rounded-lg"
             style={{ overflow: 'hidden' }}
             spellCheck={true}
@@ -129,8 +129,8 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
         {/* Helper Text */}
         <div className="mt-2 text-sm text-blue-100">
           {!isMultiLine && (
-            <span className="flex items-center gap-2">
-              💡 Type your title on one line, then press Enter to add description
+            <span className="text-xs text-blue-200">
+              Need help? Visit socialswiftai.com/help for detailed guidance
             </span>
           )}
           {isMultiLine && (
