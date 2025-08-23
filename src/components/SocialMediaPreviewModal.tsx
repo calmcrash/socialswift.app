@@ -174,19 +174,19 @@ const SocialMediaPreviewModal: React.FC<SocialMediaPreviewModalProps> = ({
   );
 
   const renderYouTubePreview = () => (
-    <div className="bg-white rounded-lg shadow-lg max-w-[720px] w-full mx-2 sm:mx-4">
-      {/* YouTube Video Player */}
+    <div className="bg-white rounded-lg shadow-lg max-w-[640px] w-full mx-2 sm:mx-4">
+      {/* YouTube Video Player - Smaller */}
       <div className="relative bg-black">
         <video 
           src={media.preview} 
           controls 
-          className="w-full max-h-[405px]"
+          className="w-full max-h-[360px]"
         />
       </div>
 
       {/* YouTube Content */}
       <div className="p-4">
-        <div className="mb-3">
+        <div className="mb-2">
           <textarea
             ref={textareaRef}
             value={caption}
@@ -196,19 +196,35 @@ const SocialMediaPreviewModal: React.FC<SocialMediaPreviewModalProps> = ({
           />
         </div>
 
-      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center mb-4">
           <div className="text-[14px] text-[#606060]">
-            120K views • 3 days ago
+            views • time ago
           </div>
         </div>
 
-        <div className="flex items-center">
-          <div className="w-10 h-10 bg-gray-300 rounded-full mr-3"></div>
+        <div className="flex items-start">
+          <div className="w-10 h-10 bg-gray-300 rounded-full mr-3 mt-1"></div>
           <div className="flex-1">
-            <div className="font-semibold text-[14px] text-[#0f0f0f]">Your Channel</div>
-            <div className="text-[12px] text-[#606060]">485K subscribers</div>
+            <div className="font-semibold text-[14px] text-[#0f0f0f] mb-1">Your Channel</div>
+            <div className="text-[12px] text-[#606060] mb-3">subscribers</div>
+            
+            {/* Description Area */}
+            <div className="text-[14px] text-[#0f0f0f] leading-5">
+              <div className="max-h-[60px] overflow-hidden">
+                {caption && (
+                  <div className="whitespace-pre-wrap">
+                    {caption.split('\n').slice(1).join('\n')}
+                  </div>
+                )}
+                {!caption && (
+                  <div className="text-[#606060] italic">
+                    Description will appear here...
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
-          <button className="bg-[#cc0000] text-white px-4 py-2 rounded-full text-[14px] font-medium">
+          <button className="bg-[#cc0000] text-white px-4 py-2 rounded-full text-[14px] font-medium ml-4">
             Subscribe
           </button>
         </div>
