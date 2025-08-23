@@ -126,31 +126,7 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
           />
         </div>
         
-        {/* Helper Text */}
-        <div className="mt-2 text-sm text-blue-100">
-          {!isMultiLine && (
-            <span className="text-xs text-blue-200">
-              Need help? Visit socialswiftai.com/help for detailed guidance
-            </span>
-          )}
-          {isMultiLine && (
-            <div className="flex flex-wrap items-center gap-4">
-              <span className="flex items-center gap-1">
-                ✅ Title + Description format detected
-              </span>
-              {description && (
-                <span className="bg-blue-400 bg-opacity-30 px-2 py-1 rounded text-xs">
-                  Preview shows {visibleWordCount} of {totalWordCount} words
-                </span>
-              )}
-              {description && totalWordCount > visibleWordCount && (
-                <span className="text-yellow-200 text-xs">
-                                          ⚠️ Put your most important keywords in the first {PREVIEW_WORD_LIMIT} words!
-                </span>
-              )}
-            </div>
-          )}
-        </div>
+
 
         {/* Live Preview */}
         {isMultiLine && (
@@ -172,7 +148,17 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
                 {/* Mock Video Thumbnail - Fixed aspect ratio */}
                 {media ? (
                   <div className="relative bg-gray-800 rounded-lg aspect-video overflow-hidden max-h-48">
-                    {media.type === 'image' ? (
+                    
+                    {/* Preview Stats */}
+                    <div className="flex flex-wrap gap-4 text-xs text-gray-400 pt-2 border-t border-white/10">
+                      <span>👁️ Visible: {visibleWordCount} words</span>
+                      <span>📝 Total: {totalWordCount} words</span>
+                      {totalWordCount > visibleWordCount && (
+                        <span className="text-yellow-300">
+                          ⚠️ {totalWordCount - visibleWordCount} words truncated
+                        </span>
+                      )}
+                    </div>{media.type === 'image' ? (
                       <img 
                         src={media.preview} 
                         alt="Media preview"
@@ -227,16 +213,7 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
                       </button>
                     )}
                     
-                    {/* Preview Stats */}
-                    <div className="flex flex-wrap gap-4 text-xs text-gray-400 pt-2 border-t border-white/10">
-                      <span>👁️ Visible: {visibleWordCount} words</span>
-                      <span>📝 Total: {totalWordCount} words</span>
-                      {totalWordCount > visibleWordCount && (
-                        <span className="text-yellow-300">
-                          ⚠️ {totalWordCount - visibleWordCount} words truncated
-                        </span>
-                      )}
-                    </div>
+
                   </div>
                 )}
               </div>
@@ -268,8 +245,6 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
         onConnectPlatform={handleConnectPlatform}
       />
 
-
-    
       <div className="flex justify-end pt-2">
         <button
           type="submit"
