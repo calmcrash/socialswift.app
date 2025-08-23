@@ -112,15 +112,15 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
         Connect to platforms
       </h3>
 
-      <div className="space-y-4">
-        {/* First row of platforms with improved spacing */}
-        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-x-3 gap-y-3 justify-items-stretch px-0 md:px-6">
+      <div className="space-y-3">
+        {/* First row of platforms with consistent spacing */}
+        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3 justify-items-stretch px-0 md:px-6">
           {sortedPlatforms.slice(0, firstRowCount).map(renderPlatformButton)}
         </div>
 
-        {/* Chevron below first 6 icons */}
+        {/* Chevron below first 6 icons with consistent spacing */}
         {sortedPlatforms.length > chevronPosition && !isExpanded && (
-          <div className="flex justify-center mt-8">
+          <div className="flex justify-center">
             <button
               onClick={() => setIsExpanded(true)}
               className="flex items-center justify-center w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 hover:bg-white/15 transition-all duration-200 group"
@@ -132,15 +132,15 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
 
         {/* Remaining platforms when expanded */}
         {isExpanded && (
-          <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-x-3 gap-y-3 justify-items-stretch px-0 md:px-6">
+          <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3 justify-items-stretch px-0 md:px-6">
             {sortedPlatforms.slice(firstRowCount).map(renderPlatformButton)}
             {renderAddMoreButton()}
           </div>
         )}
 
-        {/* Chevron to collapse when expanded */}
+        {/* Chevron to collapse when expanded with consistent spacing */}
         {isExpanded && (
-          <div className="flex justify-center mt-8">
+          <div className="flex justify-center">
             <button
               onClick={() => setIsExpanded(false)}
               className="flex items-center justify-center w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 hover:bg-white/15 transition-all duration-200 group"
