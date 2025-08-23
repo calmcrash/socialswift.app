@@ -267,20 +267,7 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
         onConnectPlatform={handleConnectPlatform}
       />
 
-      {/* Pro Tips Section */}
-      {isMultiLine && description && (
-        <div className="bg-blue-500/20 backdrop-blur-sm rounded-lg p-4 border border-blue-400/30">
-          <h4 className="font-medium text-blue-100 mb-2 flex items-center gap-2">
-            💡 Pro Tips for Better Reach
-          </h4>
-          <ul className="text-sm text-blue-100 space-y-1">
-            <li>• Put your most important keywords in the first {PREVIEW_WORD_LIMIT} words</li>
-            <li>• Use action words and emotional triggers early in your description</li>
-            <li>• Include relevant hashtags within the visible preview text</li>
-            <li>• Ask questions or create hooks in the first line to encourage expansion</li>
-          </ul>
-        </div>
-      )}
+
     
       <div className="flex justify-end pt-2">
         <button
