@@ -68,7 +68,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
       }
       className={cn(
         "relative flex flex-col items-center justify-center p-2 rounded-lg transition-all duration-200",
-        // NUCLEAR FIX: EXACT FIXED SIZING - NO FLEXIBILITY AT ALL
+        // KEEP THE NUCLEAR SIZING - IT WORKS!
         "flex-shrink-0 flex-grow-0",
         platform.connected
           ? selectedPlatforms.includes(platform.id)
@@ -133,8 +133,8 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
       </h3>
 
       <div className="space-y-3">
-        {/* NUCLEAR FIX: FLEXBOX WITH FIXED SPACING */}
-        <div className="flex flex-wrap gap-4 justify-center">
+        {/* RESTORED GRID BUT WITH NUCLEAR BUTTON SIZING */}
+        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-4 justify-items-center">
           {sortedPlatforms.slice(0, firstRowCount).map(renderPlatformButton)}
         </div>
 
@@ -150,9 +150,9 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
           </div>
         )}
 
-        {/* NUCLEAR FIX: FLEXBOX FOR REMAINING PLATFORMS */}
+        {/* RESTORED GRID FOR REMAINING PLATFORMS */}
         {isExpanded && (
-          <div className="flex flex-wrap gap-4 justify-center">
+          <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-4 justify-items-center">
             {sortedPlatforms.slice(firstRowCount).map(renderPlatformButton)}
             {renderAddMoreButton()}
           </div>
