@@ -59,48 +59,53 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
   };
 
   const renderPlatformButton = (platform: Platform) => (
-    <button
-      key={platform.id}
-      onClick={() =>
-        platform.connected
-          ? onTogglePlatform(platform.id)
-          : handleConnectClick(platform)
-      }
-      className={cn(
-        "relative flex flex-col items-center justify-center w-20 h-20 p-2 rounded-lg transition-all duration-200",
-        platform.connected
-          ? selectedPlatforms.includes(platform.id)
-            ? "bg-white border-2 border-blue-500"
-            : "bg-white border border-gray-200 hover:border-blue-500"
-          : "bg-white border border-gray-200 opacity-80 hover:opacity-100"
-      )}
-    >
-      <div className="relative">
-        <PlatformIcon name={platform.icon} className="h-8 w-8 text-gray-700" />
-        {!platform.connected && (
-          <div className="absolute -bottom-1 -right-1 bg-gray-100 rounded-full p-0.5">
-            <Link className="h-3 w-3 text-gray-600" />
-          </div>
+    <div key={platform.id} className="flex justify-center">
+      <button
+        onClick={() =>
+          platform.connected
+            ? onTogglePlatform(platform.id)
+            : handleConnectClick(platform)
+        }
+        className={cn(
+          "relative flex flex-col items-center justify-center p-2 rounded-lg transition-all duration-200",
+          // FIXED: Consistent sizing for all buttons
+          "w-20 h-20 min-w-[80px] min-h-[80px] max-w-[80px] max-h-[80px]",
+          platform.connected
+            ? selectedPlatforms.includes(platform.id)
+              ? "bg-white border-2 border-blue-500"
+              : "bg-white border border-gray-200 hover:border-blue-500"
+            : "bg-white border border-gray-200 opacity-80 hover:opacity-100"
         )}
-        {platform.connected && selectedPlatforms.includes(platform.id) && (
-          <div className="absolute -top-1 -right-1 bg-blue-500 rounded-full p-0.5">
-            <Check className="h-3 w-3 text-white" />
-          </div>
-        )}
-      </div>
-      <span className="text-xs mt-1 text-center text-gray-800 line-clamp-1">
-        {platform.name}
-      </span>
-    </button>
+      >
+        <div className="relative">
+          <PlatformIcon name={platform.icon} className="h-8 w-8 text-gray-700" />
+          {!platform.connected && (
+            <div className="absolute -bottom-1 -right-1 bg-gray-100 rounded-full p-0.5">
+              <Link className="h-3 w-3 text-gray-600" />
+            </div>
+          )}
+          {platform.connected && selectedPlatforms.includes(platform.id) && (
+            <div className="absolute -top-1 -right-1 bg-blue-500 rounded-full p-0.5">
+              <Check className="h-3 w-3 text-white" />
+            </div>
+          )}
+        </div>
+        <span className="text-xs mt-1 text-center text-gray-800 line-clamp-1 max-w-full overflow-hidden text-ellipsis">
+          {platform.name}
+        </span>
+      </button>
+    </div>
   );
 
   const renderAddMoreButton = () => (
-    <button className="flex flex-col items-center justify-center w-20 h-20 p-2 rounded-lg bg-white border border-gray-200 hover:border-blue-500 transition-all duration-200">
-      <div className="bg-gray-100 rounded-full p-2">
-        <Plus className="h-4 w-4 text-gray-600" />
-      </div>
-      <span className="text-xs mt-1 text-gray-800">Add More</span>
-    </button>
+    <div className="flex justify-center">
+      <button className="relative flex flex-col items-center justify-center p-2 rounded-lg bg-white border border-gray-200 hover:border-blue-500 transition-all duration-200 w-20 h-20 min-w-[80px] min-h-[80px] max-w-[80px] max-h-[80px]">
+        <div className="bg-gray-100 rounded-full p-2">
+          <Plus className="h-4 w-4 text-gray-600" />
+        </div>
+        <span className="text-xs mt-1 text-gray-800">Add More</span>
+      </button>
+    </div>
   );
 
   // Chevron should appear after 6 icons
@@ -113,8 +118,14 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
       </h3>
 
       <div className="space-y-3">
-        {/* First row of platforms with consistent spacing */}
-<div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-x-2 gap-y-3 justify-items-stretch px-0 md:px-4">
+        {/* FIXED: First row with consistent grid and centering */}
+        <div 
+          className="grid gap-x-4 gap-y-3 justify-items-center"
+          style={{
+            gridTemplateColumns: `repeat(${Math.min(sortedPlatforms.length, firstRowCount)}, 1fr)`,
+            maxWidth: '100%'
+          }}
+        >
           {sortedPlatforms.slice(0, firstRowCount).map(renderPlatformButton)}
         </div>
 
@@ -130,9 +141,15 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
           </div>
         )}
 
-        {/* Remaining platforms when expanded */}
+        {/* FIXED: Remaining platforms when expanded with consistent grid */}
         {isExpanded && (
-          <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-x-2 gap-y-3 justify-items-stretch px-0 md:px-4">
+          <div 
+            className="grid gap-x-4 gap-y-3 justify-items-center"
+            style={{
+              gridTemplateColumns: `repeat(${Math.min(sortedPlatforms.slice(firstRowCount).length + 1, firstRowCount)}, 1fr)`,
+              maxWidth: '100%'
+            }}
+          >
             {sortedPlatforms.slice(firstRowCount).map(renderPlatformButton)}
             {renderAddMoreButton()}
           </div>
