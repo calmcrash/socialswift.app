@@ -219,8 +219,8 @@ const SocialMediaPreviewModal: React.FC<SocialMediaPreviewModalProps> = ({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-75 z-50 flex flex-col items-center justify-start p-4 pt-8 pb-8 overflow-y-auto">
       <div ref={modalRef} className="relative max-w-[720px] w-full">
-        {/* Top Bar */}
-      <div className="flex items-center justify-between mb-4 px-6 sm:px-2">
+        {/* Top Bar - Fixed mobile alignment */}
+        <div className="flex items-center justify-between mb-4 px-2 sm:px-2">
           <div className="flex items-center">
             <span className="text-white font-medium">Preview Post</span>
           </div>
