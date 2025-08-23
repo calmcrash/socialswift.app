@@ -35,24 +35,28 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
     return 12; // Default to desktop
   };
 
-  // MOBILE NUCLEAR FIX: Responsive grid template to match item counts
-  const getGridTemplate = () => {
+  // FINAL FIX: Get the exact container width needed
+  const getContainerWidth = () => {
     if (typeof window !== 'undefined') {
-      return window.innerWidth < 768 
-        ? 'repeat(4, 80px)'   // 4 columns on mobile (matches 4 items)
-        : 'repeat(12, 80px)'; // 12 columns on desktop (matches 12 items)
+      if (window.innerWidth < 768) {
+        // Mobile: 4 × 80px + 3 × 16px gaps = 368px
+        return '368px';
+      } else {
+        // Desktop: 12 × 80px + 11 × 16px gaps = 1136px
+        return '1136px';
+      }
     }
-    return 'repeat(12, 80px)'; // Default to desktop
+    return '1136px'; // Default to desktop
   };
 
   const [firstRowCount, setFirstRowCount] = useState(getFirstRowCount());
-  const [gridTemplate, setGridTemplate] = useState(getGridTemplate());
+  const [containerWidth, setContainerWidth] = useState(getContainerWidth());
 
-  // Update row count AND grid template on window resize
+  // Update row count AND container width on window resize
   useEffect(() => {
     const handleResize = () => {
       setFirstRowCount(getFirstRowCount());
-      setGridTemplate(getGridTemplate()); // CRITICAL: Update grid template too
+      setContainerWidth(getContainerWidth());
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -144,19 +148,18 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
       </h3>
 
       <div className="space-y-3">
-        {/* MOBILE NUCLEAR SOLUTION: RESPONSIVE FIXED GRID WITH EXACT PIXEL SPACING */}
-        <div 
-          className="grid justify-items-center"
-          style={{
-            // RESPONSIVE NUCLEAR GRID: Matches column count to item count
-            gridTemplateColumns: gridTemplate, // 4 cols mobile, 12 cols desktop
-            gap: '16px',
-            justifyContent: 'center',
-            maxWidth: '100%',
-            overflow: 'hidden'
-          }}
-        >
-          {sortedPlatforms.slice(0, firstRowCount).map(renderPlatformButton)}
+        {/* FINAL NUCLEAR SOLUTION: CENTERED CONTAINER WITH EXACT WIDTH */}
+        <div className="flex justify-center w-full">
+          <div 
+            className="grid gap-4"
+            style={{
+              gridTemplateColumns: `repeat(${firstRowCount}, 80px)`,
+              width: containerWidth,
+              maxWidth: '100%'
+            }}
+          >
+            {sortedPlatforms.slice(0, firstRowCount).map(renderPlatformButton)}
+          </div>
         </div>
 
         {/* Chevron below first 6 icons with consistent spacing */}
@@ -171,21 +174,20 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
           </div>
         )}
 
-        {/* RESPONSIVE FIXED GRID FOR REMAINING PLATFORMS */}
+        {/* CENTERED CONTAINER FOR REMAINING PLATFORMS */}
         {isExpanded && (
-          <div 
-            className="grid justify-items-center"
-            style={{
-              // SAME RESPONSIVE GRID STRUCTURE
-              gridTemplateColumns: gridTemplate, // Matches above grid exactly
-              gap: '16px',
-              justifyContent: 'center',
-              maxWidth: '100%',
-              overflow: 'hidden'
-            }}
-          >
-            {sortedPlatforms.slice(firstRowCount).map(renderPlatformButton)}
-            {renderAddMoreButton()}
+          <div className="flex justify-center w-full">
+            <div 
+              className="grid gap-4"
+              style={{
+                gridTemplateColumns: `repeat(${firstRowCount}, 80px)`,
+                width: containerWidth,
+                maxWidth: '100%'
+              }}
+            >
+              {sortedPlatforms.slice(firstRowCount).map(renderPlatformButton)}
+              {renderAddMoreButton()}
+            </div>
           </div>
         )}
 
