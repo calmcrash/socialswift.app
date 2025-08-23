@@ -35,12 +35,24 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
     return 12; // Default to desktop
   };
 
-  const [firstRowCount, setFirstRowCount] = useState(getFirstRowCount());
+  // MOBILE NUCLEAR FIX: Responsive grid template to match item counts
+  const getGridTemplate = () => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768 
+        ? 'repeat(4, 80px)'   // 4 columns on mobile (matches 4 items)
+        : 'repeat(12, 80px)'; // 12 columns on desktop (matches 12 items)
+    }
+    return 'repeat(12, 80px)'; // Default to desktop
+  };
 
-  // Update row count on window resize
+  const [firstRowCount, setFirstRowCount] = useState(getFirstRowCount());
+  const [gridTemplate, setGridTemplate] = useState(getGridTemplate());
+
+  // Update row count AND grid template on window resize
   useEffect(() => {
     const handleResize = () => {
       setFirstRowCount(getFirstRowCount());
+      setGridTemplate(getGridTemplate()); // CRITICAL: Update grid template too
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -132,12 +144,12 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
       </h3>
 
       <div className="space-y-3">
-        {/* FINAL NUCLEAR SOLUTION: FIXED GRID WITH EXACT PIXEL SPACING */}
+        {/* MOBILE NUCLEAR SOLUTION: RESPONSIVE FIXED GRID WITH EXACT PIXEL SPACING */}
         <div 
           className="grid justify-items-center"
           style={{
-            // HARDCODED GRID: Each column is exactly 80px + 16px gap
-            gridTemplateColumns: 'repeat(12, 80px)',
+            // RESPONSIVE NUCLEAR GRID: Matches column count to item count
+            gridTemplateColumns: gridTemplate, // 4 cols mobile, 12 cols desktop
             gap: '16px',
             justifyContent: 'center',
             maxWidth: '100%',
@@ -159,13 +171,13 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
           </div>
         )}
 
-        {/* FIXED GRID FOR REMAINING PLATFORMS */}
+        {/* RESPONSIVE FIXED GRID FOR REMAINING PLATFORMS */}
         {isExpanded && (
           <div 
             className="grid justify-items-center"
             style={{
-              // SAME EXACT GRID STRUCTURE
-              gridTemplateColumns: 'repeat(12, 80px)',
+              // SAME RESPONSIVE GRID STRUCTURE
+              gridTemplateColumns: gridTemplate, // Matches above grid exactly
               gap: '16px',
               justifyContent: 'center',
               maxWidth: '100%',
