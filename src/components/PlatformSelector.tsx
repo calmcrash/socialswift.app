@@ -151,13 +151,13 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
       </h3>
 
       <div className="space-y-3">
-        {/* FINAL NUCLEAR SOLUTION: CENTERED CONTAINER WITH EXACT WIDTH */}
+        {/* FINAL NUCLEAR SOLUTION: CENTERED CONTAINER WITH RESPONSIVE SIZING */}
         <div className="flex justify-center w-full">
           <div 
-            className="grid gap-4"
+            className="grid"
             style={{
-              gridTemplateColumns: `repeat(${firstRowCount}, 80px)`,
-              width: containerWidth,
+              gridTemplateColumns: `repeat(${firstRowCount}, ${buttonSize}px)`,
+              gap: `${gridGap}px`,
               maxWidth: '100%'
             }}
           >
@@ -181,10 +181,10 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
         {isExpanded && (
           <div className="flex justify-center w-full">
             <div 
-              className="grid gap-4"
+              className="grid"
               style={{
-                gridTemplateColumns: `repeat(${firstRowCount}, 80px)`,
-                width: containerWidth,
+                gridTemplateColumns: `repeat(${firstRowCount}, ${buttonSize}px)`,
+                gap: `${gridGap}px`,
                 maxWidth: '100%'
               }}
             >
