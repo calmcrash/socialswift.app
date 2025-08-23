@@ -21,9 +21,9 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Constants for preview limits
-  const PREVIEW_CHAR_LIMIT = 125;
-  const PREVIEW_WORD_LIMIT = 20;
+  // Constants for preview limits (YouTube allows more)
+  const PREVIEW_CHAR_LIMIT = 200; // YouTube shows ~200 chars before truncation
+  const PREVIEW_WORD_LIMIT = 35;  // About 35-40 words typically visible
 
   // Parse title and description
   const lines = caption.split('\n');
@@ -145,7 +145,7 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
               )}
               {description && totalWordCount > visibleWordCount && (
                 <span className="text-yellow-200 text-xs">
-                  ⚠️ {totalWordCount - visibleWordCount} words hidden - front-load key terms!
+                                          ⚠️ Put your most important keywords in the first {PREVIEW_WORD_LIMIT} words!
                 </span>
               )}
             </div>
@@ -168,10 +168,10 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
             </div>
             
             {showPreview && (
-              <div className="space-y-4">
-                {/* Mock Video Thumbnail */}
+              <div className="space-y-3 max-h-96 overflow-hidden">
+                {/* Mock Video Thumbnail - Fixed aspect ratio */}
                 {media ? (
-                  <div className="relative bg-gray-800 rounded-lg aspect-video overflow-hidden">
+                  <div className="relative bg-gray-800 rounded-lg aspect-video overflow-hidden max-h-48">
                     {media.type === 'image' ? (
                       <img 
                         src={media.preview} 
@@ -186,15 +186,15 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
                       />
                     )}
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-white text-4xl opacity-80">▶️</div>
+                      <div className="text-white text-3xl opacity-80">▶️</div>
                     </div>
                     <div className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
                       3:45
                     </div>
                   </div>
                 ) : (
-                  <div className="relative bg-gray-800 rounded-lg aspect-video flex items-center justify-center">
-                    <div className="text-white text-4xl opacity-60">📹</div>
+                  <div className="relative bg-gray-800 rounded-lg aspect-video flex items-center justify-center max-h-48">
+                    <div className="text-white text-3xl opacity-60">📹</div>
                     <div className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
                       Upload video
                     </div>
@@ -203,33 +203,34 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
                 
                 {/* Title */}
                 <div>
-                  <h4 className="font-semibold text-white text-lg leading-tight">
+                  <h4 className="font-bold text-white text-base leading-tight line-clamp-2">
                     {title || 'Your title will appear here...'}
                   </h4>
                 </div>
                 
-                {/* Description Preview */}
+                {/* Description Preview - YouTube style */}
                 {description && (
                   <div className="space-y-2">
                     <div className="text-gray-200 text-sm leading-relaxed">
-                      {isDescriptionExpanded ? description : previewText}
+                      <p className={isDescriptionExpanded ? '' : 'line-clamp-3'}>
+                        {isDescriptionExpanded ? description : previewText}
+                      </p>
                     </div>
                     
                     {totalWordCount > visibleWordCount && (
                       <button
                         type="button"
                         onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
-                        className="text-blue-300 text-sm font-medium hover:text-blue-100 transition-colors"
+                        className="text-blue-300 text-sm font-medium hover:text-blue-100 transition-colors uppercase"
                       >
-                        {isDescriptionExpanded ? 'Show less' : 'Show more'}
+                        {isDescriptionExpanded ? 'Show less' : '...more'}
                       </button>
                     )}
                     
                     {/* Preview Stats */}
-                    <div className="flex flex-wrap gap-4 text-xs text-gray-300 pt-2 border-t border-white/10">
+                    <div className="flex flex-wrap gap-4 text-xs text-gray-400 pt-2 border-t border-white/10">
                       <span>👁️ Visible: {visibleWordCount} words</span>
                       <span>📝 Total: {totalWordCount} words</span>
-                      <span>✂️ Preview: ~{PREVIEW_CHAR_LIMIT} chars</span>
                       {totalWordCount > visibleWordCount && (
                         <span className="text-yellow-300">
                           ⚠️ {totalWordCount - visibleWordCount} words truncated
