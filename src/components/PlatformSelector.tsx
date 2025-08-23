@@ -68,8 +68,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
       }
       className={cn(
         "relative flex flex-col items-center justify-center p-2 rounded-lg transition-all duration-200",
-        // KEEP THE NUCLEAR SIZING - IT WORKS!
-        "flex-shrink-0 flex-grow-0",
+        "flex-shrink-0 flex-grow-0", // NUCLEAR: NO FLEXIBILITY
         platform.connected
           ? selectedPlatforms.includes(platform.id)
             ? "bg-white border-2 border-blue-500"
@@ -133,8 +132,18 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
       </h3>
 
       <div className="space-y-3">
-        {/* RESTORED GRID BUT WITH NUCLEAR BUTTON SIZING */}
-        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-4 justify-items-center">
+        {/* FINAL NUCLEAR SOLUTION: FIXED GRID WITH EXACT PIXEL SPACING */}
+        <div 
+          className="grid justify-items-center"
+          style={{
+            // HARDCODED GRID: Each column is exactly 80px + 16px gap
+            gridTemplateColumns: 'repeat(12, 80px)',
+            gap: '16px',
+            justifyContent: 'center',
+            maxWidth: '100%',
+            overflow: 'hidden'
+          }}
+        >
           {sortedPlatforms.slice(0, firstRowCount).map(renderPlatformButton)}
         </div>
 
@@ -150,9 +159,19 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
           </div>
         )}
 
-        {/* RESTORED GRID FOR REMAINING PLATFORMS */}
+        {/* FIXED GRID FOR REMAINING PLATFORMS */}
         {isExpanded && (
-          <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-4 justify-items-center">
+          <div 
+            className="grid justify-items-center"
+            style={{
+              // SAME EXACT GRID STRUCTURE
+              gridTemplateColumns: 'repeat(12, 80px)',
+              gap: '16px',
+              justifyContent: 'center',
+              maxWidth: '100%',
+              overflow: 'hidden'
+            }}
+          >
             {sortedPlatforms.slice(firstRowCount).map(renderPlatformButton)}
             {renderAddMoreButton()}
           </div>
