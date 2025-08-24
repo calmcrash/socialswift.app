@@ -150,8 +150,9 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
         Connect to platforms
       </h3>
 
-      <div className="space-y-3">
-        {/* FINAL NUCLEAR SOLUTION: CENTERED CONTAINER WITH RESPONSIVE SIZING */}
+      {/* FIXED: Single container with consistent spacing */}
+      <div className="space-y-4">
+        {/* First row - always visible */}
         <div className="flex justify-center w-full">
           <div 
             className="grid"
@@ -165,7 +166,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
           </div>
         </div>
 
-        {/* Chevron below first 6 icons with consistent spacing */}
+        {/* Chevron below first 6 icons - only show if there are more platforms */}
         {sortedPlatforms.length > chevronPosition && !isExpanded && (
           <div className="flex justify-center">
             <button
@@ -177,7 +178,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
           </div>
         )}
 
-        {/* CENTERED CONTAINER FOR REMAINING PLATFORMS */}
+        {/* Expanded rows - same spacing as first row */}
         {isExpanded && (
           <div className="flex justify-center w-full">
             <div 
@@ -194,7 +195,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
           </div>
         )}
 
-        {/* Chevron to collapse when expanded with consistent spacing */}
+        {/* Collapse chevron when expanded */}
         {isExpanded && (
           <div className="flex justify-center">
             <button
