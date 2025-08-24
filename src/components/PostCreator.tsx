@@ -76,7 +76,6 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
           Write your caption
         </label>
         
-        {/* Smart Text Input */}
         <div className="mt-2 bg-white rounded-lg border border-gray-200 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-shadow duration-200">
           <textarea
             ref={textareaRef}
@@ -91,94 +90,6 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
             autoCorrect="on"
           />
         </div>
-
-        {/* Live Preview - ALWAYS SHOWS when multiline, no toggle button */}
-        {isMultiLine && (
-          <div className="mt-4 bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
-            <div className="mb-3">
-              <h3 className="font-semibold text-white">Live Preview</h3>
-            </div>
-            
-            <div className="space-y-3 max-h-96 overflow-hidden">
-              {/* Mock Video Thumbnail - Fixed aspect ratio */}
-              {media ? (
-                <div className="relative bg-gray-800 rounded-lg aspect-video overflow-hidden max-h-48">
-                  {media.type === 'image' ? (
-                    <img 
-                      src={media.preview} 
-                      alt="Media preview"
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <video 
-                      src={media.preview}
-                      className="w-full h-full object-cover"
-                      muted
-                    />
-                  )}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-white text-3xl opacity-80">▶️</div>
-                  </div>
-                  <div className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
-                    3:45
-                  </div>
-                </div>
-              ) : (
-                <div className="relative bg-gray-800 rounded-lg aspect-video flex items-center justify-center max-h-48">
-                  <div className="text-white text-3xl opacity-60">📹</div>
-                  <div className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
-                    Upload video
-                  </div>
-                </div>
-              )}">
-                  <div className="text-white text-3xl opacity-60">📹</div>
-                  <div className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
-                    Upload video
-                  </div>
-                </div>
-              )}
-              
-              {/* Title */}
-              <div>
-                <h4 className="font-bold text-white text-base leading-tight line-clamp-2">
-                  {title || 'Your title will appear here...'}
-                </h4>
-              </div>
-              
-              {/* Description Preview - YouTube style */}
-              {description && (
-                <div className="space-y-2">
-                  <div className="text-gray-200 text-sm leading-relaxed">
-                    <p className={isDescriptionExpanded ? '' : 'line-clamp-3'}>
-                      {isDescriptionExpanded ? description : previewText}
-                    </p>
-                  </div>
-                  
-                  {totalWordCount > visibleWordCount && (
-                    <button
-                      type="button"
-                      onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
-                      className="text-blue-300 text-sm font-medium hover:text-blue-100 transition-colors uppercase"
-                    >
-                      {isDescriptionExpanded ? 'Show less' : '...more'}
-                    </button>
-                  )}
-                  
-                  {/* Preview Stats */}
-                  <div className="flex flex-wrap gap-4 text-xs text-gray-400 pt-2 border-t border-white/10">
-                    <span>👁️ Visible: {visibleWordCount} words</span>
-                    <span>📝 Total: {totalWordCount} words</span>
-                    {totalWordCount > visibleWordCount && (
-                      <span className="text-yellow-300">
-                        ⚠️ {totalWordCount - visibleWordCount} words truncated
-                      </span>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
       </div>
 
       <SEOOptimizer caption={caption} />
