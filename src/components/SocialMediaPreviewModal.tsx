@@ -173,64 +173,74 @@ const SocialMediaPreviewModal: React.FC<SocialMediaPreviewModalProps> = ({
     </div>
   );
 
-  const renderYouTubePreview = () => (
-    <div className="bg-white rounded-lg shadow-lg max-w-[640px] w-full mx-2 sm:mx-4">
-      {/* YouTube Video Player - Smaller */}
-      <div className="relative bg-black">
-        <video 
-          src={media.preview} 
-          controls 
-          className="w-full max-h-[360px]"
-        />
-      </div>
+  const renderYouTubePreview = () => {
+    const lines = caption.split('\n');
+    const title = lines[0] || '';
+    const description = lines.slice(1).join('\n');
+    
+    return (
+      <div className="bg-white rounded-lg shadow-lg max-w-[640px] w-full mx-2 sm:mx-4">
+        {/* YouTube Video Player - Smaller */}
+        <div className="relative bg-black">
+          <video 
+            src={media.preview} 
+            controls 
+            className="w-full max-h-[360px]"
+          />
+        </div>
 
-      {/* YouTube Content */}
-      <div className="p-4">
-        <div className="mb-2">
+        {/* YouTube Content */}
+        <div className="p-4">
+          <div className="mb-2">
+            <div className="text-[20px] font-semibold text-[#0f0f0f] leading-6 min-h-[24px]">
+              {title || 'Video title'}
+            </div>
+          </div>
+
+          <div className="flex items-center mb-4">
+            <div className="text-[14px] text-[#606060]">
+              views • time ago
+            </div>
+          </div>
+
+          <div className="flex items-start">
+            <div className="w-10 h-10 bg-gray-300 rounded-full mr-3 mt-1"></div>
+            <div className="flex-1">
+              <div className="font-semibold text-[14px] text-[#0f0f0f] mb-1">Your Channel</div>
+              <div className="text-[12px] text-[#606060] mb-3">subscribers</div>
+              
+              {/* Description Area */}
+              <div className="text-[14px] text-[#0f0f0f] leading-5">
+                <div className="max-h-[60px] overflow-hidden">
+                  {description ? (
+                    <div className="whitespace-pre-wrap">
+                      {description}
+                    </div>
+                  ) : (
+                    <div className="text-[#606060] italic">
+                      Description will appear here...
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            <button className="bg-[#cc0000] text-white px-4 py-2 rounded-full text-[14px] font-medium ml-4">
+              Subscribe
+            </button>
+          </div>
+          
+          {/* Hidden textarea for editing */}
           <textarea
             ref={textareaRef}
             value={caption}
             onChange={(e) => onCaptionChange(e.target.value)}
-            placeholder="Video title"
-            className="w-full text-[20px] font-semibold text-[#0f0f0f] resize-none border-none outline-none bg-transparent leading-6 min-h-[24px]"
+            placeholder="Video title&#10;Description goes here..."
+            className="absolute opacity-0 pointer-events-none"
           />
         </div>
-
-        <div className="flex items-center mb-4">
-          <div className="text-[14px] text-[#606060]">
-            views • time ago
-          </div>
-        </div>
-
-        <div className="flex items-start">
-          <div className="w-10 h-10 bg-gray-300 rounded-full mr-3 mt-1"></div>
-          <div className="flex-1">
-            <div className="font-semibold text-[14px] text-[#0f0f0f] mb-1">Your Channel</div>
-            <div className="text-[12px] text-[#606060] mb-3">subscribers</div>
-            
-            {/* Description Area */}
-            <div className="text-[14px] text-[#0f0f0f] leading-5">
-              <div className="max-h-[60px] overflow-hidden">
-                {caption && (
-                  <div className="whitespace-pre-wrap">
-                    {caption.split('\n').slice(1).join('\n')}
-                  </div>
-                )}
-                {!caption && (
-                  <div className="text-[#606060] italic">
-                    Description will appear here...
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-          <button className="bg-[#cc0000] text-white px-4 py-2 rounded-full text-[14px] font-medium ml-4">
-            Subscribe
-          </button>
-        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-75 z-50 flex flex-col items-center justify-start p-4 pt-8 pb-8 overflow-y-auto">
