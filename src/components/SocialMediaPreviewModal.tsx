@@ -174,13 +174,19 @@ const SocialMediaPreviewModal: React.FC<SocialMediaPreviewModalProps> = ({
   );
 
   const renderYouTubePreview = () => {
+    const [showFullDescription, setShowFullDescription] = useState(false);
     const lines = caption.split('\n');
     const title = lines[0] || '';
     const description = lines.slice(1).join('\n');
     
+    // YouTube desktop specs: ~2 lines visible, ~125-130 chars before "Show more"
+    const DESCRIPTION_CHAR_LIMIT = 125;
+    const shouldShowMore = description.length > DESCRIPTION_CHAR_LIMIT;
+    const displayDescription = showFullDescription ? description : description.substring(0, DESCRIPTION_CHAR_LIMIT);
+    
     return (
       <div className="bg-white rounded-lg shadow-lg max-w-[640px] w-full mx-2 sm:mx-4">
-        {/* YouTube Video Player - Smaller */}
+        {/* YouTube Video Player */}
         <div className="relative bg-black">
           <video 
             src={media.preview} 
@@ -189,42 +195,72 @@ const SocialMediaPreviewModal: React.FC<SocialMediaPreviewModalProps> = ({
           />
         </div>
 
-        {/* YouTube Content */}
+        {/* YouTube Content - Exact Desktop Layout */}
         <div className="p-4">
+          {/* Title */}
           <div className="mb-2">
-            <div className="text-[20px] font-semibold text-[#0f0f0f] leading-6 min-h-[24px]">
+            <h1 className="text-[20px] font-medium text-[#0f0f0f] leading-[26px] font-roboto tracking-tight">
               {title || 'Video title'}
-            </div>
+            </h1>
           </div>
 
+          {/* Views and Date */}
           <div className="flex items-center mb-4">
-            <div className="text-[14px] text-[#606060]">
+            <span className="text-[14px] text-[#606060] font-roboto">
               views • time ago
-            </div>
+            </span>
           </div>
 
-          <div className="flex items-start">
-            <div className="w-10 h-10 bg-gray-300 rounded-full mr-3 mt-1"></div>
-            <div className="flex-1">
-              <div className="font-semibold text-[14px] text-[#0f0f0f] mb-1">Your Channel</div>
-              <div className="text-[12px] text-[#606060] mb-3">subscribers</div>
-              
-              {/* Description Area */}
-              <div className="text-[14px] text-[#0f0f0f] leading-5">
-                <div className="max-h-[60px] overflow-hidden">
-                  {description ? (
-                    <div className="whitespace-pre-wrap">
-                      {description}
-                    </div>
-                  ) : (
-                    <div className="text-[#606060] italic">
-                      Description will appear here...
-                    </div>
-                  )}
-                </div>
+          {/* Channel Info and Description */}
+          <div className="flex items-start gap-3">
+            {/* Channel Avatar */}
+            <div className="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0"></div>
+            
+            <div className="flex-1 min-w-0">
+              {/* Channel Name and Subscribers */}
+              <div className="mb-1">
+                <h3 className="text-[14px] font-medium text-[#0f0f0f] font-roboto">Your Channel</h3>
+                <p className="text-[12px] text-[#606060] font-roboto">subscribers</p>
               </div>
+              
+              {/* Description - Exact YouTube Desktop Style */}
+              {description && (
+                <div className="mt-3">
+                  <div className="text-[14px] text-[#0f0f0f] font-roboto leading-[20px]">
+                    <div 
+                      className={`${!showFullDescription ? 'line-clamp-2' : ''} whitespace-pre-wrap break-words`}
+                      style={{
+                        maxHeight: !showFullDescription ? '40px' : 'none', // 2 lines * 20px line-height
+                        overflow: !showFullDescription ? 'hidden' : 'visible'
+                      }}
+                    >
+                      {displayDescription}
+                      {shouldShowMore && !showFullDescription && '...'}
+                    </div>
+                    
+                    {/* Show more/Show less button - Exact YouTube style */}
+                    {shouldShowMore && (
+                      <button
+                        onClick={() => setShowFullDescription(!showFullDescription)}
+                        className="text-[14px] font-medium text-[#606060] hover:text-[#0f0f0f] mt-1 uppercase tracking-wide font-roboto transition-colors"
+                        style={{ fontSize: '12px', fontWeight: '500', letterSpacing: '0.5px' }}
+                      >
+                        {showFullDescription ? 'SHOW LESS' : 'SHOW MORE'}
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
+              
+              {!description && (
+                <div className="mt-3 text-[14px] text-[#606060] italic font-roboto">
+                  Description will appear here...
+                </div>
+              )}
             </div>
-            <button className="bg-[#cc0000] text-white px-4 py-2 rounded-full text-[14px] font-medium ml-4">
+            
+            {/* Subscribe Button */}
+            <button className="bg-[#cc0000] hover:bg-[#aa0000] text-white px-4 py-2 rounded-full text-[14px] font-medium font-roboto transition-colors flex-shrink-0">
               Subscribe
             </button>
           </div>
