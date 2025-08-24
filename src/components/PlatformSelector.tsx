@@ -45,9 +45,9 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
 
   const getGridGap = () => {
     if (typeof window !== 'undefined') {
-      return window.innerWidth < 768 ? 12 : 16; // Smaller gap on mobile
+      return window.innerWidth < 768 ? 12 : 20; // Smaller gap on mobile, balanced gap on desktop
     }
-    return 16;
+    return 20;
   };
 
   const [firstRowCount, setFirstRowCount] = useState(getFirstRowCount());
