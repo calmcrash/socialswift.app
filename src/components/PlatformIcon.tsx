@@ -44,6 +44,7 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
   
   // Normalize platform name for consistent file naming
   const normalizePlatformName = (platformName: string): string => {
+    if (!platformName || typeof platformName !== 'string') return '';
     return platformName
       .toLowerCase()
       .replace(/[^a-z0-9]/g, '-') // Replace non-alphanumeric with hyphens
@@ -53,6 +54,8 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
 
   // Alternative naming patterns to try
   const getAlternativeNames = (originalName: string): string[] => {
+    if (!originalName || typeof originalName !== 'string') return ['fallback'];
+    
     const normalized = normalizePlatformName(originalName);
     const alternatives = [
       originalName.toLowerCase(), // Try exact lowercase first
