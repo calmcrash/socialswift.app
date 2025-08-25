@@ -152,21 +152,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
             </div>
           )}
 
-          {/* Platform type badge */}
-          <div className={cn(
-            "absolute -top-1 -left-1 text-xs px-1 rounded-full text-white font-medium",
-            platform.type === 'social' && "bg-blue-500",
-            platform.type === 'professional' && "bg-green-500",
-            platform.type === 'video' && "bg-red-500",
-            platform.type === 'creative' && "bg-purple-500",
-            platform.type === 'messaging' && "bg-orange-500",
-            platform.type === 'community' && "bg-indigo-500",
-            platform.type === 'blogging' && "bg-gray-500",
-            platform.type === 'streaming' && "bg-pink-500",
-            !['social', 'professional', 'video', 'creative', 'messaging', 'community', 'blogging', 'streaming'].includes(platform.type) && "bg-gray-400"
-          )}>
-            {platform.type.charAt(0).toUpperCase()}
-          </div>
+          {/* Platform type badge - REMOVED */}
         </div>
         
         <span className="text-xs mt-1 text-center text-gray-800 line-clamp-1 max-w-full overflow-hidden text-ellipsis">
