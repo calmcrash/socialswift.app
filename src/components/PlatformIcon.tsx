@@ -14,7 +14,7 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({ name, className }) => {
   const formats = ['svg', 'png', 'jpg', 'jpeg'];
   
   const getIconPath = (format: string) => {
-    return `/src/assets/icons/${name}.${format}`;
+    return `/icons/${name}.${format}`;
   };
 
   const handleImageError = () => {
