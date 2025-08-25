@@ -14,6 +14,13 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
   fallbackBg = "bg-gray-200",
   fallbackTextColor = "text-gray-600"
 }) => {
+  const [currentFormat, setCurrentFormat] = useState(0);
+  const [hasError, setHasError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  // Fallback formats in order of preference
+  const formats = ['svg', 'png', 'jpg', 'jpeg', 'webp'];
+  
   // Early return if name is undefined or invalid
   if (!name || typeof name !== 'string' || name.trim() === '') {
     const FallbackIcon = () => (
@@ -35,109 +42,42 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
     );
     return <FallbackIcon />;
   }
-  const [currentFormat, setCurrentFormat] = useState(0);
-  const [hasError, setHasError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  
-  // Fallback formats in order of preference
-  const formats = ['svg', 'png', 'jpg', 'jpeg', 'webp'];
-  
-  // Normalize platform name for consistent file naming
-  const normalizePlatformName = (platformName: string): string => {
-    if (!platformName || typeof platformName !== 'string') return '';
-    return platformName
-      .toLowerCase()
-      .replace(/[^a-z0-9]/g, '-') // Replace non-alphanumeric with hyphens
-      .replace(/-+/g, '-') // Replace multiple hyphens with single hyphen
-      .replace(/^-|-$/g, ''); // Remove leading/trailing hyphens
-  };
 
-  // Alternative naming patterns to try
+  const [currentNameIndex, setCurrentNameIndex] = useState(0);
+
+  // Simple and safe alternative naming patterns
   const getAlternativeNames = (originalName: string): string[] => {
-    if (!originalName || typeof originalName !== 'string') return ['fallback'];
-    
-    const normalized = normalizePlatformName(originalName);
-    const alternatives = [
-      originalName.toLowerCase(), // Try exact lowercase first
-      normalized,
-      originalName.toLowerCase().replace(/\s+/g, ''),
-      originalName.toLowerCase().replace(/\s+/g, '-'),
-      originalName.toLowerCase().replace(/\s+/g, '_'),
-      originalName, // Try original case
-    ];
-
-    // Add specific platform name mappings
-    const nameMap: Record<string, string[]> = {
-      'twitter': ['twitter', 'x', 'x-twitter'],
-      'x': ['x', 'twitter', 'x-twitter'],
-      'x-twitter': ['x-twitter', 'twitter', 'x'],
-      'facebook-pages': ['facebook-pages', 'facebook', 'fb-pages'],
-      'facebook-personal': ['facebook-personal', 'facebook', 'fb-personal'],
-      'instagram-personal': ['instagram-personal', 'instagram', 'ig-personal'],
-      'instagram-professional': ['instagram-professional', 'instagram', 'ig-professional'],
-      'linkedin-company': ['linkedin-company', 'linkedin', 'linkedin-business'],
-      'linkedin-personal': ['linkedin-personal', 'linkedin', 'linkedin-profile'],
-      'youtube': ['youtube', 'yt'],
-      'tiktok': ['tiktok', 'tik-tok'],
-      'whatsapp-business': ['whatsapp-business', 'whatsapp', 'wa-business'],
-      'google-business-profile': ['google-business-profile', 'google-business', 'google-my-business', 'gmb'],
-      'xiaohongshu-red': ['xiaohongshu-red', 'xiaohongshu', 'red', 'little-red-book'],
-      '9gag': ['9gag', 'ninegag'],
-      '9gag-tv': ['9gag-tv', '9gag_tv', 'ninegag-tv'],
-      'wordpress-com': ['wordpress-com', 'wordpress', 'wp'],
-      'dev-to': ['dev-to', 'devto', 'dev'],
-      'ko-fi': ['ko-fi', 'kofi'],
-      'mx-takatak': ['mx-takatak', 'mx-taka-tak', 'takatak'],
-      // Handle numeric prefixes specifically
-      '9gag tv': ['9gag', '9gag-tv', '9gag_tv'],
-      'alignable': ['alignable'],
-      'amino': ['amino'],
-      'angellist': ['angellist', 'angel-list'],
-      'artstation': ['artstation', 'art-station'],
-      'behance': ['behance'],
-      'bilibili': ['bilibili'],
-      'bitchute': ['bitchute', 'bit-chute'],
-      'bitclout': ['bitclout', 'bit-clout'],
-      'blogger': ['blogger'],
-      'bluesky': ['bluesky', 'blue-sky'],
-      'caffeine': ['caffeine'],
-      'clapper': ['clapper'],
-      'dailymotion': ['dailymotion', 'daily-motion'],
-      'deso': ['deso', 'deso-protocol'],
-      'devto': ['devto', 'dev-to', 'dev'],
-      'deviantart': ['deviantart', 'deviant-art'],
-      'discord': ['discord'],
-      'dlive': ['dlive', 'd-live'],
-      'douyin': ['douyin'],
-      'dribbble': ['dribbble'],
-    };
-
-    // Check if the original name (lowercase) has a specific mapping
-    const lowerOriginal = originalName.toLowerCase();
-    if (nameMap[lowerOriginal]) {
-      return [...nameMap[lowerOriginal], ...alternatives];
+    try {
+      if (!originalName) return ['fallback'];
+      
+      const safeName = String(originalName).trim();
+      if (!safeName) return ['fallback'];
+      
+      return [
+        safeName.toLowerCase(),
+        safeName.toLowerCase().replace(/\s+/g, '-'),
+        safeName.toLowerCase().replace(/\s+/g, '_'),
+        safeName.toLowerCase().replace(/[^a-z0-9]/g, ''),
+        safeName.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, ''),
+        safeName
+      ].filter(Boolean);
+    } catch (e) {
+      return ['fallback'];
     }
-    
-    if (nameMap[normalized]) {
-      return [...nameMap[normalized], ...alternatives];
-    }
-
-    return [...new Set(alternatives)]; // Remove duplicates
   };
 
   const [alternativeNames] = useState(() => getAlternativeNames(name));
-  const [currentNameIndex, setCurrentNameIndex] = useState(0);
 
   const getIconPath = (nameTry: string, format: string): string => {
     return `/icons/${nameTry}.${format}`;
   };
 
   const handleImageError = () => {
-    const currentPath = getIconPath(alternativeNames[currentNameIndex], formats[currentFormat]);
+    const currentPath = getIconPath(alternativeNames[currentNameIndex] || 'fallback', formats[currentFormat] || 'svg');
     console.log(`❌ Failed to load: ${currentPath}`);
     
     if (currentFormat < formats.length - 1) {
-      // Try next format with current name
+      // Try next format
       setCurrentFormat(currentFormat + 1);
     } else if (currentNameIndex < alternativeNames.length - 1) {
       // Try next alternative name, reset format to first
@@ -154,8 +94,8 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
   };
 
   const handleImageLoad = () => {
-    // Image loaded successfully, reset states
-    const successPath = getIconPath(alternativeNames[currentNameIndex], formats[currentFormat]);
+    // Image loaded successfully
+    const successPath = getIconPath(alternativeNames[currentNameIndex] || 'fallback', formats[currentFormat] || 'svg');
     console.log(`✅ Successfully loaded: ${successPath}`);
     setHasError(false);
     setIsLoading(false);
@@ -169,23 +109,19 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
     setIsLoading(true);
   }, [name]);
 
-  // Generate fallback text (first letter or first two letters for better recognition)
+  // Generate fallback text
   const getFallbackText = (platformName: string): string => {
-    if (!platformName || typeof platformName !== 'string') return '?';
-    
-    const cleaned = platformName.replace(/[^a-zA-Z0-9]/g, '');
-    if (cleaned.length === 0) return '?';
-    if (cleaned.length === 1) return cleaned.charAt(0).toUpperCase();
-    
-    // For better recognition, use first two characters for some platforms
-    const twoCharPlatforms = ['qq', 'vk', 'mx', 'ai'];
-    const normalizedName = cleaned.toLowerCase();
-    
-    if (normalizedName && twoCharPlatforms.some(prefix => normalizedName.startsWith(prefix))) {
-      return cleaned.substring(0, 2).toUpperCase();
+    try {
+      if (!platformName || typeof platformName !== 'string') return '?';
+      
+      const cleaned = String(platformName).replace(/[^a-zA-Z0-9]/g, '');
+      if (cleaned.length === 0) return '?';
+      if (cleaned.length === 1) return cleaned.charAt(0).toUpperCase();
+      
+      return cleaned.charAt(0).toUpperCase();
+    } catch (e) {
+      return '?';
     }
-    
-    return cleaned.charAt(0).toUpperCase();
   };
 
   // Fallback icon when no image is found
@@ -229,7 +165,7 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
       <>
         <LoadingIcon />
         <img
-          src={getIconPath(alternativeNames[currentNameIndex], formats[currentFormat])}
+          src={getIconPath(alternativeNames[currentNameIndex] || 'fallback', formats[currentFormat] || 'svg')}
           alt={`${name} icon`}
           className={cn("object-contain absolute opacity-0", className)}
           onError={handleImageError}
@@ -242,7 +178,7 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
 
   return (
     <img
-      src={getIconPath(alternativeNames[currentNameIndex], formats[currentFormat])}
+      src={getIconPath(alternativeNames[currentNameIndex] || 'fallback', formats[currentFormat] || 'svg')}
       alt={`${name} icon`}
       className={cn("object-contain", className)}
       onError={handleImageError}
