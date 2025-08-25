@@ -1,23 +1,24 @@
 export interface Platform {
   name: string;
   icon: string;
-  type: 'social' | 'professional' | 'messaging' | 'video' | 'blogging' | 'community' | 'audio' | 'newsletter' | 'streaming' | 'marketplace';
-  category: 'mainstream' | 'business' | 'creative' | 'tech' | 'niche';
+  type: 'social' | 'professional' | 'messaging' | 'video' | 'blogging' | 'community' | 'audio' | 'newsletter' | 'streaming' | 'marketplace' | 'creative' | 'dating' | 'lifestyle';
+  category: 'mainstream' | 'business' | 'creative' | 'tech' | 'niche' | 'regional' | 'emerging' | 'web3';
   hashtags: {
     supported: boolean;
     min: number;
     max: number;
     optimal: number;
-    style: 'professional' | 'casual' | 'trending' | 'niche' | 'creative' | 'community' | 'none';
-    placement: 'caption' | 'description' | 'tags' | 'comments' | 'title' | 'none';
+    style: 'professional' | 'casual' | 'trending' | 'niche' | 'creative' | 'community' | 'none' | 'branded' | 'technical';
+    placement: 'caption' | 'description' | 'tags' | 'comments' | 'title' | 'none' | 'end' | 'inline';
     notes: string;
   };
 }
 
 export const platforms: Platform[] = [
+  // A-B Platforms
   {
     name: 'Alignable',
-    icon: '/icons/alignable.svg',
+    icon: '/icons/alignable.png',
     type: 'professional',
     category: 'business',
     hashtags: {
@@ -28,6 +29,21 @@ export const platforms: Platform[] = [
       style: 'professional',
       placement: 'caption',
       notes: 'Focus on local business and networking hashtags. Industry-specific tags perform best.'
+    }
+  },
+  {
+    name: 'Amino',
+    icon: '/icons/amino.png',
+    type: 'community',
+    category: 'niche',
+    hashtags: {
+      supported: true,
+      min: 2,
+      max: 10,
+      optimal: 5,
+      style: 'community',
+      placement: 'caption',
+      notes: 'Community-specific hashtags are crucial. Focus on fandom and interest-based tags.'
     }
   },
   {
@@ -42,7 +58,22 @@ export const platforms: Platform[] = [
       optimal: 3,
       style: 'professional',
       placement: 'description',
-      notes: 'Startup and investment focused hashtags. Tech industry tags are highly effective.'
+      notes: 'Startup, investment, and tech industry hashtags. Focus on funding stages and sectors.'
+    }
+  },
+  {
+    name: 'ArtStation',
+    icon: '/icons/artstation.svg',
+    type: 'creative',
+    category: 'creative',
+    hashtags: {
+      supported: true,
+      min: 3,
+      max: 15,
+      optimal: 8,
+      style: 'creative',
+      placement: 'tags',
+      notes: 'Art style, medium, and technique tags. Industry and software-specific hashtags work well.'
     }
   },
   {
@@ -54,47 +85,184 @@ export const platforms: Platform[] = [
       supported: true,
       min: 3,
       max: 20,
-      optimal: 8,
+      optimal: 10,
       style: 'creative',
       placement: 'tags',
-      notes: 'Creative industry hashtags are essential. Mix broad art tags with specific technique tags.'
+      notes: 'Design categories, tools, and style hashtags. Industry and client-type tags are effective.'
     }
   },
   {
-    name: 'Bluesky',
+    name: 'Bilibili',
+    icon: '/icons/bilibili.png',
+    type: 'video',
+    category: 'regional',
+    hashtags: {
+      supported: true,
+      min: 2,
+      max: 10,
+      optimal: 5,
+      style: 'trending',
+      placement: 'title',
+      notes: 'Chinese platform. Trending topics and anime/gaming tags perform best. Use Chinese characters.'
+    }
+  },
+  {
+    name: 'BitChute',
+    icon: '/icons/bitchute.png',
+    type: 'video',
+    category: 'niche',
+    hashtags: {
+      supported: true,
+      min: 1,
+      max: 8,
+      optimal: 4,
+      style: 'niche',
+      placement: 'description',
+      notes: 'Alternative content platform. Focus on niche communities and specific topics.'
+    }
+  },
+  {
+    name: 'BitClout',
+    icon: '/icons/bitclout.png',
+    type: 'social',
+    category: 'web3',
+    hashtags: {
+      supported: true,
+      min: 1,
+      max: 5,
+      optimal: 3,
+      style: 'trending',
+      placement: 'caption',
+      notes: 'Crypto and blockchain hashtags. Focus on DeFi, NFT, and Web3 topics.'
+    }
+  },
+  {
+    name: 'Blogger',
+    icon: '/icons/blogger.svg',
+    type: 'blogging',
+    category: 'mainstream',
+    hashtags: {
+      supported: true,
+      min: 3,
+      max: 20,
+      optimal: 8,
+      style: 'niche',
+      placement: 'tags',
+      notes: 'SEO-focused hashtags. Use long-tail keywords and topic clusters for better discovery.'
+    }
+  },
+  {
+    name: 'BlueSky',
     icon: '/icons/bluesky.svg',
     type: 'social',
+    category: 'emerging',
+    hashtags: {
+      supported: true,
+      min: 1,
+      max: 5,
+      optimal: 3,
+      style: 'casual',
+      placement: 'caption',
+      notes: 'Similar to Twitter. Keep hashtags minimal and relevant. Community-building focus.'
+    }
+  },
+
+  // C-D Platforms
+  {
+    name: 'Caffeine',
+    icon: '/icons/caffeine.png',
+    type: 'streaming',
+    category: 'niche',
+    hashtags: {
+      supported: true,
+      min: 1,
+      max: 5,
+      optimal: 3,
+      style: 'trending',
+      placement: 'title',
+      notes: 'Gaming and esports focused. Use game-specific and streaming hashtags.'
+    }
+  },
+  {
+    name: 'Clapper',
+    icon: '/icons/clapper.png',
+    type: 'video',
+    category: 'emerging',
+    hashtags: {
+      supported: true,
+      min: 3,
+      max: 10,
+      optimal: 6,
+      style: 'trending',
+      placement: 'caption',
+      notes: 'TikTok alternative. Focus on trending challenges and music-related hashtags.'
+    }
+  },
+  {
+    name: 'Dailymotion',
+    icon: '/icons/dailymotion.svg',
+    type: 'video',
+    category: 'mainstream',
+    hashtags: {
+      supported: true,
+      min: 2,
+      max: 10,
+      optimal: 5,
+      style: 'niche',
+      placement: 'tags',
+      notes: 'European focus. Use location-based and language-specific hashtags for better reach.'
+    }
+  },
+  {
+    name: 'DeSo Protocol',
+    icon: '/icons/deso.png',
+    type: 'social',
+    category: 'web3',
+    hashtags: {
+      supported: true,
+      min: 1,
+      max: 5,
+      optimal: 3,
+      style: 'technical',
+      placement: 'caption',
+      notes: 'Web3 and blockchain social platform. Focus on crypto, DeFi, and decentralization topics.'
+    }
+  },
+  {
+    name: 'Dev.to',
+    icon: '/icons/dev.svg',
+    type: 'community',
     category: 'tech',
     hashtags: {
       supported: true,
       min: 1,
-      max: 3,
-      optimal: 2,
-      style: 'casual',
-      placement: 'caption',
-      notes: 'Twitter-like hashtag usage. Focus on community and topical hashtags rather than promotional.'
+      max: 4,
+      optimal: 3,
+      style: 'technical',
+      placement: 'tags',
+      notes: 'Developer community. Programming languages, frameworks, and tech concepts work best.'
     }
   },
   {
-    name: 'Clubhouse',
-    icon: '/icons/clubhouse.svg',
-    type: 'audio',
-    category: 'niche',
+    name: 'DeviantArt',
+    icon: '/icons/deviantart.svg',
+    type: 'creative',
+    category: 'creative',
     hashtags: {
-      supported: false,
-      min: 0,
-      max: 0,
-      optimal: 0,
-      style: 'none',
-      placement: 'none',
-      notes: 'Audio-first platform does not use hashtags. Focus on room titles and descriptions instead.'
+      supported: true,
+      min: 3,
+      max: 30,
+      optimal: 15,
+      style: 'creative',
+      placement: 'tags',
+      notes: 'Art-focused platform. Use medium, style, fandom, and technique-specific hashtags.'
     }
   },
   {
     name: 'Discord',
     icon: '/icons/discord.svg',
-    type: 'messaging',
-    category: 'tech',
+    type: 'community',
+    category: 'mainstream',
     hashtags: {
       supported: false,
       min: 0,
@@ -102,7 +270,37 @@ export const platforms: Platform[] = [
       optimal: 0,
       style: 'none',
       placement: 'none',
-      notes: 'Uses channels and servers instead of hashtags. Community-focused messaging platform.'
+      notes: 'No traditional hashtags. Focus on channel names and server discovery instead.'
+    }
+  },
+  {
+    name: 'DLive',
+    icon: '/icons/dlive.png',
+    type: 'streaming',
+    category: 'niche',
+    hashtags: {
+      supported: true,
+      min: 1,
+      max: 5,
+      optimal: 3,
+      style: 'trending',
+      placement: 'title',
+      notes: 'Blockchain streaming platform. Gaming, crypto, and streaming hashtags perform well.'
+    }
+  },
+  {
+    name: 'Douyin',
+    icon: '/icons/douyin.png',
+    type: 'video',
+    category: 'regional',
+    hashtags: {
+      supported: true,
+      min: 2,
+      max: 5,
+      optimal: 4,
+      style: 'trending',
+      placement: 'caption',
+      notes: 'Chinese TikTok. Use Chinese characters and trending challenges. Focus on local trends.'
     }
   },
   {
@@ -117,44 +315,91 @@ export const platforms: Platform[] = [
       optimal: 10,
       style: 'creative',
       placement: 'tags',
-      notes: 'Design-specific hashtags are crucial. Mix technique tags with industry and style tags.'
+      notes: 'Design community. UI/UX, branding, and design tool hashtags are most effective.'
+    }
+  },
+
+  // E-G Platforms
+  {
+    name: 'Ello',
+    icon: '/icons/ello.png',
+    type: 'creative',
+    category: 'niche',
+    hashtags: {
+      supported: true,
+      min: 2,
+      max: 10,
+      optimal: 5,
+      style: 'creative',
+      placement: 'caption',
+      notes: 'Artist-focused platform. Creative categories and artistic movements work best.'
     }
   },
   {
-    name: 'Facebook',
+    name: 'Eventbrite',
+    icon: '/icons/eventbrite.svg',
+    type: 'marketplace',
+    category: 'business',
+    hashtags: {
+      supported: true,
+      min: 2,
+      max: 10,
+      optimal: 5,
+      style: 'professional',
+      placement: 'description',
+      notes: 'Event discovery platform. Location, event type, and industry hashtags are crucial.'
+    }
+  },
+  {
+    name: 'Facebook Pages',
     icon: '/icons/facebook.svg',
     type: 'social',
     category: 'mainstream',
     hashtags: {
       supported: true,
       min: 1,
-      max: 10,
-      optimal: 3,
+      max: 3,
+      optimal: 2,
+      style: 'branded',
+      placement: 'caption',
+      notes: 'Minimal hashtag strategy. Focus on branded and location-based hashtags for business pages.'
+    }
+  },
+  {
+    name: 'Facebook Personal',
+    icon: '/icons/facebook.svg',
+    type: 'social',
+    category: 'mainstream',
+    hashtags: {
+      supported: true,
+      min: 0,
+      max: 2,
+      optimal: 1,
       style: 'casual',
       placement: 'caption',
-      notes: '2025 update: Facebook reduced hashtag effectiveness. Focus on 1-3 highly relevant hashtags only.'
+      notes: 'Hashtags less important. Focus on meaningful content and personal connections.'
     }
   },
   {
     name: 'Farcaster',
-    icon: '/icons/farcaster.svg',
+    icon: '/icons/farcaster.png',
     type: 'social',
-    category: 'tech',
+    category: 'web3',
     hashtags: {
       supported: true,
       min: 1,
       max: 5,
-      optimal: 2,
-      style: 'niche',
+      optimal: 3,
+      style: 'technical',
       placement: 'caption',
-      notes: 'Web3 social network. Crypto and tech hashtags perform best. Community-driven tagging.'
+      notes: 'Web3 social protocol. Crypto, blockchain, and tech innovation hashtags work best.'
     }
   },
   {
     name: 'Flickr',
     icon: '/icons/flickr.svg',
     type: 'creative',
-    category: 'creative',
+    category: 'niche',
     hashtags: {
       supported: true,
       min: 5,
@@ -162,22 +407,52 @@ export const platforms: Platform[] = [
       optimal: 20,
       style: 'creative',
       placement: 'tags',
-      notes: 'Photo-centric platform with extensive tagging system. Mix location, technique, and subject tags.'
+      notes: 'Photography platform. Camera, technique, location, and subject hashtags are essential.'
     }
   },
   {
-    name: 'GitHub',
-    icon: '/icons/github.svg',
-    type: 'professional',
-    category: 'tech',
+    name: 'Gab',
+    icon: '/icons/gab.png',
+    type: 'social',
+    category: 'niche',
     hashtags: {
       supported: true,
       min: 1,
-      max: 20,
+      max: 5,
+      optimal: 3,
+      style: 'niche',
+      placement: 'caption',
+      notes: 'Alternative social platform. Political and free speech hashtags are common.'
+    }
+  },
+  {
+    name: 'Gettr',
+    icon: '/icons/gettr.png',
+    type: 'social',
+    category: 'niche',
+    hashtags: {
+      supported: true,
+      min: 1,
+      max: 5,
+      optimal: 3,
+      style: 'trending',
+      placement: 'caption',
+      notes: 'Twitter alternative. News, politics, and current events hashtags perform well.'
+    }
+  },
+  {
+    name: 'Glass',
+    icon: '/icons/glass.png',
+    type: 'creative',
+    category: 'emerging',
+    hashtags: {
+      supported: true,
+      min: 2,
+      max: 10,
       optimal: 5,
-      style: 'professional',
-      placement: 'tags',
-      notes: 'Uses topics instead of hashtags. Focus on programming languages and project types.'
+      style: 'creative',
+      placement: 'caption',
+      notes: 'Photography-focused platform. Artistic and technique-based hashtags work best.'
     }
   },
   {
@@ -186,17 +461,17 @@ export const platforms: Platform[] = [
     type: 'community',
     category: 'niche',
     hashtags: {
-      supported: true,
-      min: 2,
-      max: 15,
-      optimal: 8,
-      style: 'niche',
-      placement: 'tags',
-      notes: 'Book genres and themes work best. Mix popular genres with specific sub-genres.'
+      supported: false,
+      min: 0,
+      max: 0,
+      optimal: 0,
+      style: 'none',
+      placement: 'none',
+      notes: 'Book platform without hashtags. Focus on genres, book clubs, and reading challenges.'
     }
   },
   {
-    name: 'Google My Business',
+    name: 'Google Business Profile',
     icon: '/icons/google-business.svg',
     type: 'professional',
     category: 'business',
@@ -207,89 +482,46 @@ export const platforms: Platform[] = [
       optimal: 0,
       style: 'none',
       placement: 'none',
-      notes: 'Business listing platform. Focus on categories, keywords, and local SEO instead of hashtags.'
+      notes: 'No hashtags. Focus on location keywords, business categories, and local SEO.'
     }
   },
+
+  // H-K Platforms
   {
-    name: 'Instagram',
-    icon: '/icons/instagram.svg',
-    type: 'social',
-    category: 'mainstream',
-    hashtags: {
-      supported: true,
-      min: 1,
-      max: 30,
-      optimal: 5,
-      style: 'trending',
-      placement: 'caption',
-      notes: '2025 update: Instagram algorithm favors 3-5 highly relevant hashtags over 30. Quality over quantity.'
-    }
-  },
-  {
-    name: 'KakaoTalk',
-    icon: '/icons/kakaotalk.svg',
-    type: 'messaging',
-    category: 'niche',
-    hashtags: {
-      supported: false,
-      min: 0,
-      max: 0,
-      optimal: 0,
-      style: 'none',
-      placement: 'none',
-      notes: 'Messaging app popular in Korea. Does not use hashtags in traditional posts.'
-    }
-  },
-  {
-    name: 'Lemon8',
-    icon: '/icons/lemon8.svg',
-    type: 'social',
-    category: 'niche',
-    hashtags: {
-      supported: true,
-      min: 3,
-      max: 15,
-      optimal: 8,
-      style: 'trending',
-      placement: 'caption',
-      notes: 'Lifestyle-focused platform. Mix trending hashtags with niche lifestyle and aesthetic tags.'
-    }
-  },
-  {
-    name: 'Lens Protocol',
-    icon: '/icons/lens.svg',
-    type: 'social',
+    name: 'Hashnode',
+    icon: '/icons/hashnode.svg',
+    type: 'blogging',
     category: 'tech',
     hashtags: {
       supported: true,
       min: 1,
-      max: 10,
-      optimal: 4,
-      style: 'niche',
-      placement: 'caption',
-      notes: 'Web3 social protocol. Crypto, NFT, and decentralized tech hashtags are most effective.'
+      max: 5,
+      optimal: 3,
+      style: 'technical',
+      placement: 'tags',
+      notes: 'Developer blogging platform. Programming languages, frameworks, and tech concepts.'
     }
   },
   {
-    name: 'Line',
-    icon: '/icons/line.svg',
-    type: 'messaging',
-    category: 'niche',
+    name: 'Hive Social',
+    icon: '/icons/hive.png',
+    type: 'social',
+    category: 'emerging',
     hashtags: {
-      supported: false,
-      min: 0,
-      max: 0,
-      optimal: 0,
-      style: 'none',
-      placement: 'none',
-      notes: 'Messaging app popular in Asia. Timeline posts support hashtags but not widely used.'
+      supported: true,
+      min: 2,
+      max: 10,
+      optimal: 5,
+      style: 'casual',
+      placement: 'caption',
+      notes: 'Growing Twitter alternative. Casual, community-focused hashtags work well.'
     }
   },
   {
-    name: 'LinkedIn',
-    icon: '/icons/linkedin.svg',
-    type: 'professional',
-    category: 'business',
+    name: 'Indie Hackers',
+    icon: '/icons/indie-hackers.png',
+    type: 'community',
+    category: 'tech',
     hashtags: {
       supported: true,
       min: 1,
@@ -297,87 +529,164 @@ export const platforms: Platform[] = [
       optimal: 3,
       style: 'professional',
       placement: 'caption',
-      notes: '2025 best practice: 3 hashtags maximum. Focus on industry-specific and professional development tags.'
+      notes: 'Entrepreneur community. Startup, business, and tech hashtags perform best.'
     }
   },
   {
-    name: 'Mastodon',
-    icon: '/icons/mastodon.svg',
+    name: 'Instagram Personal',
+    icon: '/icons/instagram.svg',
     type: 'social',
-    category: 'tech',
+    category: 'mainstream',
     hashtags: {
       supported: true,
-      min: 1,
-      max: 10,
-      optimal: 4,
-      style: 'community',
+      min: 5,
+      max: 30,
+      optimal: 15,
+      style: 'trending',
       placement: 'caption',
-      notes: 'Decentralized platform with strong hashtag culture. Community and topical hashtags are essential for discovery.'
+      notes: 'Mix of popular and niche hashtags. Research shows 20-30 hashtags maximize reach.'
     }
   },
   {
-    name: 'Medium',
-    icon: '/icons/medium.svg',
-    type: 'blogging',
-    category: 'creative',
+    name: 'Instagram Professional',
+    icon: '/icons/instagram.svg',
+    type: 'social',
+    category: 'mainstream',
     hashtags: {
       supported: true,
-      min: 1,
-      max: 5,
+      min: 8,
+      max: 30,
+      optimal: 20,
+      style: 'branded',
+      placement: 'caption',
+      notes: 'Business accounts benefit from branded hashtags mixed with trending and niche tags.'
+    }
+  },
+  {
+    name: 'Josh',
+    icon: '/icons/josh.png',
+    type: 'video',
+    category: 'regional',
+    hashtags: {
+      supported: true,
+      min: 3,
+      max: 8,
       optimal: 5,
-      style: 'professional',
-      placement: 'tags',
-      notes: 'Uses tags instead of hashtags. Focus on topic-based tags for better article discovery.'
+      style: 'trending',
+      placement: 'caption',
+      notes: 'Indian short video platform. Bollywood, cricket, and Indian culture hashtags work well.'
     }
   },
   {
-    name: 'Nextdoor',
-    icon: '/icons/nextdoor.svg',
-    type: 'community',
-    category: 'niche',
+    name: 'KakaoTalk',
+    icon: '/icons/kakaotalk.png',
+    type: 'messaging',
+    category: 'regional',
+    hashtags: {
+      supported: false,
+      min: 0,
+      max: 0,
+      optimal: 0,
+      style: 'none',
+      placement: 'none',
+      notes: 'Messaging app. No hashtags, focus on stickers and group communication.'
+    }
+  },
+  {
+    name: 'Kick',
+    icon: '/icons/kick.png',
+    type: 'streaming',
+    category: 'emerging',
     hashtags: {
       supported: true,
       min: 1,
       max: 5,
-      optimal: 2,
-      style: 'community',
-      placement: 'caption',
-      notes: 'Neighborhood-focused platform. Local community and service-related hashtags work best.'
+      optimal: 3,
+      style: 'trending',
+      placement: 'title',
+      notes: 'Twitch alternative. Gaming categories and streaming hashtags are most effective.'
     }
   },
   {
-    name: 'OnlyFans',
-    icon: '/icons/onlyfans.svg',
-    type: 'social',
+    name: 'Ko-fi',
+    icon: '/icons/kofi.png',
+    type: 'creative',
     category: 'niche',
+    hashtags: {
+      supported: true,
+      min: 2,
+      max: 10,
+      optimal: 5,
+      style: 'creative',
+      placement: 'description',
+      notes: 'Creator support platform. Art styles, commission types, and creator hashtags work.'
+    }
+  },
+  {
+    name: 'Kuaishou',
+    icon: '/icons/kuaishou.png',
+    type: 'video',
+    category: 'regional',
+    hashtags: {
+      supported: true,
+      min: 2,
+      max: 8,
+      optimal: 4,
+      style: 'trending',
+      placement: 'caption',
+      notes: 'Chinese short video platform. Local trends and Chinese culture hashtags are key.'
+    }
+  },
+  {
+    name: 'Kwai',
+    icon: '/icons/kwai.png',
+    type: 'video',
+    category: 'regional',
+    hashtags: {
+      supported: true,
+      min: 3,
+      max: 10,
+      optimal: 6,
+      style: 'trending',
+      placement: 'caption',
+      notes: 'Global short video platform. Music, dance, and lifestyle hashtags perform well.'
+    }
+  },
+
+  // L-M Platforms
+  {
+    name: 'Lemon8',
+    icon: '/icons/lemon8.png',
+    type: 'lifestyle',
+    category: 'emerging',
     hashtags: {
       supported: true,
       min: 3,
       max: 15,
       optimal: 8,
-      style: 'niche',
+      style: 'trending',
       placement: 'caption',
-      notes: 'Content creator platform. Niche and descriptive hashtags are crucial for discoverability.'
+      notes: 'ByteDance lifestyle platform. Fashion, beauty, travel, and lifestyle hashtags work best.'
     }
   },
   {
-    name: 'Pinterest',
-    icon: '/icons/pinterest.svg',
-    type: 'creative',
-    category: 'creative',
+    name: 'Lens Protocol',
+    icon: '/icons/lens.png',
+    type: 'social',
+    category: 'web3',
     hashtags: {
       supported: true,
-      min: 0,
-      max: 20,
-      optimal: 5,
-      style: 'niche',
-      placement: 'description',
-      notes: '2025 major update: Pinterest algorithm no longer prioritizes hashtags. Focus on 3-5 descriptive hashtags max.'
+      min: 1,
+      max: 5,
+      optimal: 3,
+      style: 'technical',
+      placement: 'caption',
+      notes: 'Web3 social protocol. DeFi, NFT, and blockchain development hashtags are effective.'
     }
   },
   {
-    name: 'Quora',
-    icon: '/icons/quora.svg',
+    name: 'Letterboxd',
+    icon: '/icons/letterboxd.png',
     type: 'community',
     category: 'niche',
     hashtags: {
@@ -387,7 +696,446 @@ export const platforms: Platform[] = [
       optimal: 0,
       style: 'none',
       placement: 'none',
-      notes: 'Q&A platform uses topics and spaces instead of hashtags. Focus on relevant topic selection.'
+      notes: 'Film review platform. No hashtags, focus on film titles, directors, and reviews.'
+    }
+  },
+  {
+    name: 'Likee',
+    icon: '/icons/likee.png',
+    type: 'video',
+    category: 'mainstream',
+    hashtags: {
+      supported: true,
+      min: 3,
+      max: 10,
+      optimal: 6,
+      style: 'trending',
+      placement: 'caption',
+      notes: 'Short video platform. Music, dance, comedy, and challenge hashtags are popular.'
+    }
+  },
+  {
+    name: 'LINE',
+    icon: '/icons/line.png',
+    type: 'messaging',
+    category: 'regional',
+    hashtags: {
+      supported: false,
+      min: 0,
+      max: 0,
+      optimal: 0,
+      style: 'none',
+      placement: 'none',
+      notes: 'Japanese messaging app. No hashtags, focus on stickers and timeline posts.'
+    }
+  },
+  {
+    name: 'LinkedIn Company',
+    icon: '/icons/linkedin.svg',
+    type: 'professional',
+    category: 'business',
+    hashtags: {
+      supported: true,
+      min: 2,
+      max: 5,
+      optimal: 3,
+      style: 'professional',
+      placement: 'end',
+      notes: 'Business networking. Industry, company, and thought leadership hashtags work best.'
+    }
+  },
+  {
+    name: 'LinkedIn Personal',
+    icon: '/icons/linkedin.svg',
+    type: 'professional',
+    category: 'business',
+    hashtags: {
+      supported: true,
+      min: 2,
+      max: 5,
+      optimal: 3,
+      style: 'professional',
+      placement: 'end',
+      notes: 'Professional networking. Career, industry, and skill-based hashtags are most effective.'
+    }
+  },
+  {
+    name: 'Mastodon',
+    icon: '/icons/mastodon.svg',
+    type: 'social',
+    category: 'niche',
+    hashtags: {
+      supported: true,
+      min: 1,
+      max: 5,
+      optimal: 3,
+      style: 'community',
+      placement: 'caption',
+      notes: 'Decentralized social network. Community-specific and interest-based hashtags work well.'
+    }
+  },
+  {
+    name: 'Medium',
+    icon: '/icons/medium.svg',
+    type: 'blogging',
+    category: 'mainstream',
+    hashtags: {
+      supported: true,
+      min: 3,
+      max: 5,
+      optimal: 5,
+      style: 'professional',
+      placement: 'tags',
+      notes: 'Publishing platform. Topic-specific and industry hashtags help with discoverability.'
+    }
+  },
+  {
+    name: 'Meetup',
+    icon: '/icons/meetup.svg',
+    type: 'community',
+    category: 'mainstream',
+    hashtags: {
+      supported: true,
+      min: 2,
+      max: 10,
+      optimal: 5,
+      style: 'community',
+      placement: 'description',
+      notes: 'Event organizing platform. Interest, skill, and location-based hashtags are crucial.'
+    }
+  },
+  {
+    name: 'MeWe',
+    icon: '/icons/mewe.png',
+    type: 'social',
+    category: 'niche',
+    hashtags: {
+      supported: true,
+      min: 1,
+      max: 5,
+      optimal: 3,
+      style: 'community',
+      placement: 'caption',
+      notes: 'Privacy-focused social platform. Community and interest-based hashtags work well.'
+    }
+  },
+  {
+    name: 'Minds',
+    icon: '/icons/minds.svg',
+    type: 'social',
+    category: 'niche',
+    hashtags: {
+      supported: true,
+      min: 1,
+      max: 5,
+      optimal: 3,
+      style: 'niche',
+      placement: 'caption',
+      notes: 'Decentralized social platform. Crypto rewards, use trending and crypto-related hashtags.'
+    }
+  },
+  {
+    name: 'Moj',
+    icon: '/icons/moj.png',
+    type: 'video',
+    category: 'regional',
+    hashtags: {
+      supported: true,
+      min: 3,
+      max: 10,
+      optimal: 6,
+      style: 'trending',
+      placement: 'caption',
+      notes: 'Indian short video platform. Bollywood, regional languages, and Indian trends work best.'
+    }
+  },
+  {
+    name: 'MX TakaTak',
+    icon: '/icons/mx-takatak.png',
+    type: 'video',
+    category: 'regional',
+    hashtags: {
+      supported: true,
+      min: 3,
+      max: 8,
+      optimal: 5,
+      style: 'trending',
+      placement: 'caption',
+      notes: 'Indian short video platform. Regional content and Indian pop culture hashtags are key.'
+    }
+  },
+
+  // N-P Platforms
+  {
+    name: 'Naver Band',
+    icon: '/icons/naver-band.png',
+    type: 'community',
+    category: 'regional',
+    hashtags: {
+      supported: true,
+      min: 1,
+      max: 5,
+      optimal: 3,
+      style: 'community',
+      placement: 'caption',
+      notes: 'Korean social platform. K-pop, Korean culture, and community hashtags work well.'
+    }
+  },
+  {
+    name: 'Newgrounds',
+    icon: '/icons/newgrounds.png',
+    type: 'creative',
+    category: 'niche',
+    hashtags: {
+      supported: true,
+      min: 2,
+      max: 10,
+      optimal: 5,
+      style: 'creative',
+      placement: 'tags',
+      notes: 'Creative community platform. Art styles, game genres, and animation hashtags are key.'
+    }
+  },
+  {
+    name: 'Nextdoor',
+    icon: '/icons/nextdoor.png',
+    type: 'community',
+    category: 'niche',
+    hashtags: {
+      supported: true,
+      min: 1,
+      max: 3,
+      optimal: 2,
+      style: 'community',
+      placement: 'caption',
+      notes: 'Neighborhood social network. Local events, safety, and community hashtags work best.'
+    }
+  },
+  {
+    name: '9GAG',
+    icon: '/icons/9gag.svg',
+    type: 'social',
+    category: 'mainstream',
+    hashtags: {
+      supported: true,
+      min: 2,
+      max: 8,
+      optimal: 4,
+      style: 'trending',
+      placement: 'caption',
+      notes: 'Meme platform. Trending memes, pop culture, and humor hashtags are most effective.'
+    }
+  },
+  {
+    name: '9GAG TV',
+    icon: '/icons/9gag.svg',
+    type: 'video',
+    category: 'mainstream',
+    hashtags: {
+      supported: true,
+      min: 2,
+      max: 8,
+      optimal: 4,
+      style: 'trending',
+      placement: 'caption',
+      notes: 'Video meme platform. Viral video trends and entertainment hashtags perform well.'
+    }
+  },
+  {
+    name: 'Noplace',
+    icon: '/icons/noplace.png',
+    type: 'social',
+    category: 'emerging',
+    hashtags: {
+      supported: true,
+      min: 1,
+      max: 8,
+      optimal: 4,
+      style: 'casual',
+      placement: 'caption',
+      notes: 'New social platform. Gen Z focused, use trending and lifestyle hashtags.'
+    }
+  },
+  {
+    name: 'Odnoklassniki',
+    icon: '/icons/odnoklassniki.png',
+    type: 'social',
+    category: 'regional',
+    hashtags: {
+      supported: true,
+      min: 1,
+      max: 5,
+      optimal: 3,
+      style: 'community',
+      placement: 'caption',
+      notes: 'Russian social network. Use Cyrillic hashtags, family, and local community topics.'
+    }
+  },
+  {
+    name: 'Odysee',
+    icon: '/icons/odysee.png',
+    type: 'video',
+    category: 'niche',
+    hashtags: {
+      supported: true,
+      min: 2,
+      max: 10,
+      optimal: 5,
+      style: 'niche',
+      placement: 'tags',
+      notes: 'Blockchain video platform. Tech, crypto, and alternative content hashtags work well.'
+    }
+  },
+  {
+    name: 'Parler',
+    icon: '/icons/parler.png',
+    type: 'social',
+    category: 'niche',
+    hashtags: {
+      supported: true,
+      min: 1,
+      max: 5,
+      optimal: 3,
+      style: 'niche',
+      placement: 'caption',
+      notes: 'Alternative social platform. Political and current events hashtags are common.'
+    }
+  },
+  {
+    name: 'PeerTube',
+    icon: '/icons/peertube.png',
+    type: 'video',
+    category: 'niche',
+    hashtags: {
+      supported: true,
+      min: 2,
+      max: 10,
+      optimal: 5,
+      style: 'community',
+      placement: 'tags',
+      notes: 'Decentralized video platform. Community-specific and interest-based hashtags work.'
+    }
+  },
+  {
+    name: 'Pinterest',
+    icon: '/icons/pinterest.svg',
+    type: 'creative',
+    category: 'mainstream',
+    hashtags: {
+      supported: false,
+      min: 0,
+      max: 0,
+      optimal: 0,
+      style: 'none',
+      placement: 'none',
+      notes: 'Uses keywords instead of hashtags. Focus on descriptive keywords in pin descriptions.'
+    }
+  },
+  {
+    name: 'Polywork',
+    icon: '/icons/polywork.png',
+    type: 'professional',
+    category: 'emerging',
+    hashtags: {
+      supported: true,
+      min: 1,
+      max: 5,
+      optimal: 3,
+      style: 'professional',
+      placement: 'caption',
+      notes: 'Modern professional network. Skills, achievements, and career hashtags work best.'
+    }
+  },
+  {
+    name: 'Poparazzi',
+    icon: '/icons/poparazzi.png',
+    type: 'social',
+    category: 'emerging',
+    hashtags: {
+      supported: true,
+      min: 2,
+      max: 8,
+      optimal: 4,
+      style: 'casual',
+      placement: 'caption',
+      notes: 'Photo sharing for Gen Z. Friendship, lifestyle, and moment-based hashtags work.'
+    }
+  },
+  {
+    name: 'ProductHunt',
+    icon: '/icons/producthunt.svg',
+    type: 'community',
+    category: 'tech',
+    hashtags: {
+      supported: true,
+      min: 1,
+      max: 5,
+      optimal: 3,
+      style: 'professional',
+      placement: 'description',
+      notes: 'Product discovery platform. Tech categories, startup, and innovation hashtags work.'
+    }
+  },
+
+  // Q-R Platforms
+  {
+    name: 'QQ',
+    icon: '/icons/qq.png',
+    type: 'social',
+    category: 'regional',
+    hashtags: {
+      supported: true,
+      min: 1,
+      max: 5,
+      optimal: 3,
+      style: 'casual',
+      placement: 'caption',
+      notes: 'Chinese social platform. Use simplified Chinese characters and local trends.'
+    }
+  },
+  {
+    name: 'Quora',
+    icon: '/icons/quora.svg',
+    type: 'community',
+    category: 'mainstream',
+    hashtags: {
+      supported: false,
+      min: 0,
+      max: 0,
+      optimal: 0,
+      style: 'none',
+      placement: 'none',
+      notes: 'Q&A platform without hashtags. Focus on topic following and expertise demonstration.'
+    }
+  },
+  {
+    name: 'Quora Spaces',
+    icon: '/icons/quora.svg',
+    type: 'community',
+    category: 'mainstream',
+    hashtags: {
+      supported: false,
+      min: 0,
+      max: 0,
+      optimal: 0,
+      style: 'none',
+      placement: 'none',
+      notes: 'Community feature of Quora. No hashtags, focus on space topics and expertise.'
+    }
+  },
+  {
+    name: 'Qzone',
+    icon: '/icons/qzone.png',
+    type: 'social',
+    category: 'regional',
+    hashtags: {
+      supported: true,
+      min: 1,
+      max: 8,
+      optimal: 4,
+      style: 'casual',
+      placement: 'caption',
+      notes: 'Chinese social network. Personal moments, mood, and lifestyle hashtags in Chinese.'
     }
   },
   {
@@ -402,22 +1150,54 @@ export const platforms: Platform[] = [
       optimal: 0,
       style: 'none',
       placement: 'none',
-      notes: 'Uses subreddits instead of hashtags. Community-specific posting rules vary by subreddit.'
+      notes: 'No hashtags. Focus on subreddit communities and engaging titles/content.'
     }
   },
   {
-    name: 'Signal',
-    icon: '/icons/signal.svg',
-    type: 'messaging',
-    category: 'tech',
+    name: 'Roposo',
+    icon: '/icons/roposo.png',
+    type: 'social',
+    category: 'regional',
     hashtags: {
-      supported: false,
-      min: 0,
-      max: 0,
-      optimal: 0,
-      style: 'none',
-      placement: 'none',
-      notes: 'Secure messaging app. Does not support hashtags or public posting features.'
+      supported: true,
+      min: 3,
+      max: 10,
+      optimal: 6,
+      style: 'trending',
+      placement: 'caption',
+      notes: 'Indian social platform. Regional languages, festivals, and cultural hashtags work well.'
+    }
+  },
+  {
+    name: 'Rumble',
+    icon: '/icons/rumble.png',
+    type: 'video',
+    category: 'niche',
+    hashtags: {
+      supported: true,
+      min: 2,
+      max: 8,
+      optimal: 4,
+      style: 'niche',
+      placement: 'tags',
+      notes: 'Alternative video platform. News, politics, and independent content hashtags perform well.'
+    }
+  },
+
+  // S Platforms
+  {
+    name: 'ShareChat',
+    icon: '/icons/sharechat.png',
+    type: 'social',
+    category: 'regional',
+    hashtags: {
+      supported: true,
+      min: 3,
+      max: 12,
+      optimal: 7,
+      style: 'trending',
+      placement: 'caption',
+      notes: 'Indian social platform. Regional languages, festivals, and Bollywood hashtags are key.'
     }
   },
   {
@@ -432,37 +1212,99 @@ export const platforms: Platform[] = [
       optimal: 0,
       style: 'none',
       placement: 'none',
-      notes: 'Uses geofilters and stickers instead of hashtags. Location-based discovery is key.'
+      notes: 'No traditional hashtags. Focus on location tags, filters, and Snapchat-specific features.'
+    }
+  },
+  {
+    name: 'Spotify Podcasts',
+    icon: '/icons/spotify.svg',
+    type: 'audio',
+    category: 'mainstream',
+    hashtags: {
+      supported: false,
+      min: 0,
+      max: 0,
+      optimal: 0,
+      style: 'none',
+      placement: 'none',
+      notes: 'No hashtags. Focus on podcast categories, keywords in descriptions, and SEO optimization.'
+    }
+  },
+  {
+    name: 'Spoutible',
+    icon: '/icons/spoutible.png',
+    type: 'social',
+    category: 'emerging',
+    hashtags: {
+      supported: true,
+      min: 1,
+      max: 5,
+      optimal: 3,
+      style: 'community',
+      placement: 'caption',
+      notes: 'Twitter alternative. Community-focused and civil discourse hashtags work well.'
+    }
+  },
+  {
+    name: 'Steemit',
+    icon: '/icons/steemit.png',
+    type: 'blogging',
+    category: 'web3',
+    hashtags: {
+      supported: true,
+      min: 3,
+      max: 5,
+      optimal: 5,
+      style: 'technical',
+      placement: 'tags',
+      notes: 'Blockchain blogging. Crypto earnings-based, use trending tags for maximum rewards.'
     }
   },
   {
     name: 'Substack',
     icon: '/icons/substack.svg',
     type: 'newsletter',
-    category: 'creative',
+    category: 'mainstream',
     hashtags: {
-      supported: true,
-      min: 1,
-      max: 10,
-      optimal: 5,
-      style: 'professional',
-      placement: 'tags',
-      notes: 'Newsletter platform with tagging system. Topic-based tags help with discoverability.'
+      supported: false,
+      min: 0,
+      max: 0,
+      optimal: 0,
+      style: 'none',
+      placement: 'none',
+      notes: 'Newsletter platform without hashtags. Focus on compelling titles and subscriber engagement.'
     }
   },
+
+  // T-V Platforms
   {
     name: 'Telegram',
     icon: '/icons/telegram.svg',
     type: 'messaging',
-    category: 'tech',
+    category: 'mainstream',
     hashtags: {
       supported: true,
       min: 1,
-      max: 10,
+      max: 5,
       optimal: 3,
       style: 'community',
       placement: 'caption',
-      notes: 'Hashtags work in channels and groups. Use for content organization and search within communities.'
+      notes: 'Channel posts benefit from hashtags. Use for discoverability within channels and groups.'
+    }
+  },
+  {
+    name: 'Telegram Channels',
+    icon: '/icons/telegram.svg',
+    type: 'messaging',
+    category: 'mainstream',
+    hashtags: {
+      supported: true,
+      min: 2,
+      max: 8,
+      optimal: 4,
+      style: 'community',
+      placement: 'caption',
+      notes: 'Broadcasting platform. Topic-specific hashtags help with channel discoverability.'
     }
   },
   {
@@ -474,10 +1316,10 @@ export const platforms: Platform[] = [
       supported: true,
       min: 1,
       max: 5,
-      optimal: 2,
-      style: 'casual',
+      optimal: 3,
+      style: 'trending',
       placement: 'caption',
-      notes: 'Meta\'s Twitter competitor. Trending and conversational hashtags perform best. Keep it minimal.'
+      notes: 'Meta\'s Twitter alternative. Similar to Twitter strategy - minimal, relevant hashtags.'
     }
   },
   {
@@ -488,18 +1330,48 @@ export const platforms: Platform[] = [
     hashtags: {
       supported: true,
       min: 3,
-      max: 10,
+      max: 5,
       optimal: 4,
       style: 'trending',
       placement: 'caption',
-      notes: '2025 algorithm favors 3-4 trending hashtags mixed with niche tags. Trending hashtags are crucial for FYP.'
+      notes: '2025 update: 5 hashtag limit. Mix trending and niche hashtags for best performance.'
+    }
+  },
+  {
+    name: 'Triller',
+    icon: '/icons/triller.png',
+    type: 'video',
+    category: 'niche',
+    hashtags: {
+      supported: true,
+      min: 3,
+      max: 10,
+      optimal: 6,
+      style: 'trending',
+      placement: 'caption',
+      notes: 'Music video platform. Music genres, artists, and dance challenge hashtags work best.'
+    }
+  },
+  {
+    name: 'Truth Social',
+    icon: '/icons/truth-social.png',
+    type: 'social',
+    category: 'niche',
+    hashtags: {
+      supported: true,
+      min: 1,
+      max: 5,
+      optimal: 3,
+      style: 'niche',
+      placement: 'caption',
+      notes: 'Alternative social platform. Political and current events hashtags are common.'
     }
   },
   {
     name: 'Tumblr',
     icon: '/icons/tumblr.svg',
-    type: 'blogging',
-    category: 'creative',
+    type: 'social',
+    category: 'niche',
     hashtags: {
       supported: true,
       min: 5,
@@ -507,37 +1379,37 @@ export const platforms: Platform[] = [
       optimal: 15,
       style: 'creative',
       placement: 'tags',
-      notes: 'Tag-heavy platform with unique culture. Mix popular tags with very specific niche tags for best reach.'
+      notes: 'Creative microblogging. Fandom, art, and aesthetic hashtags are crucial for discovery.'
     }
   },
   {
     name: 'Twitch',
     icon: '/icons/twitch.svg',
     type: 'streaming',
-    category: 'tech',
-    hashtags: {
-      supported: true,
-      min: 3,
-      max: 10,
-      optimal: 5,
-      style: 'niche',
-      placement: 'tags',
-      notes: 'Gaming and streaming platform. Game titles, streaming categories, and community hashtags are essential.'
-    }
-  },
-  {
-    name: 'Twitter/X',
-    icon: '/icons/twitter.svg',
-    type: 'social',
     category: 'mainstream',
     hashtags: {
       supported: true,
       min: 1,
-      max: 3,
-      optimal: 2,
+      max: 5,
+      optimal: 3,
       style: 'trending',
+      placement: 'title',
+      notes: 'Live streaming platform. Game categories and streaming hashtags in titles and descriptions.'
+    }
+  },
+  {
+    name: 'Vero',
+    icon: '/icons/vero.png',
+    type: 'social',
+    category: 'niche',
+    hashtags: {
+      supported: true,
+      min: 2,
+      max: 8,
+      optimal: 4,
+      style: 'creative',
       placement: 'caption',
-      notes: '2025 best practice: 1-2 hashtags maximum. Trending hashtags are crucial but overuse hurts engagement.'
+      notes: 'Ad-free social platform. Creative and lifestyle hashtags work well with engaged community.'
     }
   },
   {
@@ -549,32 +1421,49 @@ export const platforms: Platform[] = [
       supported: true,
       min: 3,
       max: 20,
-      optimal: 8,
+      optimal: 10,
       style: 'creative',
       placement: 'tags',
-      notes: 'Professional video platform. Creative industry and technical hashtags perform well for discoverability.'
+      notes: 'Professional video platform. Creative, technical, and industry-specific hashtags work best.'
     }
   },
   {
-    name: 'WeChat',
-    icon: '/icons/wechat.svg',
-    type: 'messaging',
-    category: 'niche',
+    name: 'VK',
+    icon: '/icons/vk.svg',
+    type: 'social',
+    category: 'regional',
     hashtags: {
       supported: true,
       min: 1,
       max: 5,
       optimal: 3,
-      style: 'casual',
+      style: 'community',
       placement: 'caption',
-      notes: 'Popular in China. Moments posts support hashtags. Cultural and lifestyle hashtags work best.'
+      notes: 'Russian social network. Use Cyrillic hashtags, local events, and Russian culture topics.'
     }
   },
   {
-    name: 'WhatsApp',
-    icon: '/icons/whatsapp.svg',
-    type: 'messaging',
-    category: 'mainstream',
+    name: 'VSCO',
+    icon: '/icons/vsco.png',
+    type: 'creative',
+    category: 'niche',
+    hashtags: {
+      supported: true,
+      min: 3,
+      max: 15,
+      optimal: 8,
+      style: 'creative',
+      placement: 'caption',
+      notes: 'Photography platform. Aesthetic, photography technique, and mood hashtags work well.'
+    }
+  },
+
+  // W-Z Platforms
+  {
+    name: 'WeChat',
+    icon: '/icons/wechat.png',
+    type: 'social',
+    category: 'regional',
     hashtags: {
       supported: false,
       min: 0,
@@ -582,14 +1471,59 @@ export const platforms: Platform[] = [
       optimal: 0,
       style: 'none',
       placement: 'none',
-      notes: 'Messaging app with Status feature. Does not use hashtags in traditional sense.'
+      notes: 'Chinese super app. No hashtags, focus on WeChat articles and mini-program content.'
+    }
+  },
+  {
+    name: 'Weibo',
+    icon: '/icons/weibo.svg',
+    type: 'social',
+    category: 'regional',
+    hashtags: {
+      supported: true,
+      min: 1,
+      max: 5,
+      optimal: 3,
+      style: 'trending',
+      placement: 'caption',
+      notes: 'Chinese microblogging. Use Chinese characters, trending topics, and cultural hashtags.'
+    }
+  },
+  {
+    name: 'WhatsApp Business',
+    icon: '/icons/whatsapp.svg',
+    type: 'messaging',
+    category: 'business',
+    hashtags: {
+      supported: false,
+      min: 0,
+      max: 0,
+      optimal: 0,
+      style: 'none',
+      placement: 'none',
+      notes: 'Business messaging app. No hashtags, focus on direct customer communication.'
+    }
+  },
+  {
+    name: 'WordPress.com',
+    icon: '/icons/wordpress.svg',
+    type: 'blogging',
+    category: 'mainstream',
+    hashtags: {
+      supported: true,
+      min: 3,
+      max: 15,
+      optimal: 8,
+      style: 'professional',
+      placement: 'tags',
+      notes: 'Blogging platform. SEO-focused hashtags and topic categories for better discoverability.'
     }
   },
   {
     name: 'XING',
-    icon: '/icons/xing.svg',
+    icon: '/icons/xing.png',
     type: 'professional',
-    category: 'business',
+    category: 'regional',
     hashtags: {
       supported: true,
       min: 1,
@@ -597,7 +1531,37 @@ export const platforms: Platform[] = [
       optimal: 3,
       style: 'professional',
       placement: 'caption',
-      notes: 'German professional network. Industry-specific and professional development hashtags are key.'
+      notes: 'European professional network. Industry, skills, and German-speaking market hashtags.'
+    }
+  },
+  {
+    name: 'X/Twitter',
+    icon: '/icons/twitter.svg',
+    type: 'social',
+    category: 'mainstream',
+    hashtags: {
+      supported: true,
+      min: 1,
+      max: 2,
+      optimal: 2,
+      style: 'trending',
+      placement: 'inline',
+      notes: '2025 best practice: 1-2 relevant hashtags max. Over-tagging reduces engagement.'
+    }
+  },
+  {
+    name: 'Xiaohongshu',
+    icon: '/icons/xiaohongshu.png',
+    type: 'lifestyle',
+    category: 'regional',
+    hashtags: {
+      supported: true,
+      min: 3,
+      max: 10,
+      optimal: 6,
+      style: 'trending',
+      placement: 'caption',
+      notes: 'Chinese lifestyle platform. Fashion, beauty, travel, and lifestyle hashtags in Chinese.'
     }
   },
   {
@@ -609,15 +1573,15 @@ export const platforms: Platform[] = [
       supported: true,
       min: 3,
       max: 15,
-      optimal: 6,
+      optimal: 8,
       style: 'niche',
       placement: 'description',
-      notes: '2025 update: YouTube hashtags in descriptions help with search. First 3 hashtags appear above video title.'
+      notes: 'Video platform. Mix broad and specific hashtags in descriptions, first 3 appear above title.'
     }
   },
   {
     name: 'Zynn',
-    icon: '/icons/zynn.svg',
+    icon: '/icons/zynn.png',
     type: 'video',
     category: 'niche',
     hashtags: {
@@ -627,54 +1591,7 @@ export const platforms: Platform[] = [
       optimal: 5,
       style: 'trending',
       placement: 'caption',
-      notes: 'Short-form video platform. Trending and challenge hashtags are essential for algorithm visibility.'
+      notes: 'TikTok alternative. Similar hashtag strategy to TikTok with trending and niche tags.'
     }
   }
 ];
-
-// Utility functions for hashtag optimization
-export const getHashtagRules = (platformName: string): Platform['hashtags'] | null => {
-  const platform = platforms.find(p => p.name.toLowerCase() === platformName.toLowerCase());
-  return platform ? platform.hashtags : null;
-};
-
-export const getOptimalHashtagCount = (platformNames: string[]): Record<string, number> => {
-  const result: Record<string, number> = {};
-  platformNames.forEach(name => {
-    const rules = getHashtagRules(name);
-    if (rules) {
-      result[name] = rules.optimal;
-    }
-  });
-  return result;
-};
-
-export const shouldUseHashtags = (platformName: string): boolean => {
-  const rules = getHashtagRules(platformName);
-  return rules ? rules.supported : false;
-};
-
-export const getHashtagsByPlatformStyle = () => {
-  const grouped: Record<string, Platform[]> = {
-    professional: [],
-    casual: [],
-    trending: [],
-    niche: [],
-    creative: [],
-    community: [],
-    none: []
-  };
-  
-  platforms.forEach(platform => {
-    grouped[platform.hashtags.style].push(platform);
-  });
-  
-  return grouped;
-};
-
-export const getPlatformsByHashtagSupport = () => {
-  return {
-    supported: platforms.filter(p => p.hashtags.supported),
-    notSupported: platforms.filter(p => !p.hashtags.supported)
-  };
-};
