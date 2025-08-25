@@ -110,6 +110,8 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
 
   // Generate fallback text (first letter or first two letters for better recognition)
   const getFallbackText = (platformName: string): string => {
+    if (!platformName || typeof platformName !== 'string') return '?';
+    
     const cleaned = platformName.replace(/[^a-zA-Z0-9]/g, '');
     if (cleaned.length === 0) return '?';
     if (cleaned.length === 1) return cleaned.charAt(0).toUpperCase();
@@ -118,7 +120,7 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
     const twoCharPlatforms = ['qq', 'vk', 'mx', 'ai'];
     const normalizedName = cleaned.toLowerCase();
     
-    if (twoCharPlatforms.some(prefix => normalizedName.startsWith(prefix))) {
+    if (normalizedName && twoCharPlatforms.some(prefix => normalizedName.startsWith(prefix))) {
       return cleaned.substring(0, 2).toUpperCase();
     }
     
