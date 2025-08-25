@@ -14,8 +14,8 @@ type PlatformSelectorProps = {
 };
 
 const PlatformSelector: React.FC<PlatformSelectorProps> = ({
-  connectedPlatforms,
-  selectedPlatforms,
+  connectedPlatforms = [], // Add default empty array
+  selectedPlatforms = [], // Add default empty array
   onTogglePlatform,
   onConnectPlatform
 }) => {
@@ -61,16 +61,20 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
 
   // Helper function to check if platform is connected
   const isPlatformConnected = (platformName: string): boolean => {
+    if (!connectedPlatforms || !Array.isArray(connectedPlatforms)) return false;
     return connectedPlatforms.some(cp => cp.name === platformName && cp.connected);
   };
 
   // Helper function to get connected platform info
   const getConnectedPlatform = (platformName: string): ConnectedPlatform | undefined => {
+    if (!connectedPlatforms || !Array.isArray(connectedPlatforms)) return undefined;
     return connectedPlatforms.find(cp => cp.name === platformName);
   };
 
   // Simple filtering - just show all platforms, sorted by connection status
   const getFilteredPlatforms = (): Platform[] => {
+    if (!platforms || !Array.isArray(platforms)) return [];
+    
     // Sort: connected first, then alphabetically
     return platforms.sort((a, b) => {
       const aConnected = isPlatformConnected(a.name);
@@ -100,7 +104,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
   const renderPlatformButton = (platform: Platform) => {
     const connected = isPlatformConnected(platform.name);
     const connectedPlatform = getConnectedPlatform(platform.name);
-    const isSelected = selectedPlatforms.includes(platform.name);
+    const isSelected = selectedPlatforms?.includes(platform.name) ?? false;
     const isEnabled = connectedPlatform?.enabled ?? true;
 
     return (
@@ -290,7 +294,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
               </p>
               
               {/* Hashtag info */}
-              {currentPlatform.hashtags.supported && (
+              {currentPlatform.hashtags?.supported && (
                 <div className="mt-4 p-3 bg-blue-50 rounded-lg">
                   <p className="text-sm text-blue-800 font-medium">
                     Hashtag Support: {currentPlatform.hashtags.optimal} optimal tags
