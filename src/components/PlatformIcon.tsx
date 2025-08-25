@@ -14,6 +14,27 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
   fallbackBg = "bg-gray-200",
   fallbackTextColor = "text-gray-600"
 }) => {
+  // Early return if name is undefined or invalid
+  if (!name || typeof name !== 'string' || name.trim() === '') {
+    const FallbackIcon = () => (
+      <div 
+        className={cn(
+          "flex items-center justify-center rounded border-2 border-dashed border-gray-300",
+          fallbackBg,
+          className
+        )}
+        title="No icon available"
+      >
+        <span className={cn(
+          "text-xs font-bold uppercase leading-none",
+          fallbackTextColor
+        )}>
+          ?
+        </span>
+      </div>
+    );
+    return <FallbackIcon />;
+  }
   const [currentFormat, setCurrentFormat] = useState(0);
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -34,11 +55,12 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
   const getAlternativeNames = (originalName: string): string[] => {
     const normalized = normalizePlatformName(originalName);
     const alternatives = [
+      originalName.toLowerCase(), // Try exact lowercase first
       normalized,
-      originalName.toLowerCase(),
       originalName.toLowerCase().replace(/\s+/g, ''),
       originalName.toLowerCase().replace(/\s+/g, '-'),
       originalName.toLowerCase().replace(/\s+/g, '_'),
+      originalName, // Try original case
     ];
 
     // Add specific platform name mappings
@@ -58,13 +80,41 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
       'google-business-profile': ['google-business-profile', 'google-business', 'google-my-business', 'gmb'],
       'xiaohongshu-red': ['xiaohongshu-red', 'xiaohongshu', 'red', 'little-red-book'],
       '9gag': ['9gag', 'ninegag'],
-      '9gag-tv': ['9gag-tv', 'ninegag-tv'],
+      '9gag-tv': ['9gag-tv', '9gag_tv', 'ninegag-tv'],
       'wordpress-com': ['wordpress-com', 'wordpress', 'wp'],
       'dev-to': ['dev-to', 'devto', 'dev'],
       'ko-fi': ['ko-fi', 'kofi'],
       'mx-takatak': ['mx-takatak', 'mx-taka-tak', 'takatak'],
+      // Handle numeric prefixes specifically
+      '9gag tv': ['9gag', '9gag-tv', '9gag_tv'],
+      'alignable': ['alignable'],
+      'amino': ['amino'],
+      'angellist': ['angellist', 'angel-list'],
+      'artstation': ['artstation', 'art-station'],
+      'behance': ['behance'],
+      'bilibili': ['bilibili'],
+      'bitchute': ['bitchute', 'bit-chute'],
+      'bitclout': ['bitclout', 'bit-clout'],
+      'blogger': ['blogger'],
+      'bluesky': ['bluesky', 'blue-sky'],
+      'caffeine': ['caffeine'],
+      'clapper': ['clapper'],
+      'dailymotion': ['dailymotion', 'daily-motion'],
+      'deso': ['deso', 'deso-protocol'],
+      'devto': ['devto', 'dev-to', 'dev'],
+      'deviantart': ['deviantart', 'deviant-art'],
+      'discord': ['discord'],
+      'dlive': ['dlive', 'd-live'],
+      'douyin': ['douyin'],
+      'dribbble': ['dribbble'],
     };
 
+    // Check if the original name (lowercase) has a specific mapping
+    const lowerOriginal = originalName.toLowerCase();
+    if (nameMap[lowerOriginal]) {
+      return [...nameMap[lowerOriginal], ...alternatives];
+    }
+    
     if (nameMap[normalized]) {
       return [...nameMap[normalized], ...alternatives];
     }
@@ -80,6 +130,9 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
   };
 
   const handleImageError = () => {
+    const currentPath = getIconPath(alternativeNames[currentNameIndex], formats[currentFormat]);
+    console.log(`❌ Failed to load: ${currentPath}`);
+    
     if (currentFormat < formats.length - 1) {
       // Try next format with current name
       setCurrentFormat(currentFormat + 1);
@@ -89,6 +142,9 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
       setCurrentFormat(0);
     } else {
       // All combinations failed, show fallback
+      console.log(`❌ All attempts failed for: ${name}`);
+      console.log(`   Tried names:`, alternativeNames);
+      console.log(`   Tried formats:`, formats);
       setHasError(true);
       setIsLoading(false);
     }
@@ -96,6 +152,8 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
 
   const handleImageLoad = () => {
     // Image loaded successfully, reset states
+    const successPath = getIconPath(alternativeNames[currentNameIndex], formats[currentFormat]);
+    console.log(`✅ Successfully loaded: ${successPath}`);
     setHasError(false);
     setIsLoading(false);
   };
