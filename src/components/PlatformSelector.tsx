@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Platform } from '../types';
+import { Platform, ConnectedPlatform } from '../types';
+import { platforms } from '../utils/platforms';
 import { Plus, Link, Check, ChevronDown, ChevronUp } from 'lucide-react';
 import { cn } from '../utils/cn';
 import Modal from './Modal';
 import PlatformIcon from './PlatformIcon';
 
 type PlatformSelectorProps = {
-  platforms: Platform[];
+  connectedPlatforms: ConnectedPlatform[];
   selectedPlatforms: string[];
-  onTogglePlatform: (platformId: string) => void;
-  onConnectPlatform: (platformId: string) => void;
+  onTogglePlatform: (platformName: string) => void;
+  onConnectPlatform: (platformName: string) => void;
 };
 
 const PlatformSelector: React.FC<PlatformSelectorProps> = ({
-  platforms,
+  connectedPlatforms,
   selectedPlatforms,
   onTogglePlatform,
   onConnectPlatform
@@ -22,30 +23,24 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
   const [currentPlatform, setCurrentPlatform] = useState<Platform | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Sort platforms alphabetically by name
-  const sortedPlatforms = [...platforms].sort((a, b) =>
-    a.name.localeCompare(b.name)
-  );
-
-  // 4 icons on mobile, 12 on desktop
+  // Get button size and gap for proper alignment
   const getFirstRowCount = () => {
     if (typeof window !== 'undefined') {
       return window.innerWidth < 768 ? 4 : 12;
     }
-    return 12; // Default to desktop
+    return 12;
   };
 
-  // FINAL FIX: Get button size and gap for proper alignment
   const getButtonSize = () => {
     if (typeof window !== 'undefined') {
-      return window.innerWidth < 768 ? 70 : 80; // Smaller on mobile
+      return window.innerWidth < 768 ? 70 : 80;
     }
     return 80;
   };
 
   const getGridGap = () => {
     if (typeof window !== 'undefined') {
-      return window.innerWidth < 768 ? 12 : 20; // Smaller gap on mobile, balanced gap on desktop
+      return window.innerWidth < 768 ? 12 : 20;
     }
     return 20;
   };
@@ -54,7 +49,6 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
   const [buttonSize, setButtonSize] = useState(getButtonSize());
   const [gridGap, setGridGap] = useState(getGridGap());
 
-  // Update all responsive values on window resize
   useEffect(() => {
     const handleResize = () => {
       setFirstRowCount(getFirstRowCount());
@@ -65,6 +59,32 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Helper function to check if platform is connected
+  const isPlatformConnected = (platformName: string): boolean => {
+    return connectedPlatforms.some(cp => cp.name === platformName && cp.connected);
+  };
+
+  // Helper function to get connected platform info
+  const getConnectedPlatform = (platformName: string): ConnectedPlatform | undefined => {
+    return connectedPlatforms.find(cp => cp.name === platformName);
+  };
+
+  // Simple filtering - just show all platforms, sorted by connection status
+  const getFilteredPlatforms = (): Platform[] => {
+    // Sort: connected first, then alphabetically
+    return platforms.sort((a, b) => {
+      const aConnected = isPlatformConnected(a.name);
+      const bConnected = isPlatformConnected(b.name);
+      
+      if (aConnected && !bConnected) return -1;
+      if (!aConnected && bConnected) return 1;
+      
+      return a.name.localeCompare(b.name);
+    });
+  };
+
+  const filteredPlatforms = getFilteredPlatforms();
+
   const handleConnectClick = (platform: Platform) => {
     setCurrentPlatform(platform);
     setShowConnectModal(true);
@@ -72,55 +92,85 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
 
   const handleConnect = () => {
     if (currentPlatform) {
-      onConnectPlatform(currentPlatform.id);
+      onConnectPlatform(currentPlatform.name);
       setShowConnectModal(false);
     }
   };
 
-  const renderPlatformButton = (platform: Platform) => (
-    <button
-      key={platform.id}
-      onClick={() =>
-        platform.connected
-          ? onTogglePlatform(platform.id)
-          : handleConnectClick(platform)
-      }
-      className={cn(
-        "relative flex flex-col items-center justify-center p-2 rounded-lg transition-all duration-200",
-        "flex-shrink-0 flex-grow-0", // NUCLEAR: NO FLEXIBILITY
-        platform.connected
-          ? selectedPlatforms.includes(platform.id)
-            ? "bg-white border-2 border-blue-500"
-            : "bg-white border border-gray-200 hover:border-blue-500"
-          : "bg-white border border-gray-200 opacity-80 hover:opacity-100"
-      )}
-      style={{
-        width: `${buttonSize}px`,
-        height: `${buttonSize}px`,
-        minWidth: `${buttonSize}px`,
-        minHeight: `${buttonSize}px`,
-        maxWidth: `${buttonSize}px`,
-        maxHeight: `${buttonSize}px`
-      }}
-    >
-      <div className="relative">
-        <PlatformIcon name={platform.icon} className="h-8 w-8 text-gray-700" />
-        {!platform.connected && (
-          <div className="absolute -bottom-1 -right-1 bg-gray-100 rounded-full p-0.5">
-            <Link className="h-3 w-3 text-gray-600" />
-          </div>
+  const renderPlatformButton = (platform: Platform) => {
+    const connected = isPlatformConnected(platform.name);
+    const connectedPlatform = getConnectedPlatform(platform.name);
+    const isSelected = selectedPlatforms.includes(platform.name);
+    const isEnabled = connectedPlatform?.enabled ?? true;
+
+    return (
+      <button
+        key={platform.name}
+        onClick={() =>
+          connected
+            ? onTogglePlatform(platform.name)
+            : handleConnectClick(platform)
+        }
+        disabled={connected && !isEnabled}
+        className={cn(
+          "relative flex flex-col items-center justify-center p-2 rounded-lg transition-all duration-200",
+          "flex-shrink-0 flex-grow-0",
+          connected
+            ? isSelected
+              ? "bg-white border-2 border-blue-500"
+              : "bg-white border border-gray-200 hover:border-blue-500"
+            : "bg-white border border-gray-200 opacity-80 hover:opacity-100",
+          !isEnabled && "opacity-50 cursor-not-allowed"
         )}
-        {platform.connected && selectedPlatforms.includes(platform.id) && (
-          <div className="absolute -top-1 -right-1 bg-blue-500 rounded-full p-0.5">
-            <Check className="h-3 w-3 text-white" />
+        style={{
+          width: `${buttonSize}px`,
+          height: `${buttonSize}px`,
+          minWidth: `${buttonSize}px`,
+          minHeight: `${buttonSize}px`,
+          maxWidth: `${buttonSize}px`,
+          maxHeight: `${buttonSize}px`
+        }}
+        title={`${platform.name} - ${platform.type} (${platform.category})`}
+      >
+        <div className="relative">
+          <PlatformIcon name={platform.icon} className="h-8 w-8 text-gray-700" />
+          
+          {/* Connection status indicators */}
+          {!connected && (
+            <div className="absolute -bottom-1 -right-1 bg-gray-100 rounded-full p-0.5">
+              <Link className="h-3 w-3 text-gray-600" />
+            </div>
+          )}
+          
+          {connected && isSelected && (
+            <div className="absolute -top-1 -right-1 bg-blue-500 rounded-full p-0.5">
+              <Check className="h-3 w-3 text-white" />
+            </div>
+          )}
+
+          {/* Platform type badge */}
+          <div className={cn(
+            "absolute -top-1 -left-1 text-xs px-1 rounded-full text-white font-medium",
+            platform.type === 'social' && "bg-blue-500",
+            platform.type === 'professional' && "bg-green-500",
+            platform.type === 'video' && "bg-red-500",
+            platform.type === 'creative' && "bg-purple-500",
+            platform.type === 'messaging' && "bg-orange-500",
+            platform.type === 'community' && "bg-indigo-500",
+            platform.type === 'blogging' && "bg-gray-500",
+            platform.type === 'streaming' && "bg-pink-500",
+            !['social', 'professional', 'video', 'creative', 'messaging', 'community', 'blogging', 'streaming'].includes(platform.type) && "bg-gray-400"
+          )}>
+            {platform.type.charAt(0).toUpperCase()}
           </div>
-        )}
-      </div>
-      <span className="text-xs mt-1 text-center text-gray-800 line-clamp-1 max-w-full overflow-hidden text-ellipsis">
-        {platform.name}
-      </span>
-    </button>
-  );
+        </div>
+        
+        <span className="text-xs mt-1 text-center text-gray-800 line-clamp-1 max-w-full overflow-hidden text-ellipsis">
+          {platform.name}
+        </span>
+      </button>
+    );
+  };
 
   const renderAddMoreButton = () => (
     <button 
@@ -137,11 +187,10 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
       <div className="bg-gray-100 rounded-full p-2">
         <Plus className="h-4 w-4 text-gray-600" />
       </div>
-      <span className="text-xs mt-1 text-gray-800">Add More</span>
+      <span className="text-xs mt-1 text-gray-800">See All</span>
     </button>
   );
 
-  // Chevron should appear after 6 icons
   const chevronPosition = 6;
 
   return (
@@ -150,7 +199,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
         Connect to platforms
       </h3>
 
-      {/* FIXED: Single container with consistent spacing */}
+      {/* Platform Grid */}
       <div className="space-y-4">
         {/* First row - always visible */}
         <div className="flex justify-center w-full">
@@ -162,12 +211,12 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
               maxWidth: '100%'
             }}
           >
-            {sortedPlatforms.slice(0, firstRowCount).map(renderPlatformButton)}
+            {filteredPlatforms.slice(0, firstRowCount).map(renderPlatformButton)}
           </div>
         </div>
 
-        {/* Chevron below first 6 icons - only show if there are more platforms */}
-        {sortedPlatforms.length > chevronPosition && !isExpanded && (
+        {/* Chevron - only show if there are more platforms */}
+        {filteredPlatforms.length > chevronPosition && !isExpanded && (
           <div className="flex justify-center">
             <button
               onClick={() => setIsExpanded(true)}
@@ -178,7 +227,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
           </div>
         )}
 
-        {/* Expanded rows - same spacing as first row */}
+        {/* Expanded rows */}
         {isExpanded && (
           <div className="flex justify-center w-full">
             <div 
@@ -189,7 +238,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
                 maxWidth: '100%'
               }}
             >
-              {sortedPlatforms.slice(firstRowCount).map(renderPlatformButton)}
+              {filteredPlatforms.slice(firstRowCount).map(renderPlatformButton)}
               {renderAddMoreButton()}
             </div>
           </div>
@@ -208,6 +257,14 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
         )}
       </div>
 
+      {/* No results message */}
+      {filteredPlatforms.length === 0 && (
+        <div className="text-center py-8 text-white/70">
+          <p>No platforms available.</p>
+        </div>
+      )}
+
+      {/* Connection Modal */}
       {showConnectModal && currentPlatform && (
         <Modal
           title={`Connect to ${currentPlatform.name}`}
@@ -223,10 +280,27 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
               </div>
             </div>
 
-            <p className="text-center text-gray-700 mb-6">
-              You'll be redirected to {currentPlatform.name} to authorize access
-              to your account.
-            </p>
+            <div className="text-center mb-6">
+              <h4 className="font-medium text-gray-900 mb-2">{currentPlatform.name}</h4>
+              <p className="text-sm text-gray-600 mb-2">
+                {currentPlatform.type} platform • {currentPlatform.category}
+              </p>
+              <p className="text-gray-700">
+                You'll be redirected to {currentPlatform.name} to authorize access to your account.
+              </p>
+              
+              {/* Hashtag info */}
+              {currentPlatform.hashtags.supported && (
+                <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+                  <p className="text-sm text-blue-800 font-medium">
+                    Hashtag Support: {currentPlatform.hashtags.optimal} optimal tags
+                  </p>
+                  <p className="text-xs text-blue-600 mt-1">
+                    {currentPlatform.hashtags.notes}
+                  </p>
+                </div>
+              )}
+            </div>
 
             <div className="flex gap-3">
               <button
