@@ -225,7 +225,7 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
 
   // Safely access array elements with fallbacks
   const currentName = alternativeNames[currentNameIndex] || 'fallback';
-  const currentFormat = formats[currentFormat] || 'svg';
+  const currentFormatName = formats[currentFormat] || 'svg';
 
   if (isLoading && currentFormat === 0 && currentNameIndex === 0) {
     // Show loading only on first attempt
@@ -233,7 +233,7 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
       <>
         <LoadingIcon />
         <img
-          src={getIconPath(currentName, currentFormat)}
+          src={getIconPath(currentName, currentFormatName)}
           alt={`${name} icon`}
           className={cn("object-contain absolute opacity-0", className)}
           onError={handleImageError}
@@ -246,7 +246,7 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
 
   return (
     <img
-      src={getIconPath(currentName, currentFormat)}
+      src={getIconPath(currentName, currentFormatName)}
       alt={`${name} icon`}
       className={cn("object-contain", className)}
       onError={handleImageError}
