@@ -21,8 +21,16 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
   // Fallback formats in order of preference
   const formats = ['svg', 'png', 'jpg', 'jpeg', 'webp'];
   
+  // More aggressive early validation
+  const isValidName = (value: any): value is string => {
+    return value != null && 
+           typeof value === 'string' && 
+           value.trim().length > 0;
+  };
+  
   // Early return if name is undefined or invalid
-  if (!name || typeof name !== 'string' || name.trim() === '') {
+  if (!isValidName(name)) {
+    console.warn('PlatformIcon: Invalid name prop received:', name);
     const FallbackIcon = () => (
       <div 
         className={cn(
@@ -45,23 +53,34 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
 
   const [currentNameIndex, setCurrentNameIndex] = useState(0);
 
-  // Simple and safe alternative naming patterns
+  // Simple and safe alternative naming patterns with extra validation
   const getAlternativeNames = (originalName: string): string[] => {
     try {
-      if (!originalName) return ['fallback'];
+      // Double-check the name is still valid here
+      if (!isValidName(originalName)) {
+        console.warn('getAlternativeNames: Invalid name:', originalName);
+        return ['fallback'];
+      }
       
-      const safeName = String(originalName).trim();
-      if (!safeName) return ['fallback'];
+      const safeName = originalName.trim();
       
-      return [
+      const alternatives = [
         safeName.toLowerCase(),
         safeName.toLowerCase().replace(/\s+/g, '-'),
         safeName.toLowerCase().replace(/\s+/g, '_'),
         safeName.toLowerCase().replace(/[^a-z0-9]/g, ''),
         safeName.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, ''),
         safeName
-      ].filter(Boolean);
+      ].filter(item => item && item.length > 0);
+      
+      // Ensure we always have at least one fallback
+      if (alternatives.length === 0) {
+        alternatives.push('fallback');
+      }
+      
+      return alternatives;
     } catch (e) {
+      console.error('getAlternativeNames error:', e);
       return ['fallback'];
     }
   };
@@ -69,19 +88,24 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
   const [alternativeNames] = useState(() => getAlternativeNames(name));
 
   const getIconPath = (nameTry: string, format: string): string => {
-    return `/icons/${nameTry}.${format}`;
+    // Extra safety checks
+    const safeName = (nameTry && typeof nameTry === 'string') ? nameTry : 'fallback';
+    const safeFormat = (format && typeof format === 'string') ? format : 'svg';
+    return `/icons/${safeName}.${safeFormat}`;
   };
 
   const handleImageError = () => {
-    const currentPath = getIconPath(alternativeNames[currentNameIndex] || 'fallback', formats[currentFormat] || 'svg');
+    const currentName = alternativeNames[currentNameIndex] || 'fallback';
+    const currentFormatName = formats[currentFormat] || 'svg';
+    const currentPath = getIconPath(currentName, currentFormatName);
     console.log(`❌ Failed to load: ${currentPath}`);
     
     if (currentFormat < formats.length - 1) {
       // Try next format
-      setCurrentFormat(currentFormat + 1);
+      setCurrentFormat(prev => prev + 1);
     } else if (currentNameIndex < alternativeNames.length - 1) {
       // Try next alternative name, reset format to first
-      setCurrentNameIndex(currentNameIndex + 1);
+      setCurrentNameIndex(prev => prev + 1);
       setCurrentFormat(0);
     } else {
       // All combinations failed, show fallback
@@ -95,7 +119,9 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
 
   const handleImageLoad = () => {
     // Image loaded successfully
-    const successPath = getIconPath(alternativeNames[currentNameIndex] || 'fallback', formats[currentFormat] || 'svg');
+    const currentName = alternativeNames[currentNameIndex] || 'fallback';
+    const currentFormatName = formats[currentFormat] || 'svg';
+    const successPath = getIconPath(currentName, currentFormatName);
     console.log(`✅ Successfully loaded: ${successPath}`);
     setHasError(false);
     setIsLoading(false);
@@ -103,6 +129,14 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
 
   // Reset states when name prop changes
   useEffect(() => {
+    // Re-validate name when it changes
+    if (!isValidName(name)) {
+      console.warn('useEffect: Invalid name detected:', name);
+      setHasError(true);
+      setIsLoading(false);
+      return;
+    }
+    
     setCurrentFormat(0);
     setCurrentNameIndex(0);
     setHasError(false);
@@ -112,14 +146,14 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
   // Generate fallback text
   const getFallbackText = (platformName: string): string => {
     try {
-      if (!platformName || typeof platformName !== 'string') return '?';
+      if (!isValidName(platformName)) return '?';
       
-      const cleaned = String(platformName).replace(/[^a-zA-Z0-9]/g, '');
+      const cleaned = platformName.replace(/[^a-zA-Z0-9]/g, '');
       if (cleaned.length === 0) return '?';
-      if (cleaned.length === 1) return cleaned.charAt(0).toUpperCase();
       
       return cleaned.charAt(0).toUpperCase();
     } catch (e) {
+      console.error('getFallbackText error:', e);
       return '?';
     }
   };
@@ -132,7 +166,7 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
         fallbackBg,
         className
       )}
-      title={`${name} (icon not found)`}
+      title={`${name || 'Unknown'} (icon not found)`}
     >
       <span className={cn(
         "text-xs font-bold uppercase leading-none",
@@ -159,26 +193,30 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
     return <FallbackIcon />;
   }
 
+  const currentName = alternativeNames[currentNameIndex] || 'fallback';
+  const currentFormatName = formats[currentFormat] || 'svg';
+  const imageSrc = getIconPath(currentName, currentFormatName);
+
   if (isLoading && currentFormat === 0 && currentNameIndex === 0) {
     // Show loading only on first attempt
     return (
-      <>
+      <div className="relative">
         <LoadingIcon />
         <img
-          src={getIconPath(alternativeNames[currentNameIndex] || 'fallback', formats[currentFormat] || 'svg')}
+          src={imageSrc}
           alt={`${name} icon`}
           className={cn("object-contain absolute opacity-0", className)}
           onError={handleImageError}
           onLoad={handleImageLoad}
           draggable={false}
         />
-      </>
+      </div>
     );
   }
 
   return (
     <img
-      src={getIconPath(alternativeNames[currentNameIndex] || 'fallback', formats[currentFormat] || 'svg')}
+      src={imageSrc}
       alt={`${name} icon`}
       className={cn("object-contain", className)}
       onError={handleImageError}
