@@ -22,7 +22,12 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
   const formats = ['svg', 'png', 'jpg', 'jpeg', 'webp'];
   
   // Normalize platform name for consistent file naming
-  const normalizePlatformName = (platformName: string): string => {
+  const normalizePlatformName = (platformName: string | undefined | null): string => {
+    // Handle undefined, null, or empty values
+    if (!platformName || typeof platformName !== 'string' || platformName.trim() === '') {
+      return 'fallback';
+    }
+    
     return platformName
       .toLowerCase()
       .replace(/[^a-z0-9]/g, '-') // Replace non-alphanumeric with hyphens
@@ -31,7 +36,12 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
   };
 
   // Alternative naming patterns to try
-  const getAlternativeNames = (originalName: string): string[] => {
+  const getAlternativeNames = (originalName: string | undefined | null): string[] => {
+    // Handle undefined/null names early
+    if (!originalName || typeof originalName !== 'string' || originalName.trim() === '') {
+      return ['fallback'];
+    }
+    
     const normalized = normalizePlatformName(originalName);
     const alternatives = [
       originalName.toLowerCase(), // Try exact lowercase first
@@ -100,6 +110,28 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
 
     return [...new Set(alternatives)]; // Remove duplicates
   };
+
+  // Early return if name is invalid
+  if (!name || typeof name !== 'string' || name.trim() === '') {
+    const FallbackIcon = () => (
+      <div 
+        className={cn(
+          "flex items-center justify-center rounded border-2 border-dashed border-gray-300",
+          fallbackBg,
+          className
+        )}
+        title="No platform name provided"
+      >
+        <span className={cn(
+          "text-xs font-bold uppercase leading-none",
+          fallbackTextColor
+        )}>
+          ?
+        </span>
+      </div>
+    );
+    return <FallbackIcon />;
+  }
 
   const [alternativeNames] = useState(() => getAlternativeNames(name));
   const [currentNameIndex, setCurrentNameIndex] = useState(0);
@@ -191,13 +223,17 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
     return <FallbackIcon />;
   }
 
+  // Safely access array elements with fallbacks
+  const currentName = alternativeNames[currentNameIndex] || 'fallback';
+  const currentFormat = formats[currentFormat] || 'svg';
+
   if (isLoading && currentFormat === 0 && currentNameIndex === 0) {
     // Show loading only on first attempt
     return (
       <>
         <LoadingIcon />
         <img
-          src={getIconPath(alternativeNames[currentNameIndex], formats[currentFormat])}
+          src={getIconPath(currentName, currentFormat)}
           alt={`${name} icon`}
           className={cn("object-contain absolute opacity-0", className)}
           onError={handleImageError}
@@ -210,7 +246,7 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
 
   return (
     <img
-      src={getIconPath(alternativeNames[currentNameIndex], formats[currentFormat])}
+      src={getIconPath(currentName, currentFormat)}
       alt={`${name} icon`}
       className={cn("object-contain", className)}
       onError={handleImageError}
