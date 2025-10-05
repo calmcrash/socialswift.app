@@ -195,10 +195,10 @@ const SEOOptimizer: React.FC<SEOOptimizerProps> = ({ caption }) => {
   }, [caption]);
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return 'from-green-400 to-green-500';
-    if (score >= 60) return 'from-yellow-400 to-yellow-500';
-    if (score >= 40) return 'from-orange-400 to-orange-500';
-    return 'from-blue-400 to-blue-500';
+    if (score >= 75) return 'from-green-400 to-green-500';
+    if (score >= 50) return 'from-yellow-400 to-yellow-500';
+    if (score >= 25) return 'from-orange-400 to-orange-500';
+    return 'from-red-500 to-red-600';
   };
 
   return (
