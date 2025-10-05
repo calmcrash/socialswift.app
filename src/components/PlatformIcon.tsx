@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { cn } from '../utils/cn';
 
 type PlatformIconProps = {
-  name: string; // This is actually the icon path
+  name: string; // Icon path like "/icons/instagram.svg"
   className?: string;
   fallbackBg?: string;
   fallbackTextColor?: string;
@@ -14,7 +14,28 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
   fallbackBg = "bg-gray-200",
   fallbackTextColor = "text-gray-600"
 }) => {
+  const [currentSrc, setCurrentSrc] = useState(name);
   const [hasError, setHasError] = useState(false);
+  const [attemptedFormats, setAttemptedFormats] = useState<string[]>([]);
+
+  // Formats to try in order
+  const formats = ['svg', 'png', 'jpg', 'jpeg', 'webp', 'avif'];
+
+  const handleImageError = () => {
+    // Get base path without extension
+    const basePath = currentSrc.replace(/\.(svg|png|jpg|jpeg|webp|avif)$/i, '');
+    
+    // Find next format to try
+    const nextFormat = formats.find(fmt => !attemptedFormats.includes(fmt));
+    
+    if (nextFormat) {
+      setAttemptedFormats(prev => [...prev, nextFormat]);
+      setCurrentSrc(`${basePath}.${nextFormat}`);
+    } else {
+      // All formats failed
+      setHasError(true);
+    }
+  };
 
   // Get fallback letter from path
   const getFallbackText = (path: string): string => {
@@ -44,10 +65,10 @@ const PlatformIcon: React.FC<PlatformIconProps> = ({
 
   return (
     <img
-      src={name}
+      src={currentSrc}
       alt="Platform icon"
       className={cn("object-contain", className)}
-      onError={() => setHasError(true)}
+      onError={handleImageError}
       draggable={false}
       loading="lazy"
     />
