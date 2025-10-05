@@ -155,7 +155,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
           {/* Platform type badge - REMOVED */}
         </div>
         
-        <span className="text-xs mt-1 text-center text-gray-800 max-w-full break-words whitespace-normal leading-tight">
+        <span className="text-xs mt-1 text-center text-gray-800 max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
           {platform.name}
         </span>
       </button>
