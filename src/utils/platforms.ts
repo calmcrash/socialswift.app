@@ -18,7 +18,7 @@ export const platforms: Platform[] = [
   // A-B Platforms
   {
     name: 'Alignable',
-    icon: '/icons/alignable.png',
+    icon: '/icons/alignable.jpeg',
     type: 'professional',
     category: 'business',
     hashtags: {
@@ -33,7 +33,7 @@ export const platforms: Platform[] = [
   },
   {
     name: 'Amino',
-    icon: '/icons/amino.png',
+    icon: '/icons/amino.svg',
     type: 'community',
     category: 'niche',
     hashtags: {
@@ -93,7 +93,7 @@ export const platforms: Platform[] = [
   },
   {
     name: 'Bilibili',
-    icon: '/icons/bilibili.png',
+    icon: '/icons/bilibili.svg',
     type: 'video',
     category: 'regional',
     hashtags: {
@@ -108,7 +108,7 @@ export const platforms: Platform[] = [
   },
   {
     name: 'BitChute',
-    icon: '/icons/bitchute.png',
+    icon: '/icons/bitchute.svg',
     type: 'video',
     category: 'niche',
     hashtags: {
@@ -123,7 +123,7 @@ export const platforms: Platform[] = [
   },
   {
     name: 'BitClout',
-    icon: '/icons/bitclout.png',
+    icon: '/icons/bitclout.avif',
     type: 'social',
     category: 'web3',
     hashtags: {
@@ -153,7 +153,7 @@ export const platforms: Platform[] = [
   },
   {
     name: 'BlueSky',
-    icon: '/icons/bluesky.svg',
+    icon: '/icons/bluesky.png',
     type: 'social',
     category: 'emerging',
     hashtags: {
@@ -412,7 +412,7 @@ export const platforms: Platform[] = [
   },
   {
     name: 'Gab',
-    icon: '/icons/gab.png',
+    icon: '/icons/gab.svg',
     type: 'social',
     category: 'niche',
     hashtags: {
@@ -761,7 +761,7 @@ export const platforms: Platform[] = [
   },
   {
     name: 'Mastodon',
-    icon: '/icons/mastodon.svg',
+    icon: '/icons/mastadon.svg',
     type: 'social',
     category: 'niche',
     hashtags: {
@@ -913,7 +913,7 @@ export const platforms: Platform[] = [
   },
   {
     name: '9GAG',
-    icon: '/icons/9gag.svg',
+    icon: '/icons/9gag.png',
     type: 'social',
     category: 'mainstream',
     hashtags: {
@@ -928,7 +928,7 @@ export const platforms: Platform[] = [
   },
   {
     name: '9GAG TV',
-    icon: '/icons/9gag.svg',
+    icon: '/icons/9gag.png',
     type: 'video',
     category: 'mainstream',
     hashtags: {
@@ -1354,7 +1354,7 @@ export const platforms: Platform[] = [
   },
   {
     name: 'Truth Social',
-    icon: '/icons/truth-social.png',
+    icon: '/icons/truth-social.svg',
     type: 'social',
     category: 'niche',
     hashtags: {
