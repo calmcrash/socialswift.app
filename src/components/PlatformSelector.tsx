@@ -22,6 +22,8 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
   const [showConnectModal, setShowConnectModal] = useState(false);
   const [currentPlatform, setCurrentPlatform] = useState<Platform | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showAddMoreModal, setShowAddMoreModal] = useState(false);
+  const [emailCopied, setEmailCopied] = useState(false);
 
   // Get button size and gap for proper alignment
   const getFirstRowCount = () => {
@@ -163,7 +165,8 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
   };
 
   const renderAddMoreButton = () => (
-    <button 
+    <button
+      onClick={() => setShowAddMoreModal(true)}
       className="relative flex flex-col items-center justify-center p-2 rounded-lg bg-white border border-gray-200 hover:border-blue-500 transition-all duration-200 flex-shrink-0 flex-grow-0"
       style={{
         width: `${buttonSize}px`,
@@ -177,9 +180,19 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
       <div className="bg-gray-100 rounded-full p-2">
         <Plus className="h-4 w-4 text-gray-600" />
       </div>
-      <span className="text-xs mt-1 text-gray-800">See All</span>
+      <span className="text-xs mt-1 text-gray-800">Add More</span>
     </button>
   );
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText('socialswiftai@gmail.com');
+    setEmailCopied(true);
+    setTimeout(() => setEmailCopied(false), 2000);
+  };
+
+  const handleSendEmail = () => {
+    window.location.href = 'mailto:socialswiftai@gmail.com?subject=Platform Request - Social Swift';
+  };
 
   const chevronPosition = 6;
 
@@ -278,7 +291,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
               <p className="text-gray-700">
                 You'll be redirected to {currentPlatform.name} to authorize access to your account.
               </p>
-              
+
               {/* Hashtag info */}
               {currentPlatform.hashtags?.supported && (
                 <div className="mt-4 p-3 bg-blue-50 rounded-lg">
@@ -304,6 +317,69 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
                 className="flex-1 py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
               >
                 Connect
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
+
+      {/* Add More Modal */}
+      {showAddMoreModal && (
+        <Modal
+          title="Request a Platform"
+          onClose={() => {
+            setShowAddMoreModal(false);
+            setEmailCopied(false);
+          }}
+        >
+          <div className="p-4">
+            <div className="text-center mb-6">
+              <div className="flex items-center justify-center py-4">
+                <div className="bg-blue-100 rounded-full p-4">
+                  <Plus className="h-10 w-10 text-blue-600" />
+                </div>
+              </div>
+
+              <h4 className="font-medium text-gray-900 mb-3">Don't see your platform?</h4>
+              <p className="text-gray-700 mb-4">
+                Send us an email to request a new platform integration.
+              </p>
+
+              <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                <p className="text-sm text-gray-600 mb-2">Email us at:</p>
+                <div className="flex items-center justify-center gap-2">
+                  <code className="bg-white px-3 py-2 rounded border border-gray-200 text-sm font-mono text-gray-900">
+                    socialswiftai@gmail.com
+                  </code>
+                  <button
+                    onClick={handleCopyEmail}
+                    className="px-3 py-2 bg-gray-200 hover:bg-gray-300 rounded transition-colors duration-200 text-sm font-medium text-gray-700"
+                  >
+                    {emailCopied ? 'Copied!' : 'Copy'}
+                  </button>
+                </div>
+              </div>
+
+              <p className="text-sm text-gray-600 mb-4">
+                Please include the platform name and why you'd like to see it added.
+              </p>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  setShowAddMoreModal(false);
+                  setEmailCopied(false);
+                }}
+                className="flex-1 py-2 px-4 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+              >
+                Close
+              </button>
+              <button
+                onClick={handleSendEmail}
+                className="flex-1 py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
+              >
+                Send Email
               </button>
             </div>
           </div>
