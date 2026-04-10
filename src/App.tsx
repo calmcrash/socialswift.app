@@ -5,12 +5,11 @@ import Header from './components/Header';
 import LoginForm from './components/LoginForm';
 import PostCreator from './components/PostCreator';
 import LandingPage from './components/LandingPage';
-import { Platform, Post, ConnectedPlatform } from './types';
+import { Platform, Post } from './types';
 
 const AppContent: React.FC = () => {
   const { user, isLoading } = useAuth();
-  const [platforms] = React.useState<Platform[]>(initialPlatforms);
-  const [connectedPlatforms, setConnectedPlatforms] = React.useState<ConnectedPlatform[]>([]);
+  const [platforms, setPlatforms] = React.useState<Platform[]>(initialPlatforms);
   const [posts, setPosts] = React.useState<Post[]>([]);
 
   const handlePost = (post: Post) => {
@@ -18,27 +17,19 @@ const AppContent: React.FC = () => {
     alert('Post scheduled successfully! It will be shared across your selected platforms.');
   };
 
-  const handleConnectPlatform = (platformName: string) => {
-    setConnectedPlatforms(prev => {
-      const exists = prev.find(cp => cp.name === platformName);
-      if (exists) {
-        return prev;
-      }
-      const platformConfig = platforms.find(p => p.name === platformName);
-      const newConnection: ConnectedPlatform = {
-        id: crypto.randomUUID(),
-        name: platformName,
-        icon: platformConfig?.icon || '',
-        connected: true,
-        enabled: true
-      };
-      return [...prev, newConnection];
-    });
+  const handleConnectPlatform = (platformId: string) => {
+    setPlatforms(prev => 
+      prev.map(platform => 
+        platform.id === platformId 
+          ? { ...platform, connected: true } 
+          : platform
+      )
+    );
   };
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-cyan-500">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600">
         <div className="animate-spin h-10 w-10 border-4 border-white rounded-full border-t-transparent"></div>
       </div>
     );
@@ -51,18 +42,16 @@ const AppContent: React.FC = () => {
   return (
     <>
       {/* Fixed gradient background */}
-      <div className="fixed inset-0 bg-gradient-to-br from-blue-500 to-cyan-500"></div>
+      <div className="fixed inset-0 bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600"></div>
       
       {/* Scrollable content */}
       <div className="relative min-h-screen">
         <Header />
         <div className="container mx-auto py-8 px-4">
           <div className="mb-8">
-            <PostCreator
-              platforms={platforms}
-              connectedPlatforms={connectedPlatforms}
-              onPost={handlePost}
-              onConnectPlatform={handleConnectPlatform}
+            <PostCreator 
+              platforms={platforms} 
+              onPost={handlePost} 
             />
           </div>
           
@@ -91,14 +80,17 @@ const AppContent: React.FC = () => {
                       </div>
                     )}
                     <div className="flex flex-wrap gap-2">
-                      {post.platforms.map(platformName => (
-                        <span
-                          key={platformName}
-                          className="text-xs bg-white/20 backdrop-blur-sm text-white px-2 py-1 rounded"
-                        >
-                          {platformName}
-                        </span>
-                      ))}
+                      {post.platforms.map(platformId => {
+                        const platform = platforms.find(p => p.id === platformId);
+                        return platform ? (
+                          <span 
+                            key={platformId}
+                            className="text-xs bg-white/20 backdrop-blur-sm text-white px-2 py-1 rounded"
+                          >
+                            {platform.name}
+                          </span>
+                        ) : null;
+                      })}
                     </div>
                   </div>
                 ))}

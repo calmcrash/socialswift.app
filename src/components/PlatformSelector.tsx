@@ -140,20 +140,14 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({
       >
         <div className="relative">
           <PlatformIcon name={platform.icon} className="h-8 w-8 text-gray-700" />
-
+          
           {/* Connection status indicators */}
           {!connected && (
             <div className="absolute -bottom-1 -right-1 bg-gray-100 rounded-full p-0.5">
               <Link className="h-3 w-3 text-gray-600" />
             </div>
           )}
-
-          {connected && !isSelected && (
-            <div className="absolute -bottom-1 -right-1 bg-green-100 rounded-full p-0.5">
-              <Link className="h-3 w-3 text-green-600" />
-            </div>
-          )}
-
+          
           {connected && isSelected && (
             <div className="absolute -top-1 -right-1 bg-blue-500 rounded-full p-0.5">
               <Check className="h-3 w-3 text-white" />
