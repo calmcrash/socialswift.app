@@ -3,19 +3,24 @@ import { Send } from 'lucide-react';
 import FileUploader from './FileUploader';
 import PlatformSelector from './PlatformSelector';
 import SEOOptimizer from './SEOOptimizer';
-import { Platform, PostMedia, Post } from '../types';
+import { Platform, PostMedia, Post, ConnectedPlatform } from '../types';
 
 type PostCreatorProps = {
   platforms: Platform[];
+  connectedPlatforms: ConnectedPlatform[];
   onPost: (post: Post) => void;
+  onConnectPlatform: (platformName: string) => void;
 };
 
-const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
+const PostCreator: React.FC<PostCreatorProps> = ({
+  platforms,
+  connectedPlatforms,
+  onPost,
+  onConnectPlatform
+}) => {
   const [caption, setCaption] = useState('');
   const [media, setMedia] = useState<PostMedia | undefined>(undefined);
-  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(
-    platforms.filter(p => p.connected && p.enabled).map(p => p.id)
-  );
+  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -27,23 +32,18 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
     }
   }, [caption]);
 
-  const handleTogglePlatform = (platformId: string) => {
-    setSelectedPlatforms(prev => 
-      prev.includes(platformId) 
-        ? prev.filter(id => id !== platformId)
-        : [...prev, platformId]
+  const handleTogglePlatform = (platformName: string) => {
+    setSelectedPlatforms(prev =>
+      prev.includes(platformName)
+        ? prev.filter(name => name !== platformName)
+        : [...prev, platformName]
     );
   };
 
-  const handleConnectPlatform = (platformId: string) => {
-    const updatedPlatforms = platforms.map(platform => 
-      platform.id === platformId 
-        ? { ...platform, connected: true } 
-        : platform
-    );
-    
-    if (!selectedPlatforms.includes(platformId)) {
-      setSelectedPlatforms(prev => [...prev, platformId]);
+  const handleConnectPlatformClick = (platformName: string) => {
+    onConnectPlatform(platformName);
+    if (!selectedPlatforms.includes(platformName)) {
+      setSelectedPlatforms(prev => [...prev, platformName]);
     }
   };
 
@@ -109,10 +109,10 @@ const PostCreator: React.FC<PostCreatorProps> = ({ platforms, onPost }) => {
       </div>
       
       <PlatformSelector
-        platforms={platforms}
+        connectedPlatforms={connectedPlatforms}
         selectedPlatforms={selectedPlatforms}
         onTogglePlatform={handleTogglePlatform}
-        onConnectPlatform={handleConnectPlatform}
+        onConnectPlatform={handleConnectPlatformClick}
       />
 
       <div className="flex justify-end pt-2">
